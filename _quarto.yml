@@ -1,0 +1,27 @@
+project:
+  type: website
+
+website:
+  title: "myblog"
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/mu2718/
+      - icon: twitter
+        href: https://twitter.com
+format:
+  html:
+    theme: 
+      light: flatly
+      dark: darkly
+    css: styles.css
+    toc: True
+
+comments:
+  giscus:
+    repo: mu2718/mu2718.github.io
+
+
+
+
