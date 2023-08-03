@@ -4,10 +4,6 @@ project:
 
 website:
   title: "mu2718"
-  google-analytics: 
-    tracking-id: "G-Q3G5J0PLVE"
-    storage: "none"
-    anonymize-ip: true
   navbar:
     right:
       - about.qmd
@@ -28,6 +24,8 @@ format:
       dark: darkly
     css: styles.css
     toc: True
+    include-in-header: microanalytics.html
+
 
 comments:
   giscus:
