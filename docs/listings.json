@@ -2,6 +2,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/geodesics/Geodesics_on_Curved_Surfaces.html",
       "/posts/polygon-smoothing/PolygonSmoothing.html"
     ]
   }

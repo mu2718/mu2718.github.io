@@ -10,7 +10,16 @@
 <atom:link href="https://mu2718.github.io/posts.xml" rel="self" type="application/rss+xml"/>
 <description>Test description</description>
 <generator>quarto-1.3.361</generator>
-<lastBuildDate>Sun, 26 Apr 2020 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 14 Apr 2022 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>Geodesics on Curved Surfaces</title>
+  <dc:creator>Manuel </dc:creator>
+  <link>https://mu2718.github.io/posts/geodesics/Geodesics_on_Curved_Surfaces.html</link>
+  <description><![CDATA[ In this post, I try to find and illustrate geodesics on 2-D curved surfaces that are embedded in 3-D space. Due to a specific question from a friend of mine, the main goal is to find closed geodesics on a Möbius strip. ]]></description>
+  <category>math</category>
+  <guid>https://mu2718.github.io/posts/geodesics/Geodesics_on_Curved_Surfaces.html</guid>
+  <pubDate>Thu, 14 Apr 2022 22:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Polygon Smoothing Riddle</title>
   <dc:creator>Manuel and Laura</dc:creator>
