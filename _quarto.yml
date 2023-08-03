@@ -3,10 +3,20 @@ project:
   output-dir: docs
 
 website:
-  title: "myblog"
+  title: "mu2718"
+  google-analytics: 
+    tracking-id: "G-Q3G5J0PLVE"
+    storage: "none"
+    anonymize-ip: true
   navbar:
     right:
       - about.qmd
+      - text: Posts
+        href: posts.qmd
+      - text: Series
+        menu:
+          - text: GPS Walkthrough
+            href: posts.qmd#category=gps
       - icon: github
         href: https://github.com/mu2718/
       - icon: twitter
