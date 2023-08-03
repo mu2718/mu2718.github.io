@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Manuel and Laura">
+<meta name="dcterms.date" content="2020-04-27">
+<meta name="description" content="We analyze an interesting geometrical phenomenon of an averaging procedure performed on polygons using linear algebra and Fourier analysis methods.">
+
+<title>mu2718 - Polygon Smoothing Riddle</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script data-host="https://app.microanalytics.io" data-dnt="false" src="https://app.microanalytics.io/js/script.js" id="ZwSg9rf6GA" async="" defer=""></script>
+<script async="" defer="" src="https://beampipe.io/js/tracker.js" data-beampipe-domain="mu2718.github.io"></script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">mu2718</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html" rel="" target="">
+ <span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-series" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Series</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-series">    
+        <li>
+    <a class="dropdown-item" href="../../posts.html#category=gps" rel="" target="">
+ <span class="dropdown-text">GPS Walkthrough</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/mu2718/" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Polygon Smoothing Riddle</h1>
+                  <div>
+        <div class="description">
+          We analyze an interesting geometrical phenomenon of an averaging procedure performed on polygons using linear algebra and Fourier analysis methods.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">math</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Manuel and Laura </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 27, 2020</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#definition" id="toc-definition" class="nav-link active" data-scroll-target="#definition">Definition</a></li>
+  <li><a href="#polygon-evolution-example" id="toc-polygon-evolution-example" class="nav-link" data-scroll-target="#polygon-evolution-example">Polygon Evolution Example</a>
+  <ul class="collapse">
+  <li><a href="#answer-to-2.-question" id="toc-answer-to-2.-question" class="nav-link" data-scroll-target="#answer-to-2.-question">Answer to 2. Question</a></li>
+  </ul></li>
+  <li><a href="#prediction-of-final-ellipse" id="toc-prediction-of-final-ellipse" class="nav-link" data-scroll-target="#prediction-of-final-ellipse">Prediction of Final Ellipse</a>
+  <ul class="collapse">
+  <li><a href="#dominant-eigenstates" id="toc-dominant-eigenstates" class="nav-link" data-scroll-target="#dominant-eigenstates">Dominant Eigenstates</a></li>
+  <li><a href="#decompose-initial-state-into-eigenstates" id="toc-decompose-initial-state-into-eigenstates" class="nav-link" data-scroll-target="#decompose-initial-state-into-eigenstates">Decompose Initial State into Eigenstates</a></li>
+  <li><a href="#representation-as-ellipse" id="toc-representation-as-ellipse" class="nav-link" data-scroll-target="#representation-as-ellipse">Representation as Ellipse</a></li>
+  </ul></li>
+  <li><a href="#enforcement-of-circular-convergence" id="toc-enforcement-of-circular-convergence" class="nav-link" data-scroll-target="#enforcement-of-circular-convergence">Enforcement of Circular Convergence</a>
+  <ul class="collapse">
+  <li><a href="#answer-to-question-3" id="toc-answer-to-question-3" class="nav-link" data-scroll-target="#answer-to-question-3">Answer to Question 3</a></li>
+  </ul></li>
+  <li><a href="#conclusions-and-acknowledgments" id="toc-conclusions-and-acknowledgments" class="nav-link" data-scroll-target="#conclusions-and-acknowledgments">Conclusions and Acknowledgments</a></li>
+  <li><a href="#addendum-fourier-analysis-approach" id="toc-addendum-fourier-analysis-approach" class="nav-link" data-scroll-target="#addendum-fourier-analysis-approach">Addendum: Fourier Analysis Approach</a>
+  <ul class="collapse">
+  <li><a href="#shift-invariance" id="toc-shift-invariance" class="nav-link" data-scroll-target="#shift-invariance">Shift Invariance</a></li>
+  <li><a href="#discrete-fourier-transforms-dft-theory" id="toc-discrete-fourier-transforms-dft-theory" class="nav-link" data-scroll-target="#discrete-fourier-transforms-dft-theory">Discrete Fourier Transforms (DFT) Theory</a>
+  <ul class="collapse">
+  <li><a href="#discretness" id="toc-discretness" class="nav-link" data-scroll-target="#discretness">Discretness</a></li>
+  <li><a href="#finiteness" id="toc-finiteness" class="nav-link" data-scroll-target="#finiteness">Finiteness</a></li>
+  <li><a href="#discrete-and-finite---dft" id="toc-discrete-and-finite---dft" class="nav-link" data-scroll-target="#discrete-and-finite---dft">Discrete and Finite -&gt; DFT</a></li>
+  <li><a href="#discrete-convolution" id="toc-discrete-convolution" class="nav-link" data-scroll-target="#discrete-convolution">Discrete Convolution</a></li>
+  </ul></li>
+  <li><a href="#polygon-smoothing-as-discrete-convolution" id="toc-polygon-smoothing-as-discrete-convolution" class="nav-link" data-scroll-target="#polygon-smoothing-as-discrete-convolution">Polygon Smoothing as Discrete Convolution</a></li>
+  <li><a href="#numeric-illustration" id="toc-numeric-illustration" class="nav-link" data-scroll-target="#numeric-illustration">Numeric Illustration</a>
+  <ul class="collapse">
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+<p>As recently brought forward in a notable but private discussion board by Dr.&nbsp;R. M., the following phenomenon can be observed:</p>
+<p>[1] <a href="https://www.jasondavies.com/random-polygon-ellipse/" class="uri">https://www.jasondavies.com/random-polygon-ellipse/</a></p>
+<p>A random polygon evolves into an ellipse if we iteratively generate a new polygons with its edges being the center of the previous polygon.</p>
+<p>Of course, the following questions immediatley arise:</p>
+<ol type="1">
+<li>Why does it result in ellipses?</li>
+<li>Why are they oriented on the 45° diagonal?</li>
+<li>And on Dr.&nbsp;A.L.’s special request: What properties of starting polyagon do we need to result in a circle?</li>
+</ol>
+<p>We try to address these in the following.</p>
+<section id="definition" class="level2">
+<h2 class="anchored" data-anchor-id="definition">Definition</h2>
+<p>We represent polygon points by numbers in the complex plane. This will turn out to lead to an elegant description of the phenomenon.</p>
+<p>The averaging / smoothing of the polygon by calculating the point centers is implemented with</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> do_smoothing(points, steps):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Build average of neighboring points, apply it multiple times."""</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(steps):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        points <span class="op">=</span> (points <span class="op">+</span> np.roll(points, <span class="dv">1</span>))<span class="op">/</span><span class="dv">2</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We need to visualize a list of points as polygons in the following. This helper function is defined here:</p>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> show_points(points, ax<span class="op">=</span><span class="va">None</span>, labels<span class="op">=</span><span class="va">True</span>, dots<span class="op">=</span><span class="va">True</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Plot all points in complex plane. If given, use the axis given, otherwise build new figure."""</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> [x.real <span class="cf">for</span> x <span class="kw">in</span> points]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> [x.imag <span class="cf">for</span> x <span class="kw">in</span> points]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    X.append(X[<span class="dv">0</span>]) <span class="co"># start point is end point</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    Y.append(Y[<span class="dv">0</span>])</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ax <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>[<span class="dv">4</span>,<span class="dv">4</span>])</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(<span class="st">'equal'</span>, <span class="st">'datalim'</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dots: ax.scatter(X,Y, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    ax.plot(X,Y, color<span class="op">=</span><span class="st">'black'</span>, linewidth<span class="op">=</span>linewidth)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> labels:</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(points)):</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>            ax.annotate(i, (X[i], Y[i]), textcoords<span class="op">=</span><span class="st">"offset points"</span>, xytext<span class="op">=</span>(<span class="dv">0</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="polygon-evolution-example" class="level2">
+<h2 class="anchored" data-anchor-id="polygon-evolution-example">Polygon Evolution Example</h2>
+<p>Let us reproduce the phenomenon with an example. A random polygon is chosen by</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">13</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>init_points <span class="op">=</span> np.random.standard_normal(N) <span class="op">+</span> np.random.standard_normal(N)<span class="op">*</span><span class="ot">1j</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>show_points(init_points)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="PolygonSmoothing_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Let the smoothing process evolve:</p>
+<div class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> init_points</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># iterate smoothing:</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>steps <span class="op">=</span> <span class="dv">3</span> <span class="co"># steps between plots</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>[<span class="dv">10</span>,<span class="dv">10</span>]) </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">16</span>):</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> plt.subplot(<span class="dv">4</span>,<span class="dv">4</span>,i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    show_points(points, ax)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> do_smoothing(points, steps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="PolygonSmoothing_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<section id="answer-to-2.-question" class="level3">
+<h3 class="anchored" data-anchor-id="answer-to-2.-question">Answer to 2. Question</h3>
+<p>Why we observe 45° alignment can be answered here: We don’t observe that at all.</p>
+<p>This peculiar alignment was an artifact of the zooming method which was used in [1]: While we iterate, the polygons get smaller in radius. If we zoom in X and Y direction independently, we will always make it look like being on a diagonal. The alignment is enforced by the zooming and has nothing to do with the smoothing procedure.</p>
+<p>Above we use a uniform zoom factor (equal axis), which doesn’t break the rotation symmetry and thereby conserves to true alignment of the ellipse.</p>
+</section>
+</section>
+<section id="prediction-of-final-ellipse" class="level2">
+<h2 class="anchored" data-anchor-id="prediction-of-final-ellipse">Prediction of Final Ellipse</h2>
+<p>The smoothing procedure is a linear operation which can be formulated in a matrix representation. <span class="math display">\[\mathbb S \, \bf x_k = \bf x_{k+1}\]</span></p>
+<p>To simplify the analysis, we can recall our QT lectures and do an eigenstate decomposition. Eigenstates (or eigenpolygons) do not change their shape shape under the smoothing operation but are only shrinked and rotated by a complex prefactor (eigenvalue).</p>
+<p><span class="math display">\[ \mathbb S \, \bf{ x} = \lambda \bf{ x} \]</span></p>
+<section id="dominant-eigenstates" class="level3">
+<h3 class="anchored" data-anchor-id="dominant-eigenstates">Dominant Eigenstates</h3>
+<p>Of course we could do a more strict analysis, but let’s do it physicist free-style way (although Dr.&nbsp;S. wasn’t very happy with that…):</p>
+<p>We found from numerical calculation (eigenstate analysis) of some polybon point numbers N, that circlular arrangements are eigenstates. They have the largest eigenvalue, i.e.&nbsp;they are the least suppressed/decreased in size from generation to generation, while all the other eigenstates converge faster to zero extend. We have observed this for N=3 and 5, so it must be a very general fact, right?</p>
+<p>Therefore, after a few iterations, circles are the only surviving contribution, everything else decreases much faster in size. So lets phrase the</p>
+<p><strong>Hypothesis</strong>: Circles are dominant eigenstates under the smoothing operation.</p>
+<p>There are two independent cicular arrangments, namely</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>eigenstate1 <span class="op">=</span> [np.exp(<span class="ot">1j</span><span class="op">*</span> <span class="dv">2</span><span class="op">*</span>np.pi<span class="op">/</span>N <span class="op">*</span> k) <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(N)]  <span class="co"># clockwise orientation</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>eigenstate2 <span class="op">=</span> [np.exp(<span class="op">-</span><span class="ot">1j</span><span class="op">*</span> <span class="dv">2</span><span class="op">*</span>np.pi<span class="op">/</span>N <span class="op">*</span> k) <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(N)] <span class="co"># counter-clockwise orientation</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>show_points(eigenstate1, plt.subplot(<span class="dv">121</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>show_points(eigenstate2, plt.subplot(<span class="dv">122</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="PolygonSmoothing_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Note their clock/counter-clockwise orientation. Let’s check whether these are really eigenstates:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> eigenstate1</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># iterate smoothing:</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>[<span class="dv">15</span>,<span class="dv">3</span>]) </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>,n,i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    show_points(points, ax)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> do_smoothing(points, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="PolygonSmoothing_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Apparently they are. They turn around, but that’s fine as it only is a complex prefactor introducing the turning and shrinking:</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>do_smoothing(eigenstate1, <span class="dv">1</span>) <span class="op">/</span> eigenstate1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>array([0.94272801-0.23236159j, 0.94272801-0.23236159j,
+       0.94272801-0.23236159j, 0.94272801-0.23236159j,
+       0.94272801-0.23236159j, 0.94272801-0.23236159j,
+       0.94272801-0.23236159j, 0.94272801-0.23236159j,
+       0.94272801-0.23236159j, 0.94272801-0.23236159j,
+       0.94272801-0.23236159j, 0.94272801-0.23236159j,
+       0.94272801-0.23236159j])</code></pre>
+</div>
+</div>
+<p>Works out as expected. we even get the eigenvalues for free.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>eigenvalue1 <span class="op">=</span> (do_smoothing(eigenstate1, <span class="dv">1</span>) <span class="op">/</span> eigenstate1)[<span class="dv">0</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>eigenvalue2 <span class="op">=</span> (do_smoothing(eigenstate2, <span class="dv">1</span>) <span class="op">/</span> eigenstate2)[<span class="dv">0</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>eigenvalue1, eigenvalue2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>((0.9427280128266048-0.2323615860218846j),
+ (0.9427280128266048+0.2323615860218846j))</code></pre>
+</div>
+</div>
+</section>
+<section id="decompose-initial-state-into-eigenstates" class="level3">
+<h3 class="anchored" data-anchor-id="decompose-initial-state-into-eigenstates">Decompose Initial State into Eigenstates</h3>
+<p>In order to find out how much of the eigenstates are included in our random initial state, we project the inital state onto the eigenvectors. This calls for the use of an inner product, which we readily have at hand with the familiar</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dot(v1, v2):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Dot Product between complex vectors"""</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.dot(v1, np.conj(v2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Like in the good old QT days with Prof.&nbsp;H., we do first a normalization and check</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>eigenstate1 <span class="op">=</span> eigenstate1 <span class="op">/</span> np.sqrt(dot(eigenstate1, eigenstate1))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>eigenstate2 <span class="op">=</span> eigenstate2 <span class="op">/</span> np.sqrt(dot(eigenstate2, eigenstate2))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>dot(eigenstate1, eigenstate1), dot(eigenstate2, eigenstate2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>((1+0j), (1+0j))</code></pre>
+</div>
+</div>
+<p>Nicely normalized: Check. We can proceed:</p>
+<p>Now, let’s do the projection and get the complex coefficients</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> dot(init_points, eigenstate1)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> dot(init_points, eigenstate2)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>c1, c2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>((0.5149093832008008-1.950855436819647j),
+ (0.07602149507747744+1.113740507931655j))</code></pre>
+</div>
+</div>
+<p>Good, both eigenstates seem to be present in there. What can we do with that?</p>
+</section>
+<section id="representation-as-ellipse" class="level3">
+<h3 class="anchored" data-anchor-id="representation-as-ellipse">Representation as Ellipse</h3>
+<p>An general ellipse is parametrized by <span class="math inline">\(\varphi\)</span> with <span class="math inline">\(a,b\)</span> being the half axis and <span class="math inline">\(\theta\)</span> a rotation angle. We define</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ellipse(a,b, phi, theta): </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""get coordinates of ellipse with half axes a,b rotated with theta, along parameter phi."""</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    c, s <span class="op">=</span> a<span class="op">*</span>np.cos(phi), b<span class="op">*</span>np.sin(phi) </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> (s, c) <span class="co"># ellipse coordinate vector</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># rotate it</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    c, s <span class="op">=</span> np.cos(theta), np.sin(theta)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    R <span class="op">=</span> np.array(((c, <span class="op">-</span>s), (s, c))) <span class="co"># rotation matrix</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    x_rot <span class="op">=</span> np.matmul(R, x)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x_rot[<span class="dv">0</span>] <span class="op">+</span> <span class="ot">1j</span> <span class="op">*</span> x_rot[<span class="dv">1</span>] <span class="co"># go to complex representation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As our calculations show (they are still only on our window and wait to be transfered to the appendix in due time, of course), a superposition of both eigenstates result in a ellipse with the following parameters</p>
+<p><span class="math display">\[ a = \left|\frac{|c_1| - |c_2|}{\sqrt N}\right|, \quad b  = \frac{|c_1| + |c_2|}{\sqrt N} \]</span></p>
+<p>and <span class="math display">\[ \theta = \frac{\arg{c_1} + \arg{c_2}}{2}\]</span></p>
+<p>So let’s give it a try:</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>steps <span class="op">=</span> <span class="dv">300</span> <span class="co"># how many steps to iterate </span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># propagete eigenstates through smoothing operation by mulitplying eigenvalue 'steps' times</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>c1_it <span class="op">=</span> c1 <span class="op">*</span> np.power(eigenvalue1, steps)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>c2_it <span class="op">=</span> c2 <span class="op">*</span> np.power(eigenvalue2, steps)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># magic, analytic formulas</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.<span class="bu">abs</span>(np.<span class="bu">abs</span>(c1_it) <span class="op">-</span> np.<span class="bu">abs</span>(c2_it)) <span class="op">/</span> np.sqrt(N) </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> (np.<span class="bu">abs</span>(c1_it) <span class="op">+</span> np.<span class="bu">abs</span>(c2_it)) <span class="op">/</span> np.sqrt(N) </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> (np.angle(c1_it) <span class="op">+</span> np.angle(c2_it)) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>ellipse_pts <span class="op">=</span> [ellipse(a, b, phi, theta) <span class="cf">for</span> phi <span class="kw">in</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">50</span>)]</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">111</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>show_points(ellipse_pts, labels<span class="op">=</span><span class="va">False</span>, dots<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>ax, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>show_points(do_smoothing(init_points <span class="op">-</span> np.mean(init_points), steps), labels<span class="op">=</span><span class="va">False</span>,ax<span class="op">=</span>ax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="PolygonSmoothing_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>The comparison between the predicted shape and iteratively computed point distribution is rather satisfying.</p>
+<p>As an encore, we provide the comparison of the prediction based only on the two dominant eigenvalues in comparison to the computed iterated polygon:</p>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> show_iteration_vs_dominantEigenstates(): </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> np.random.standard_normal(N) <span class="op">+</span> np.random.standard_normal(N)<span class="op">*</span><span class="ot">1j</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> points <span class="op">-</span> np.mean(points)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    c1 <span class="op">=</span> dot(points, eigenstate1)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    c2 <span class="op">=</span> dot(points, eigenstate2)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    steps <span class="op">=</span> <span class="dv">3</span> <span class="co"># steps between plots</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>[<span class="dv">10</span>,<span class="dv">10</span>])</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">16</span>):</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        ax <span class="op">=</span> plt.subplot(<span class="dv">4</span>, <span class="dv">4</span>, i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># show smoothed points</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        show_points(points, ax, labels<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># now, calculate our analytic prediction ellipse for this iteration:</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># propagete eigenstates through smoothing operation by mulitplying eigenvalue 'steps' times</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>        c1_it <span class="op">=</span> c1 <span class="op">*</span> np.power(eigenvalue1, i<span class="op">*</span>steps)</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>        c2_it <span class="op">=</span> c2 <span class="op">*</span> np.power(eigenvalue2, i<span class="op">*</span>steps)</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>        a <span class="op">=</span> np.<span class="bu">abs</span>(np.<span class="bu">abs</span>(c1_it) <span class="op">-</span> np.<span class="bu">abs</span>(c2_it)) <span class="op">/</span> np.sqrt(N)</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> (np.<span class="bu">abs</span>(c1_it) <span class="op">+</span> np.<span class="bu">abs</span>(c2_it)) <span class="op">/</span> np.sqrt(N)</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>        theta <span class="op">=</span> (np.angle(c1_it) <span class="op">+</span> np.angle(c2_it)) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>        ellipse_pts <span class="op">=</span> [ellipse(a, b, phi, theta) <span class="cf">for</span> phi <span class="kw">in</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">50</span>)]</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>        show_points(ellipse_pts, labels<span class="op">=</span><span class="va">False</span>, dots<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>ax, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># for next iteration, do smoothing</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>        points <span class="op">=</span> do_smoothing(points, steps)</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>show_iteration_vs_dominantEigenstates()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="PolygonSmoothing_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>We see, how the dominant eigenstates start to fully describe the evolution.</p>
+</section>
+</section>
+<section id="enforcement-of-circular-convergence" class="level2">
+<h2 class="anchored" data-anchor-id="enforcement-of-circular-convergence">Enforcement of Circular Convergence</h2>
+<p>Comparison before and after “Face-lifting”:</p>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>init_points <span class="op">=</span> np.random.standard_normal(N) <span class="op">+</span> np.random.standard_normal(N)<span class="op">*</span><span class="ot">1j</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>init_points_facelifted <span class="op">=</span> init_points <span class="op">-</span> dot(init_points, eigenstate1) <span class="op">*</span> eigenstate1 </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># eigenstate1 is hereby fully removed, only eigenstate2 and the other contributions survive</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>show_points(init_points, plt.subplot(<span class="dv">121</span>))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>show_points(init_points_facelifted, plt.subplot(<span class="dv">122</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="PolygonSmoothing_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Let it roll…</p>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>steps <span class="op">=</span> <span class="dv">4</span> <span class="co"># steps between plots</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> init_points_facelifted</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>[<span class="dv">10</span>,<span class="dv">10</span>]) </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">16</span>):</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> plt.subplot(<span class="dv">4</span>,<span class="dv">4</span>,i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    show_points(points, ax)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    points <span class="op">=</span> do_smoothing(points, steps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="PolygonSmoothing_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Amazingly, here you have your ordered circle.</p>
+<p><strong>Homework Exercise</strong>: How about a counter-clockwise arrangement? :-)</p>
+<section id="answer-to-question-3" class="level3">
+<h3 class="anchored" data-anchor-id="answer-to-question-3">Answer to Question 3</h3>
+<p>We can conclude, that the following must be given in order to converge into a circle: Only clockwiseness or only counter-clockwiseness must be included in your start polygon, then it will evolve into a circle. While these terms are not well established in the community yet, we are confident that our work will have its impact here.</p>
+</section>
+</section>
+<section id="conclusions-and-acknowledgments" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions-and-acknowledgments">Conclusions and Acknowledgments</h2>
+<p>Dear reader, thank you for your appreciated attention!</p>
+<p>With that we would like to thank for all inspirational inputs from our “physicist” friends!</p>
+<p>Yours sincerly, L. and M.</p>
+</section>
+<section id="addendum-fourier-analysis-approach" class="level1 page-columns page-full">
+<h1>Addendum: Fourier Analysis Approach</h1>
+<p>The sections in the main publication considered the smoothing process as a general linear operation. A eigenvecor/-state analysis allowed thereby to simplify the problem and understand its evolution through iterations. The yielded eigenstates were shown to be circles whose geometrical image allowed an intuitive understanding why they are eigenstates.</p>
+<section id="shift-invariance" class="level2">
+<h2 class="anchored" data-anchor-id="shift-invariance">Shift Invariance</h2>
+<p>If we go on step further in analysis, we can readily observe that we not only have a linear operation, but a translation invariant: If we shift the indizes of the point of input state, the smoothing process <span class="math inline">\(\mathbb S\)</span> will yield the same output as before, but with this output after the index shift. Index shift denoted by <span class="math inline">\(\mathcal R\)</span> and smoothing operation <span class="math inline">\(\mathbb S\)</span> commute:</p>
+<p><span class="math display">\[ \vec x = (x_1, x_2, ... x_N), \, \mathcal R\,\vec x = \vec x' = (x_2, x_3, ... x_N, x_1):  \quad \mathcal R (\mathbb S\,\vec x) =  \mathbb S (\mathcal R \,\vec x) = \frac 1 2 (x_2+x_3, x_3+x_4, ...)\]</span></p>
+<p>A general shift-invariant linear operation on continous functions are given by convolutions <span class="math display">\[ (f \ast g)(x) \doteq \int \,dy\, g(y)\,f(x-y) = h(x), \quad f(x+\Delta x) \ast g(x) = h'(x) = h(x+\Delta x)\]</span></p>
+<p>The convolution Fourier theorem tells us, that their corresponding Fourier transforms <span class="math inline">\(f(x) = \int\,dk\, \tilde{f}(k)\, \exp(ikx)\)</span>, …, are related by a simple multiplication</p>
+<p><span class="math display">\[ \tilde{f}(k) \, \tilde{g}(k) = \tilde{h}(k) \]</span></p>
+<p>This is an interesting fact and allows to write a convolution in much simpler terms. Let’s try to apply this to our case.</p>
+</section>
+<section id="discrete-fourier-transforms-dft-theory" class="level2">
+<h2 class="anchored" data-anchor-id="discrete-fourier-transforms-dft-theory">Discrete Fourier Transforms (DFT) Theory</h2>
+<p>As phycisists, we are well experienced with the continous Fourier transform. But we obviously dont have an continous function but discrete points <span class="math inline">\((x_1, x_2, ... x_n)\)</span>. Here is a short intro to the discret case. DFT is a very common tool in digital signal processing where the signal is sampled at a fixed frequency…</p>
+<section id="discretness" class="level3">
+<h3 class="anchored" data-anchor-id="discretness">Discretness</h3>
+<p>Let’s define <span class="math inline">\(f(d), d \in \mathbb Z\)</span>. This simplifies the Fourier transform to</p>
+<p><span class="math display">\[f(d) = \int^{2\pi}_{0}dk\, \tilde{f}(k)\, \exp(ikd)\]</span></p>
+<p>Intuition: The wavevector spectrum is limited to <span class="math inline">\(0...2\pi\)</span>. Any oscillation faster than “one oscillation per 1 unit” is not needed, as we only evalute <span class="math inline">\(f(d)\)</span> at integer <span class="math inline">\(d\)</span>. (This result is known as Nyquist-Shannon theorem and can be gained in a more formal way by multiplying a general <span class="math inline">\(f(x)\)</span> with a Dirac comb which results in the mentioned consequences in wavevector spectrum).</p>
+</section>
+<section id="finiteness" class="level3">
+<h3 class="anchored" data-anchor-id="finiteness">Finiteness</h3>
+<p>The above results still assumed an umlimited number of points involved. Without loss of generality, we can define <span class="math inline">\(f(d)\)</span> periodic, such that <span class="math inline">\(f(d) = f(d+N)\)</span> holds. We limit the function to <span class="math inline">\(N\)</span> different values. In general, a periodic function, like the newly defined <span class="math inline">\(f(d)\)</span>, can be represented with a discrete Fourier series</p>
+<p><span class="math display">\[ f(x) = \sum_{k=-\inf}^{\inf}\, a(k) \, e^{i\frac{2\pi k}{N} x}, \quad a(k) \in \mathbb C .\]</span></p>
+<p>Intuition: Only wavevectors with wavelenghts = repetion cycles which are integer fractions of the function cycle length <span class="math inline">\(N\)</span>, i.e.&nbsp;cycles which repeat after length <span class="math inline">\(N\)</span>, are present.</p>
+</section>
+<section id="discrete-and-finite---dft" class="level3">
+<h3 class="anchored" data-anchor-id="discrete-and-finite---dft">Discrete and Finite -&gt; DFT</h3>
+<p>Taking both results, we ariive at the conclusion, that</p>
+<p><span class="math display">\[ f(d) = \sum_{k=0}^{N-1}\, a(k) \, e^{i\frac{2\pi k}{N} d} \]</span></p>
+<p>where the coefficients <span class="math inline">\(a(k) = \tilde{f}(k), \, k \in \{0, \ldots, N-1\}\)</span> are the discrete Fourier transform of <span class="math inline">\(f(d)\)</span>.</p>
+<p>We can explicitly calculate for two summands</p>
+<p><span class="math display">\[ \sum_{d=0}^{N-1}  e^{i\frac{2\pi k}{N} d}  e^{-i\frac{2\pi k'}{N} d} = N \delta_{k-k'} \]</span></p>
+<p>and thereby observe the orthogonality of different terms which is well known in the continous case (where a Dirac delta function is used).</p>
+</section>
+<section id="discrete-convolution" class="level3">
+<h3 class="anchored" data-anchor-id="discrete-convolution">Discrete Convolution</h3>
+<p>In analogy to the continous case, a discrete, cylic convolution can be defined by</p>
+<p><span class="math display">\[ (f \ast g) (d) = \sum_{d'=0}^{N-1} g(d') f(d-d') \]</span></p>
+<p>where we assumed <span class="math inline">\(f(d)\)</span> to be periodic. By explicitly calculating, we find <span class="math display">\[ (f \ast g) (d)  = \sum_{d'=0}^{N-1} \left(\sum_{k=0}^{N-1}\, \tilde g(k) \, e^{i\frac{2\pi k}{N} d'}\right) \left(\sum_{k'=0}^{N-1}\, \tilde f(k') \, e^{i\frac{2\pi k'}{N} (d-d')}\right)
+= \sum_{k=0}^{N-1} \sum_{k'=0}^{N-1}\, \tilde g(k) \, \tilde f(k') \, \sum_{d'=0}^{N-1} e^{i\frac{2\pi k}{N} d'} e^{i\frac{2\pi k'}{N} (d-d')} \]</span></p>
+<p>Evaluating the sum over <span class="math inline">\(d'\)</span> and using the orthogonality condition found above, we find a <span class="math inline">\(N\delta_{k-k'}\)</span> and therefore</p>
+<p><span class="math display">\[ (f \ast g) (d)  = N\,\sum_{k=0}^{N-1} \tilde g(k) \, \tilde f(k) \, e^{i\frac{2\pi k}{N} d} .\]</span></p>
+<p>This is the equivalent result to the continous case: The convolution is a mutliplication in Fourier space.</p>
+</section>
+</section>
+<section id="polygon-smoothing-as-discrete-convolution" class="level2">
+<h2 class="anchored" data-anchor-id="polygon-smoothing-as-discrete-convolution">Polygon Smoothing as Discrete Convolution</h2>
+<p>If we chose</p>
+<p><span class="math display">\[ f(d)  \doteq x_{d-1}, \, d \in {0, \ldots, N-1}, \quad  g(0)= g(1) \doteq \frac 1 2, \, g(d) \doteq 0, \, d \in \{2,\ldots, N\}\]</span></p>
+<p>and furthermore impose periodicity with <span class="math inline">\(f(d+N) = f(d)\)</span>, equally on <span class="math inline">\(g(d)\)</span>, both function are defined over <span class="math inline">\(\mathbb Z\)</span>, but represent <span class="math inline">\(N\)</span> independent complex points. With and the above defined discrete convolution, we find</p>
+<p><span class="math display">\[ (f \ast g) (d) = \sum_{d'=0}^{N-1} g(d') f(d-d') = h(d) = \frac{x_d+x_{d-1}} 2 \]</span></p>
+<p>We observe that this corresponds to our smoothing/averaging process <span class="math inline">\(\mathbb S\)</span>! It is a moving averaging operation performed on the set of points.</p>
+<p>The Fourier convolution theorem tells us, that this linear, shift-invariant operation can be written in this discrete case with the transforms</p>
+<p><span class="math display">\[ \tilde{h}(k) = N \tilde{f}(k)\,\tilde{g}(k), \, k \in \{0,N-1\}\]</span></p>
+<p>If we iterate <span class="math inline">\(G\)</span> times through the smooting, we arrive at the simple result <span class="math display">\[ \tilde{h}(k) = \tilde{f}(k)\,(N\tilde{g}(k))^{G}\]</span></p>
+<p>This fully determines the evolution. If <span class="math inline">\(N|\tilde g(k)|&lt;1\)</span>, the components at given <span class="math inline">\(k\)</span> are increasingly suppressed. <strong>With this, we got all eigenstates of the smoothign operation for free: They are apparatly the Fourier components of different <span class="math inline">\(k\)</span></strong>.</p>
+</section>
+<section id="numeric-illustration" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="numeric-illustration">Numeric Illustration</h2>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">13</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>initial_points <span class="op">=</span> np.random.standard_normal(N) <span class="op">+</span> np.random.standard_normal(N)<span class="op">*</span><span class="ot">1j</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> initial_points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s generate to above defined <span class="math inline">\(g(d)\)</span> with</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> np.zeros(N)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>g[[<span class="dv">0</span>,<span class="dv">1</span>]] <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">2</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0.5 0.5 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0. ]</code></pre>
+</div>
+</div>
+<p>Let Python calculate the DFT, as defined above, using FFT functions</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>f_tilde <span class="op">=</span> np.fft.ifft(f)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>g_tilde <span class="op">=</span> np.fft.ifft(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The smoothing iteration using the convolution theorem is illustrated here togehter with the Fourier transform:</p>
+<div class="cell page-columns page-full" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>steps_per_image <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>[<span class="dv">25</span>,<span class="dv">5</span>]) </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    h_tilde <span class="op">=</span> np.multiply(f_tilde, np.power(N<span class="op">*</span><span class="bu">abs</span>(g_tilde), i<span class="op">*</span>steps_per_image)) <span class="co"># according to convolution fourier theorem, see above</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> np.fft.fft(h_tilde)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,n,i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="st">"$</span><span class="ch">\\</span><span class="st">tilde h(k)$"</span>)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    ax.bar(<span class="bu">range</span>(N),<span class="bu">abs</span>(h_tilde))</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> plt.subplot(<span class="dv">2</span>,n,i<span class="op">+</span>n<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="st">"$f(d)$"</span>)</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    show_points(h, ax<span class="op">=</span>ax)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display column-page">
+<p><img src="PolygonSmoothing_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Things seemt to work out</p>
+<section id="interpretation" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<p>As abovious from the multiplication factor <span class="math inline">\(\tilde g(k)\)</span>:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>plt.plot(N<span class="op">*</span><span class="bu">abs</span>(g_tilde))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="PolygonSmoothing_files/figure-html/cell-22-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>oscillations <span class="math inline">\(k=0, 1\)</span> and <span class="math inline">\(N-1\)</span> are dominant. All other are suppressed stronger and damped out in the iteration shown above.</p>
+<p>As can be seen in the DFT defition, <span class="math inline">\(k=0\)</span> corresponds to a constant, which here represents the center of gravity of the points which does not change through iterations: <span class="math inline">\(\tilde g(0) = 1\)</span>. <span class="math inline">\(k=1\)</span> and <span class="math inline">\(N-1\)</span> are the already known clockwise and counterclockwise circles. If added up in a linear combination, they result in an ellipse.</p>
+<p>All the other Fourier terms are circles as well, but with winding number <span class="math inline">\(W\)</span> larger than one. Just a few examples:</p>
+<div class="cell page-columns page-full" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>[<span class="dv">25</span>,<span class="dv">4</span>]) </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>ws <span class="op">=</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">5</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, w <span class="kw">in</span> <span class="bu">enumerate</span>(ws):</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>,<span class="bu">len</span>(ws), i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="st">"W = "</span> <span class="op">+</span> <span class="bu">str</span>(w))</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> np.zeros(N)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    a[w <span class="op">%</span> N] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> np.fft.ifft(a)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(a)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    show_points(h, ax<span class="op">=</span>ax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1.]
+[1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+[0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+[0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+[0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+[0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0.]</code></pre>
+</div>
+<div class="cell-output cell-output-display column-page">
+<p><img src="PolygonSmoothing_files/figure-html/cell-23-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Insofar, we have to correct our answer above: we arrive at pure circles of only winding number <span class="math inline">\(W=1\)</span> or -1 are present, not both. But any higher wining number of any sign (clockwise or counter clockwise) will be damped away anyways.</p>
+<p>Geometrically, this is obvious: the more curved, the stronger diminished are the shapes in the smoothing process.</p>
+<p>With that, we finally and ultimatley conclude :-)</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="mu2718/mu2718.github.io" data-repo-id="R_kgDOJ0az-A" data-category="General" data-category-id="DIC_kwDOJ0az-M4CYLUK" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

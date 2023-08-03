@@ -1,0 +1,1245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>mu2718</title>
+<link>https://mu2718.github.io/posts.html</link>
+<atom:link href="https://mu2718.github.io/posts.xml" rel="self" type="application/rss+xml"/>
+<description>Test description</description>
+<generator>quarto-1.3.361</generator>
+<lastBuildDate>Sun, 26 Apr 2020 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>Polygon Smoothing Riddle</title>
+  <dc:creator>Manuel and Laura</dc:creator>
+  <link>https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>As recently brought forward in a notable but private discussion board by Dr.&nbsp;R. M., the following phenomenon can be observed:</p>
+<p>[1] <a href="https://www.jasondavies.com/random-polygon-ellipse/" class="uri">https://www.jasondavies.com/random-polygon-ellipse/</a></p>
+<p>A random polygon evolves into an ellipse if we iteratively generate a new polygons with its edges being the center of the previous polygon.</p>
+<p>Of course, the following questions immediatley arise:</p>
+<ol type="1">
+<li>Why does it result in ellipses?</li>
+<li>Why are they oriented on the 45° diagonal?</li>
+<li>And on Dr.&nbsp;A.L.’s special request: What properties of starting polyagon do we need to result in a circle?</li>
+</ol>
+<p>We try to address these in the following.</p>
+<section id="definition" class="level2">
+<h2 class="anchored" data-anchor-id="definition">Definition</h2>
+<p>We represent polygon points by numbers in the complex plane. This will turn out to lead to an elegant description of the phenomenon.</p>
+<p>The averaging / smoothing of the polygon by calculating the point centers is implemented with</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> do_smoothing(points, steps):</span>
+<span id="cb1-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Build average of neighboring points, apply it multiple times."""</span></span>
+<span id="cb1-3">    </span>
+<span id="cb1-4">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(steps):</span>
+<span id="cb1-5">        points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> np.roll(points, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>))<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span> </span>
+<span id="cb1-6">        </span>
+<span id="cb1-7">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> points</span></code></pre></div>
+</div>
+<p>We need to visualize a list of points as polygons in the following. This helper function is defined here:</p>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> np</span>
+<span id="cb2-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> plt</span>
+<span id="cb2-3"></span>
+<span id="cb2-4"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> show_points(points, ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>, labels<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>, dots<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>, linewidth<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>):</span>
+<span id="cb2-5">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Plot all points in complex plane. If given, use the axis given, otherwise build new figure."""</span></span>
+<span id="cb2-6">    </span>
+<span id="cb2-7">    X <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [x.real <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> x <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> points]</span>
+<span id="cb2-8">    Y <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [x.imag <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> x <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> points]</span>
+<span id="cb2-9">    X.append(X[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># start point is end point</span></span>
+<span id="cb2-10">    Y.append(Y[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>])</span>
+<span id="cb2-11">    </span>
+<span id="cb2-12">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb2-13">        fig <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.figure(figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>])</span>
+<span id="cb2-14">        ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> fig.add_subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">111</span>)</span>
+<span id="cb2-15">        </span>
+<span id="cb2-16">    ax.set_aspect(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'equal'</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'datalim'</span>)</span>
+<span id="cb2-17"></span>
+<span id="cb2-18">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> dots: ax.scatter(X,Y, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'red'</span>)</span>
+<span id="cb2-19">    ax.plot(X,Y, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'black'</span>, linewidth<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>linewidth)</span>
+<span id="cb2-20">    </span>
+<span id="cb2-21">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> labels:</span>
+<span id="cb2-22">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(points)):</span>
+<span id="cb2-23">            ax.annotate(i, (X[i], Y[i]), textcoords<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"offset points"</span>, xytext<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>))</span></code></pre></div>
+</details>
+</div>
+</section>
+<section id="polygon-evolution-example" class="level2">
+<h2 class="anchored" data-anchor-id="polygon-evolution-example">Polygon Evolution Example</h2>
+<p>Let us reproduce the phenomenon with an example. A random polygon is chosen by</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">N <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">13</span></span>
+<span id="cb3-2">init_points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.random.standard_normal(N) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> np.random.standard_normal(N)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">1j</span></span>
+<span id="cb3-3">show_points(init_points)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Let the smoothing process evolve:</p>
+<div class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> init_points</span>
+<span id="cb4-2"></span>
+<span id="cb4-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># iterate smoothing:</span></span>
+<span id="cb4-4">steps <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># steps between plots</span></span>
+<span id="cb4-5">plt.figure(figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>]) </span>
+<span id="cb4-6"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">16</span>):</span>
+<span id="cb4-7">    ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>,i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb4-8">    show_points(points, ax)</span>
+<span id="cb4-9">    points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> do_smoothing(points, steps)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<section id="answer-to-2.-question" class="level3">
+<h3 class="anchored" data-anchor-id="answer-to-2.-question">Answer to 2. Question</h3>
+<p>Why we observe 45° alignment can be answered here: We don’t observe that at all.</p>
+<p>This peculiar alignment was an artifact of the zooming method which was used in [1]: While we iterate, the polygons get smaller in radius. If we zoom in X and Y direction independently, we will always make it look like being on a diagonal. The alignment is enforced by the zooming and has nothing to do with the smoothing procedure.</p>
+<p>Above we use a uniform zoom factor (equal axis), which doesn’t break the rotation symmetry and thereby conserves to true alignment of the ellipse.</p>
+</section>
+</section>
+<section id="prediction-of-final-ellipse" class="level2">
+<h2 class="anchored" data-anchor-id="prediction-of-final-ellipse">Prediction of Final Ellipse</h2>
+<p>The smoothing procedure is a linear operation which can be formulated in a matrix representation. <img src="https://latex.codecogs.com/png.latex?%5Cmathbb%20S%20%5C,%20%5Cbf%20x_k%20=%20%5Cbf%20x_%7Bk+1%7D"></p>
+<p>To simplify the analysis, we can recall our QT lectures and do an eigenstate decomposition. Eigenstates (or eigenpolygons) do not change their shape shape under the smoothing operation but are only shrinked and rotated by a complex prefactor (eigenvalue).</p>
+<p><img src="https://latex.codecogs.com/png.latex?%20%5Cmathbb%20S%20%5C,%20%5Cbf%7B%20x%7D%20=%20%5Clambda%20%5Cbf%7B%20x%7D%20"></p>
+<section id="dominant-eigenstates" class="level3">
+<h3 class="anchored" data-anchor-id="dominant-eigenstates">Dominant Eigenstates</h3>
+<p>Of course we could do a more strict analysis, but let’s do it physicist free-style way (although Dr.&nbsp;S. wasn’t very happy with that…):</p>
+<p>We found from numerical calculation (eigenstate analysis) of some polybon point numbers N, that circlular arrangements are eigenstates. They have the largest eigenvalue, i.e.&nbsp;they are the least suppressed/decreased in size from generation to generation, while all the other eigenstates converge faster to zero extend. We have observed this for N=3 and 5, so it must be a very general fact, right?</p>
+<p>Therefore, after a few iterations, circles are the only surviving contribution, everything else decreases much faster in size. So lets phrase the</p>
+<p><strong>Hypothesis</strong>: Circles are dominant eigenstates under the smoothing operation.</p>
+<p>There are two independent cicular arrangments, namely</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">eigenstate1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [np.exp(<span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">1j</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>np.pi<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span>N <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> k) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> k <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(N)]  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># clockwise orientation</span></span>
+<span id="cb5-2">eigenstate2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [np.exp(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">1j</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>np.pi<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span>N <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> k) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> k <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(N)] <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># counter-clockwise orientation</span></span>
+<span id="cb5-3"></span>
+<span id="cb5-4">show_points(eigenstate1, plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">121</span>))</span>
+<span id="cb5-5">show_points(eigenstate2, plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">122</span>))</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Note their clock/counter-clockwise orientation. Let’s check whether these are really eigenstates:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> eigenstate1</span>
+<span id="cb6-2"></span>
+<span id="cb6-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># iterate smoothing:</span></span>
+<span id="cb6-4">n <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span></span>
+<span id="cb6-5">plt.figure(figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]) </span>
+<span id="cb6-6"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(n):</span>
+<span id="cb6-7">    ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,n,i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb6-8">    show_points(points, ax)</span>
+<span id="cb6-9">    points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> do_smoothing(points, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Apparently they are. They turn around, but that’s fine as it only is a complex prefactor introducing the turning and shrinking:</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">do_smoothing(eigenstate1, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> eigenstate1</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>array([0.94272801-0.23236159j, 0.94272801-0.23236159j,
+       0.94272801-0.23236159j, 0.94272801-0.23236159j,
+       0.94272801-0.23236159j, 0.94272801-0.23236159j,
+       0.94272801-0.23236159j, 0.94272801-0.23236159j,
+       0.94272801-0.23236159j, 0.94272801-0.23236159j,
+       0.94272801-0.23236159j, 0.94272801-0.23236159j,
+       0.94272801-0.23236159j])</code></pre>
+</div>
+</div>
+<p>Works out as expected. we even get the eigenvalues for free.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">eigenvalue1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (do_smoothing(eigenstate1, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> eigenstate1)[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]</span>
+<span id="cb9-2">eigenvalue2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (do_smoothing(eigenstate2, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> eigenstate2)[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]</span>
+<span id="cb9-3"></span>
+<span id="cb9-4">eigenvalue1, eigenvalue2</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>((0.9427280128266048-0.2323615860218846j),
+ (0.9427280128266048+0.2323615860218846j))</code></pre>
+</div>
+</div>
+</section>
+<section id="decompose-initial-state-into-eigenstates" class="level3">
+<h3 class="anchored" data-anchor-id="decompose-initial-state-into-eigenstates">Decompose Initial State into Eigenstates</h3>
+<p>In order to find out how much of the eigenstates are included in our random initial state, we project the inital state onto the eigenvectors. This calls for the use of an inner product, which we readily have at hand with the familiar</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> dot(v1, v2):</span>
+<span id="cb11-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Dot Product between complex vectors"""</span></span>
+<span id="cb11-3">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> np.dot(v1, np.conj(v2))</span></code></pre></div>
+</div>
+<p>Like in the good old QT days with Prof.&nbsp;H., we do first a normalization and check</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">eigenstate1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> eigenstate1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> np.sqrt(dot(eigenstate1, eigenstate1))</span>
+<span id="cb12-2">eigenstate2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> eigenstate2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> np.sqrt(dot(eigenstate2, eigenstate2))</span>
+<span id="cb12-3"></span>
+<span id="cb12-4">dot(eigenstate1, eigenstate1), dot(eigenstate2, eigenstate2)</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>((1+0j), (1+0j))</code></pre>
+</div>
+</div>
+<p>Nicely normalized: Check. We can proceed:</p>
+<p>Now, let’s do the projection and get the complex coefficients</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1">c1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> dot(init_points, eigenstate1)</span>
+<span id="cb14-2">c2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> dot(init_points, eigenstate2)</span>
+<span id="cb14-3"></span>
+<span id="cb14-4">c1, c2</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>((0.5149093832008008-1.950855436819647j),
+ (0.07602149507747744+1.113740507931655j))</code></pre>
+</div>
+</div>
+<p>Good, both eigenstates seem to be present in there. What can we do with that?</p>
+</section>
+<section id="representation-as-ellipse" class="level3">
+<h3 class="anchored" data-anchor-id="representation-as-ellipse">Representation as Ellipse</h3>
+<p>An general ellipse is parametrized by <img src="https://latex.codecogs.com/png.latex?%5Cvarphi"> with <img src="https://latex.codecogs.com/png.latex?a,b"> being the half axis and <img src="https://latex.codecogs.com/png.latex?%5Ctheta"> a rotation angle. We define</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> ellipse(a,b, phi, theta): </span>
+<span id="cb16-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""get coordinates of ellipse with half axes a,b rotated with theta, along parameter phi."""</span></span>
+<span id="cb16-3">    </span>
+<span id="cb16-4">    c, s <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> a<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>np.cos(phi), b<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>np.sin(phi) </span>
+<span id="cb16-5">    x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (s, c) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># ellipse coordinate vector</span></span>
+<span id="cb16-6">    </span>
+<span id="cb16-7">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># rotate it</span></span>
+<span id="cb16-8">    c, s <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.cos(theta), np.sin(theta)</span>
+<span id="cb16-9">    R <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.array(((c, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>s), (s, c))) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># rotation matrix</span></span>
+<span id="cb16-10">    x_rot <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.matmul(R, x)</span>
+<span id="cb16-11">    </span>
+<span id="cb16-12">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> x_rot[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">1j</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> x_rot[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># go to complex representation</span></span></code></pre></div>
+</div>
+<p>As our calculations show (they are still only on our window and wait to be transfered to the appendix in due time, of course), a superposition of both eigenstates result in a ellipse with the following parameters</p>
+<p><img src="https://latex.codecogs.com/png.latex?%20a%20=%20%5Cleft%7C%5Cfrac%7B%7Cc_1%7C%20-%20%7Cc_2%7C%7D%7B%5Csqrt%20N%7D%5Cright%7C,%20%5Cquad%20b%20%20=%20%5Cfrac%7B%7Cc_1%7C%20+%20%7Cc_2%7C%7D%7B%5Csqrt%20N%7D%20"></p>
+<p>and <img src="https://latex.codecogs.com/png.latex?%20%5Ctheta%20=%20%5Cfrac%7B%5Carg%7Bc_1%7D%20+%20%5Carg%7Bc_2%7D%7D%7B2%7D"></p>
+<p>So let’s give it a try:</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1">steps <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">300</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># how many steps to iterate </span></span>
+<span id="cb17-2"></span>
+<span id="cb17-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># propagete eigenstates through smoothing operation by mulitplying eigenvalue 'steps' times</span></span>
+<span id="cb17-4">c1_it <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> c1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> np.power(eigenvalue1, steps)</span>
+<span id="cb17-5">c2_it <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> c2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> np.power(eigenvalue2, steps)</span>
+<span id="cb17-6"></span>
+<span id="cb17-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># magic, analytic formulas</span></span>
+<span id="cb17-8">a <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(c1_it) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(c2_it)) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> np.sqrt(N) </span>
+<span id="cb17-9">b <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(c1_it) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(c2_it)) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> np.sqrt(N) </span>
+<span id="cb17-10">theta <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (np.angle(c1_it) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> np.angle(c2_it)) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span>
+<span id="cb17-11"></span>
+<span id="cb17-12">ellipse_pts <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [ellipse(a, b, phi, theta) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> phi <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> np.linspace(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>np.pi, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>)]</span>
+<span id="cb17-13"></span>
+<span id="cb17-14">ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">111</span>)</span>
+<span id="cb17-15">show_points(ellipse_pts, labels<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>, dots<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>, ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax, linewidth<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb17-16"></span>
+<span id="cb17-17">show_points(do_smoothing(init_points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> np.mean(init_points), steps), labels<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>The comparison between the predicted shape and iteratively computed point distribution is rather satisfying.</p>
+<p>As an encore, we provide the comparison of the prediction based only on the two dominant eigenvalues in comparison to the computed iterated polygon:</p>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> show_iteration_vs_dominantEigenstates(): </span>
+<span id="cb18-2">    points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.random.standard_normal(N) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> np.random.standard_normal(N)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">1j</span></span>
+<span id="cb18-3">    points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> np.mean(points)</span>
+<span id="cb18-4"></span>
+<span id="cb18-5">    c1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> dot(points, eigenstate1)</span>
+<span id="cb18-6">    c2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> dot(points, eigenstate2)</span>
+<span id="cb18-7"></span>
+<span id="cb18-8">    steps <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># steps between plots</span></span>
+<span id="cb18-9"></span>
+<span id="cb18-10">    plt.figure(figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>])</span>
+<span id="cb18-11"></span>
+<span id="cb18-12">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">16</span>):</span>
+<span id="cb18-13">        ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>, i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb18-14">        </span>
+<span id="cb18-15">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># show smoothed points</span></span>
+<span id="cb18-16">        show_points(points, ax, labels<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>)</span>
+<span id="cb18-17"></span>
+<span id="cb18-18">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># now, calculate our analytic prediction ellipse for this iteration:</span></span>
+<span id="cb18-19"></span>
+<span id="cb18-20">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># propagete eigenstates through smoothing operation by mulitplying eigenvalue 'steps' times</span></span>
+<span id="cb18-21">        c1_it <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> c1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> np.power(eigenvalue1, i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>steps)</span>
+<span id="cb18-22">        c2_it <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> c2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> np.power(eigenvalue2, i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>steps)</span>
+<span id="cb18-23"></span>
+<span id="cb18-24">        a <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(c1_it) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(c2_it)) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> np.sqrt(N)</span>
+<span id="cb18-25">        b <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(c1_it) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> np.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(c2_it)) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> np.sqrt(N)</span>
+<span id="cb18-26">        theta <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (np.angle(c1_it) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> np.angle(c2_it)) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span>
+<span id="cb18-27">        ellipse_pts <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [ellipse(a, b, phi, theta) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> phi <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> np.linspace(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>np.pi, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>)]</span>
+<span id="cb18-28"></span>
+<span id="cb18-29">        show_points(ellipse_pts, labels<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>, dots<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>, ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax, linewidth<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb18-30"></span>
+<span id="cb18-31">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># for next iteration, do smoothing</span></span>
+<span id="cb18-32">        points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> do_smoothing(points, steps)</span>
+<span id="cb18-33">        </span>
+<span id="cb18-34">show_iteration_vs_dominantEigenstates()</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>We see, how the dominant eigenstates start to fully describe the evolution.</p>
+</section>
+</section>
+<section id="enforcement-of-circular-convergence" class="level2">
+<h2 class="anchored" data-anchor-id="enforcement-of-circular-convergence">Enforcement of Circular Convergence</h2>
+<p>Comparison before and after “Face-lifting”:</p>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1">init_points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.random.standard_normal(N) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> np.random.standard_normal(N)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">1j</span></span>
+<span id="cb19-2"></span>
+<span id="cb19-3">init_points_facelifted <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> init_points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> dot(init_points, eigenstate1) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> eigenstate1 </span>
+<span id="cb19-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># eigenstate1 is hereby fully removed, only eigenstate2 and the other contributions survive</span></span>
+<span id="cb19-5"></span>
+<span id="cb19-6">show_points(init_points, plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">121</span>))</span>
+<span id="cb19-7">show_points(init_points_facelifted, plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">122</span>))</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Let it roll…</p>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1">steps <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># steps between plots</span></span>
+<span id="cb20-2"></span>
+<span id="cb20-3">points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> init_points_facelifted</span>
+<span id="cb20-4"></span>
+<span id="cb20-5">plt.figure(figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>]) </span>
+<span id="cb20-6"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">16</span>):</span>
+<span id="cb20-7">    ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>,i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb20-8">    show_points(points, ax)</span>
+<span id="cb20-9">    points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> do_smoothing(points, steps)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Amazingly, here you have your ordered circle.</p>
+<p><strong>Homework Exercise</strong>: How about a counter-clockwise arrangement? :-)</p>
+<section id="answer-to-question-3" class="level3">
+<h3 class="anchored" data-anchor-id="answer-to-question-3">Answer to Question 3</h3>
+<p>We can conclude, that the following must be given in order to converge into a circle: Only clockwiseness or only counter-clockwiseness must be included in your start polygon, then it will evolve into a circle. While these terms are not well established in the community yet, we are confident that our work will have its impact here.</p>
+</section>
+</section>
+<section id="conclusions-and-acknowledgments" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions-and-acknowledgments">Conclusions and Acknowledgments</h2>
+<p>Dear reader, thank you for your appreciated attention!</p>
+<p>With that we would like to thank for all inspirational inputs from our “physicist” friends!</p>
+<p>Yours sincerly, L. and M.</p>
+</section>
+<section id="addendum-fourier-analysis-approach" class="level1 page-columns page-full">
+<h1>Addendum: Fourier Analysis Approach</h1>
+<p>The sections in the main publication considered the smoothing process as a general linear operation. A eigenvecor/-state analysis allowed thereby to simplify the problem and understand its evolution through iterations. The yielded eigenstates were shown to be circles whose geometrical image allowed an intuitive understanding why they are eigenstates.</p>
+<section id="shift-invariance" class="level2">
+<h2 class="anchored" data-anchor-id="shift-invariance">Shift Invariance</h2>
+<p>If we go on step further in analysis, we can readily observe that we not only have a linear operation, but a translation invariant: If we shift the indizes of the point of input state, the smoothing process <img src="https://latex.codecogs.com/png.latex?%5Cmathbb%20S"> will yield the same output as before, but with this output after the index shift. Index shift denoted by <img src="https://latex.codecogs.com/png.latex?%5Cmathcal%20R"> and smoothing operation <img src="https://latex.codecogs.com/png.latex?%5Cmathbb%20S"> commute:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%20%5Cvec%20x%20=%20(x_1,%20x_2,%20...%20x_N),%20%5C,%20%5Cmathcal%20R%5C,%5Cvec%20x%20=%20%5Cvec%20x'%20=%20(x_2,%20x_3,%20...%20x_N,%20x_1):%20%20%5Cquad%20%5Cmathcal%20R%20(%5Cmathbb%20S%5C,%5Cvec%20x)%20=%20%20%5Cmathbb%20S%20(%5Cmathcal%20R%20%5C,%5Cvec%20x)%20=%20%5Cfrac%201%202%20(x_2+x_3,%20x_3+x_4,%20...)"></p>
+<p>A general shift-invariant linear operation on continous functions are given by convolutions <img src="https://latex.codecogs.com/png.latex?%20(f%20%5Cast%20g)(x)%20%5Cdoteq%20%5Cint%20%5C,dy%5C,%20g(y)%5C,f(x-y)%20=%20h(x),%20%5Cquad%20f(x+%5CDelta%20x)%20%5Cast%20g(x)%20=%20h'(x)%20=%20h(x+%5CDelta%20x)"></p>
+<p>The convolution Fourier theorem tells us, that their corresponding Fourier transforms <img src="https://latex.codecogs.com/png.latex?f(x)%20=%20%5Cint%5C,dk%5C,%20%5Ctilde%7Bf%7D(k)%5C,%20%5Cexp(ikx)">, …, are related by a simple multiplication</p>
+<p><img src="https://latex.codecogs.com/png.latex?%20%5Ctilde%7Bf%7D(k)%20%5C,%20%5Ctilde%7Bg%7D(k)%20=%20%5Ctilde%7Bh%7D(k)%20"></p>
+<p>This is an interesting fact and allows to write a convolution in much simpler terms. Let’s try to apply this to our case.</p>
+</section>
+<section id="discrete-fourier-transforms-dft-theory" class="level2">
+<h2 class="anchored" data-anchor-id="discrete-fourier-transforms-dft-theory">Discrete Fourier Transforms (DFT) Theory</h2>
+<p>As phycisists, we are well experienced with the continous Fourier transform. But we obviously dont have an continous function but discrete points <img src="https://latex.codecogs.com/png.latex?(x_1,%20x_2,%20...%20x_n)">. Here is a short intro to the discret case. DFT is a very common tool in digital signal processing where the signal is sampled at a fixed frequency…</p>
+<section id="discretness" class="level3">
+<h3 class="anchored" data-anchor-id="discretness">Discretness</h3>
+<p>Let’s define <img src="https://latex.codecogs.com/png.latex?f(d),%20d%20%5Cin%20%5Cmathbb%20Z">. This simplifies the Fourier transform to</p>
+<p><img src="https://latex.codecogs.com/png.latex?f(d)%20=%20%5Cint%5E%7B2%5Cpi%7D_%7B0%7Ddk%5C,%20%5Ctilde%7Bf%7D(k)%5C,%20%5Cexp(ikd)"></p>
+<p>Intuition: The wavevector spectrum is limited to <img src="https://latex.codecogs.com/png.latex?0...2%5Cpi">. Any oscillation faster than “one oscillation per 1 unit” is not needed, as we only evalute <img src="https://latex.codecogs.com/png.latex?f(d)"> at integer <img src="https://latex.codecogs.com/png.latex?d">. (This result is known as Nyquist-Shannon theorem and can be gained in a more formal way by multiplying a general <img src="https://latex.codecogs.com/png.latex?f(x)"> with a Dirac comb which results in the mentioned consequences in wavevector spectrum).</p>
+</section>
+<section id="finiteness" class="level3">
+<h3 class="anchored" data-anchor-id="finiteness">Finiteness</h3>
+<p>The above results still assumed an umlimited number of points involved. Without loss of generality, we can define <img src="https://latex.codecogs.com/png.latex?f(d)"> periodic, such that <img src="https://latex.codecogs.com/png.latex?f(d)%20=%20f(d+N)"> holds. We limit the function to <img src="https://latex.codecogs.com/png.latex?N"> different values. In general, a periodic function, like the newly defined <img src="https://latex.codecogs.com/png.latex?f(d)">, can be represented with a discrete Fourier series</p>
+<p><img src="https://latex.codecogs.com/png.latex?%20f(x)%20=%20%5Csum_%7Bk=-%5Cinf%7D%5E%7B%5Cinf%7D%5C,%20a(k)%20%5C,%20e%5E%7Bi%5Cfrac%7B2%5Cpi%20k%7D%7BN%7D%20x%7D,%20%5Cquad%20a(k)%20%5Cin%20%5Cmathbb%20C%20."></p>
+<p>Intuition: Only wavevectors with wavelenghts = repetion cycles which are integer fractions of the function cycle length <img src="https://latex.codecogs.com/png.latex?N">, i.e.&nbsp;cycles which repeat after length <img src="https://latex.codecogs.com/png.latex?N">, are present.</p>
+</section>
+<section id="discrete-and-finite---dft" class="level3">
+<h3 class="anchored" data-anchor-id="discrete-and-finite---dft">Discrete and Finite -&gt; DFT</h3>
+<p>Taking both results, we ariive at the conclusion, that</p>
+<p><img src="https://latex.codecogs.com/png.latex?%20f(d)%20=%20%5Csum_%7Bk=0%7D%5E%7BN-1%7D%5C,%20a(k)%20%5C,%20e%5E%7Bi%5Cfrac%7B2%5Cpi%20k%7D%7BN%7D%20d%7D%20"></p>
+<p>where the coefficients <img src="https://latex.codecogs.com/png.latex?a(k)%20=%20%5Ctilde%7Bf%7D(k),%20%5C,%20k%20%5Cin%20%5C%7B0,%20%5Cldots,%20N-1%5C%7D"> are the discrete Fourier transform of <img src="https://latex.codecogs.com/png.latex?f(d)">.</p>
+<p>We can explicitly calculate for two summands</p>
+<p><img src="https://latex.codecogs.com/png.latex?%20%5Csum_%7Bd=0%7D%5E%7BN-1%7D%20%20e%5E%7Bi%5Cfrac%7B2%5Cpi%20k%7D%7BN%7D%20d%7D%20%20e%5E%7B-i%5Cfrac%7B2%5Cpi%20k'%7D%7BN%7D%20d%7D%20=%20N%20%5Cdelta_%7Bk-k'%7D%20"></p>
+<p>and thereby observe the orthogonality of different terms which is well known in the continous case (where a Dirac delta function is used).</p>
+</section>
+<section id="discrete-convolution" class="level3">
+<h3 class="anchored" data-anchor-id="discrete-convolution">Discrete Convolution</h3>
+<p>In analogy to the continous case, a discrete, cylic convolution can be defined by</p>
+<p><img src="https://latex.codecogs.com/png.latex?%20(f%20%5Cast%20g)%20(d)%20=%20%5Csum_%7Bd'=0%7D%5E%7BN-1%7D%20g(d')%20f(d-d')%20"></p>
+<p>where we assumed <img src="https://latex.codecogs.com/png.latex?f(d)"> to be periodic. By explicitly calculating, we find <img src="https://latex.codecogs.com/png.latex?%20(f%20%5Cast%20g)%20(d)%20%20=%20%5Csum_%7Bd'=0%7D%5E%7BN-1%7D%20%5Cleft(%5Csum_%7Bk=0%7D%5E%7BN-1%7D%5C,%20%5Ctilde%20g(k)%20%5C,%20e%5E%7Bi%5Cfrac%7B2%5Cpi%20k%7D%7BN%7D%20d'%7D%5Cright)%20%5Cleft(%5Csum_%7Bk'=0%7D%5E%7BN-1%7D%5C,%20%5Ctilde%20f(k')%20%5C,%20e%5E%7Bi%5Cfrac%7B2%5Cpi%20k'%7D%7BN%7D%20(d-d')%7D%5Cright)%0A=%20%5Csum_%7Bk=0%7D%5E%7BN-1%7D%20%5Csum_%7Bk'=0%7D%5E%7BN-1%7D%5C,%20%5Ctilde%20g(k)%20%5C,%20%5Ctilde%20f(k')%20%5C,%20%5Csum_%7Bd'=0%7D%5E%7BN-1%7D%20e%5E%7Bi%5Cfrac%7B2%5Cpi%20k%7D%7BN%7D%20d'%7D%20e%5E%7Bi%5Cfrac%7B2%5Cpi%20k'%7D%7BN%7D%20(d-d')%7D%20"></p>
+<p>Evaluating the sum over <img src="https://latex.codecogs.com/png.latex?d'"> and using the orthogonality condition found above, we find a <img src="https://latex.codecogs.com/png.latex?N%5Cdelta_%7Bk-k'%7D"> and therefore</p>
+<p><img src="https://latex.codecogs.com/png.latex?%20(f%20%5Cast%20g)%20(d)%20%20=%20N%5C,%5Csum_%7Bk=0%7D%5E%7BN-1%7D%20%5Ctilde%20g(k)%20%5C,%20%5Ctilde%20f(k)%20%5C,%20e%5E%7Bi%5Cfrac%7B2%5Cpi%20k%7D%7BN%7D%20d%7D%20."></p>
+<p>This is the equivalent result to the continous case: The convolution is a mutliplication in Fourier space.</p>
+</section>
+</section>
+<section id="polygon-smoothing-as-discrete-convolution" class="level2">
+<h2 class="anchored" data-anchor-id="polygon-smoothing-as-discrete-convolution">Polygon Smoothing as Discrete Convolution</h2>
+<p>If we chose</p>
+<p><img src="https://latex.codecogs.com/png.latex?%20f(d)%20%20%5Cdoteq%20x_%7Bd-1%7D,%20%5C,%20d%20%5Cin%20%7B0,%20%5Cldots,%20N-1%7D,%20%5Cquad%20%20g(0)=%20g(1)%20%5Cdoteq%20%5Cfrac%201%202,%20%5C,%20g(d)%20%5Cdoteq%200,%20%5C,%20d%20%5Cin%20%5C%7B2,%5Cldots,%20N%5C%7D"></p>
+<p>and furthermore impose periodicity with <img src="https://latex.codecogs.com/png.latex?f(d+N)%20=%20f(d)">, equally on <img src="https://latex.codecogs.com/png.latex?g(d)">, both function are defined over <img src="https://latex.codecogs.com/png.latex?%5Cmathbb%20Z">, but represent <img src="https://latex.codecogs.com/png.latex?N"> independent complex points. With and the above defined discrete convolution, we find</p>
+<p><img src="https://latex.codecogs.com/png.latex?%20(f%20%5Cast%20g)%20(d)%20=%20%5Csum_%7Bd'=0%7D%5E%7BN-1%7D%20g(d')%20f(d-d')%20=%20h(d)%20=%20%5Cfrac%7Bx_d+x_%7Bd-1%7D%7D%202%20"></p>
+<p>We observe that this corresponds to our smoothing/averaging process <img src="https://latex.codecogs.com/png.latex?%5Cmathbb%20S">! It is a moving averaging operation performed on the set of points.</p>
+<p>The Fourier convolution theorem tells us, that this linear, shift-invariant operation can be written in this discrete case with the transforms</p>
+<p><img src="https://latex.codecogs.com/png.latex?%20%5Ctilde%7Bh%7D(k)%20=%20N%20%5Ctilde%7Bf%7D(k)%5C,%5Ctilde%7Bg%7D(k),%20%5C,%20k%20%5Cin%20%5C%7B0,N-1%5C%7D"></p>
+<p>If we iterate <img src="https://latex.codecogs.com/png.latex?G"> times through the smooting, we arrive at the simple result <img src="https://latex.codecogs.com/png.latex?%20%5Ctilde%7Bh%7D(k)%20=%20%5Ctilde%7Bf%7D(k)%5C,(N%5Ctilde%7Bg%7D(k))%5E%7BG%7D"></p>
+<p>This fully determines the evolution. If <img src="https://latex.codecogs.com/png.latex?N%7C%5Ctilde%20g(k)%7C%3C1">, the components at given <img src="https://latex.codecogs.com/png.latex?k"> are increasingly suppressed. <strong>With this, we got all eigenstates of the smoothign operation for free: They are apparatly the Fourier components of different <img src="https://latex.codecogs.com/png.latex?k"></strong>.</p>
+</section>
+<section id="numeric-illustration" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="numeric-illustration">Numeric Illustration</h2>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1">N <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">13</span></span>
+<span id="cb21-2">initial_points <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.random.standard_normal(N) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> np.random.standard_normal(N)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">1j</span></span>
+<span id="cb21-3">f <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> initial_points</span></code></pre></div>
+</div>
+<p>Let’s generate to above defined <img src="https://latex.codecogs.com/png.latex?g(d)"> with</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1">g <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.zeros(N)</span>
+<span id="cb22-2">g[[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span>
+<span id="cb22-3"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(g)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0.5 0.5 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0. ]</code></pre>
+</div>
+</div>
+<p>Let Python calculate the DFT, as defined above, using FFT functions</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1">f_tilde <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.fft.ifft(f)</span>
+<span id="cb24-2">g_tilde <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.fft.ifft(g)</span></code></pre></div>
+</div>
+<p>The smoothing iteration using the convolution theorem is illustrated here togehter with the Fourier transform:</p>
+<div class="cell page-columns page-full" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1">steps_per_image <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span></span>
+<span id="cb25-2">n <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span></span>
+<span id="cb25-3"></span>
+<span id="cb25-4">plt.figure(figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">25</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>]) </span>
+<span id="cb25-5"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(n):</span>
+<span id="cb25-6">    </span>
+<span id="cb25-7">    h_tilde <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.multiply(f_tilde, np.power(N<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(g_tilde), i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>steps_per_image)) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># according to convolution fourier theorem, see above</span></span>
+<span id="cb25-8">    h <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.fft.fft(h_tilde)</span>
+<span id="cb25-9"></span>
+<span id="cb25-10">    ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,n,i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb25-11">    ax.set_title(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">tilde h(k)$"</span>)</span>
+<span id="cb25-12">    ax.bar(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(N),<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(h_tilde))</span>
+<span id="cb25-13">    </span>
+<span id="cb25-14">    ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,n,i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>n<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb25-15">    ax.set_title(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$f(d)$"</span>)</span>
+<span id="cb25-16">    show_points(h, ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax)  </span></code></pre></div>
+<div class="cell-output cell-output-display column-page">
+<p><img src="https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Things seemt to work out</p>
+<section id="interpretation" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<p>As abovious from the multiplication factor <img src="https://latex.codecogs.com/png.latex?%5Ctilde%20g(k)">:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1">plt.plot(N<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(g_tilde))</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-22-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>oscillations <img src="https://latex.codecogs.com/png.latex?k=0,%201"> and <img src="https://latex.codecogs.com/png.latex?N-1"> are dominant. All other are suppressed stronger and damped out in the iteration shown above.</p>
+<p>As can be seen in the DFT defition, <img src="https://latex.codecogs.com/png.latex?k=0"> corresponds to a constant, which here represents the center of gravity of the points which does not change through iterations: <img src="https://latex.codecogs.com/png.latex?%5Ctilde%20g(0)%20=%201">. <img src="https://latex.codecogs.com/png.latex?k=1"> and <img src="https://latex.codecogs.com/png.latex?N-1"> are the already known clockwise and counterclockwise circles. If added up in a linear combination, they result in an ellipse.</p>
+<p>All the other Fourier terms are circles as well, but with winding number <img src="https://latex.codecogs.com/png.latex?W"> larger than one. Just a few examples:</p>
+<div class="cell page-columns page-full" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1">plt.figure(figsize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">25</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>]) </span>
+<span id="cb27-2">ws <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>)</span>
+<span id="cb27-3"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> i, w <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">enumerate</span>(ws):</span>
+<span id="cb27-4">    ax <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(ws), i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb27-5">    ax.set_title(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"W = "</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>(w))</span>
+<span id="cb27-6">    </span>
+<span id="cb27-7">    a <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.zeros(N)</span>
+<span id="cb27-8">    a[w <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%</span> N] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb27-9">    h <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.fft.ifft(a)</span>
+<span id="cb27-10">    </span>
+<span id="cb27-11">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(a)</span>
+<span id="cb27-12">    show_points(h, ax<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>ax)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1.]
+[1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+[0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+[0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+[0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+[0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0.]</code></pre>
+</div>
+<div class="cell-output cell-output-display column-page">
+<p><img src="https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-23-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Insofar, we have to correct our answer above: we arrive at pure circles of only winding number <img src="https://latex.codecogs.com/png.latex?W=1"> or -1 are present, not both. But any higher wining number of any sign (clockwise or counter clockwise) will be damped away anyways.</p>
+<p>Geometrically, this is obvious: the more curved, the stronger diminished are the shapes in the smoothing process.</p>
+<p>With that, we finally and ultimatley conclude :-)</p>
+
+
+</section>
+</section>
+</section>
+
+ ]]></description>
+  <category>math</category>
+  <guid>https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing.html</guid>
+  <pubDate>Sun, 26 Apr 2020 22:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

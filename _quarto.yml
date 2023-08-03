@@ -4,6 +4,8 @@ project:
 
 website:
   title: "mu2718"
+  site-url: https://mu2718.github.io
+  description: "Test description"
   navbar:
     right:
       - about.qmd
@@ -15,8 +17,6 @@ website:
             href: posts.qmd#category=gps
       - icon: github
         href: https://github.com/mu2718/
-      - icon: twitter
-        href: https://twitter.com
 format:
   html:
     theme: 

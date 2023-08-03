@@ -2,8 +2,7 @@
   {
     "listing": "/posts.html",
     "items": [
-      "/posts/post-with-code/index.html",
-      "/posts/welcome/index.html"
+      "/posts/polygon-smoothing/PolygonSmoothing.html"
     ]
   }
 ]
