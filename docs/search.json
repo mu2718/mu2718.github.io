@@ -4,21 +4,21 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this blog\nThis website is made using the amazing Quarto publishing system. Its quarto source code can be found here."
+    "text": "Hi! My name is Manuel and I am living in Switzerland. I have graduated in physics and currently I am working in IT. In this blog, I occasionally write about my hobby projects. Usually, you can expect to read about physics, electronics, math or computer science.\nThis website is built using the amazing Quarto publishing system. Its quarto source code can be found here."
   },
   {
     "objectID": "posts/polygon-smoothing/PolygonSmoothing.html",
     "href": "posts/polygon-smoothing/PolygonSmoothing.html",
     "title": "Polygon Smoothing Riddle",
     "section": "",
-    "text": "As recently brought forward in a notable but private discussion board by Dr. R. M., the following phenomenon can be observed:\n[1] https://www.jasondavies.com/random-polygon-ellipse/\nA random polygon evolves into an ellipse if we iteratively generate a new polygons with its edges being the center of the previous polygon.\nOf course, the following questions immediatley arise:\nWe try to address these in the following."
+    "text": "A random polygon evolves into an ellipse if we iteratively generate a new polygons with its edges being the center of the previous polygon: https://www.jasondavies.com/random-polygon-ellipse/\nThis phenomenon was recently brought forward in a notable but private discussion board by Dr. R. M. Of course, the following questions immediatley arise:\nWe try to address these in the following."
   },
   {
     "objectID": "posts/polygon-smoothing/PolygonSmoothing.html#definition",
     "href": "posts/polygon-smoothing/PolygonSmoothing.html#definition",
     "title": "Polygon Smoothing Riddle",
     "section": "Definition",
-    "text": "Definition\nWe represent polygon points by numbers in the complex plane. This will turn out to lead to an elegant description of the phenomenon.\nThe averaging / smoothing of the polygon by calculating the point centers is implemented with\n\ndef do_smoothing(points, steps):\n    \"\"\"Build average of neighboring points, apply it multiple times.\"\"\"\n    \n    for i in range(steps):\n        points = (points + np.roll(points, 1))/2 \n        \n    return points\n\nWe need to visualize a list of points as polygons in the following. This helper function is defined here:\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndef show_points(points, ax=None, labels=True, dots=True, linewidth=0.5):\n    \"\"\"Plot all points in complex plane. If given, use the axis given, otherwise build new figure.\"\"\"\n    \n    X = [x.real for x in points]\n    Y = [x.imag for x in points]\n    X.append(X[0]) # start point is end point\n    Y.append(Y[0])\n    \n    if ax == None:\n        fig = plt.figure(figsize=[4,4])\n        ax = fig.add_subplot(111)\n        \n    ax.set_aspect('equal', 'datalim')\n\n    if dots: ax.scatter(X,Y, color='red')\n    ax.plot(X,Y, color='black', linewidth=linewidth)\n    \n    if labels:\n        for i in range(len(points)):\n            ax.annotate(i, (X[i], Y[i]), textcoords=\"offset points\", xytext=(0,10))"
+    "text": "Definition\nWe represent polygon points by numbers in the complex plane. This will turn out to lead to an elegant description of the phenomenon.\nThe averaging / smoothing of the polygon by calculating the point centers is implemented with\n\nimport numpy as np\n\ndef do_smoothing(points, steps):\n    \"\"\"Build average of neighboring points, apply it multiple times.\"\"\"\n    \n    for i in range(steps):\n        points = (points + np.roll(points, 1))/2 \n        \n    return points\n\nWe need to visualize a list of points as polygons in the following. We define this helper function by\n\nimport matplotlib.pyplot as plt\n\ndef show_points(points, ax=None, labels=True, dots=True, linewidth=0.5):\n    \"\"\"Plot all points in complex plane. If given, use the axis given, otherwise build new figure.\"\"\"\n    \n    X = [x.real for x in points]\n    Y = [x.imag for x in points]\n    X.append(X[0]) # start point is end point\n    Y.append(Y[0])\n    \n    if ax == None:\n        fig = plt.figure(figsize=[4,4])\n        ax = fig.add_subplot(111)\n        \n    ax.set_aspect('equal', 'datalim')\n\n    if dots: ax.scatter(X,Y, color='red')\n    ax.plot(X,Y, color='black', linewidth=linewidth)\n    \n    if labels:\n        for i in range(len(points)):\n            ax.annotate(i, (X[i], Y[i]), textcoords=\"offset points\", xytext=(0,10))"
   },
   {
     "objectID": "posts/polygon-smoothing/PolygonSmoothing.html#polygon-evolution-example",
@@ -88,6 +88,6 @@
     "href": "posts.html",
     "title": "Blog Posts",
     "section": "",
-    "text": "Polygon Smoothing Riddle\n\n\n\n\n\n\n\nmath\n\n\n\n\nWe analyze an interesting geometrical phenomenon of an averaging procedure performed on polygons using linear algebra and Fourier analysis methods.\n\n\n\n\n\n\nApr 27, 2020\n\n\nManuel and Laura\n\n\n\n\n\n\nNo matching items"
+    "text": "Polygon Smoothing Riddle\n\n\n\n\n\n\n\nmath\n\n\n\n\nWe analyze a geometrical phenomenon appearing in an averaging procedure performed on polygons. Linear algebra and Fourier analysis methods give insights into the mechanism.\n\n\n\n\n\n\nApr 27, 2020\n\n\nManuel and Laura\n\n\n\n\n\n\nNo matching items"
   }
 ]

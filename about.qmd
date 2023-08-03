@@ -11,8 +11,8 @@ comments: false
 
 ---
 
-About this blog
+Hi! My name is Manuel and I am living in Switzerland. I have graduated in physics and currently I am working in IT. In this blog, I occasionally write about my hobby projects. Usually, you can expect to read about physics, electronics, math or computer science.
 
 
-This website is made using the amazing [Quarto](https://quarto.org/) publishing system. Its quarto source code can be found [here](https://github.com/mu2718/mu2718.github.io/).
+This website is built using the amazing [Quarto](https://quarto.org/) publishing system. Its quarto source code can be found [here](https://github.com/mu2718/mu2718.github.io/).
 

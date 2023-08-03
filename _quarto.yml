@@ -22,6 +22,7 @@ format:
     theme: 
       light: flatly
       dark: darkly
+    highlight-style: github
     css: styles.css
     toc: True
     include-in-header: microanalytics.html

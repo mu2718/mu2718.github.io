@@ -1,0 +1,46 @@
+---
+title: "My Post"
+description: "Post description2"
+author: "Fizz McPhee"
+date: "5/22/2021"
+draft: true
+---
+
+Hallo.
+
+asdfasjfd
+asjfdlkajdslfajsd
+
+aslkdfjalsdjf
+
+
+
+Suppose you have a new programming language called `Fomo` that is just like Python, _except_ you can define functions with `fomo` in addition to `def`.  For example, consider this Python code:
+
+```python
+def hello_world():
+    "An example"
+    pass
+```
+
+
+
+```python
+
+
+def test(x):
+  sqrt(6)
+  return 1+1
+    
+def test():
+  pass
+    
+
+```
+
+
+```bash
+quarto pandoc --list-highlight-languages
+ls -h /
+cd ..
+```
