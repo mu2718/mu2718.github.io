@@ -147,10 +147,17 @@
     "text": "About this blog"
   },
   {
+    "objectID": "index.html#recent-posts",
+    "href": "index.html#recent-posts",
+    "title": "Welcome",
+    "section": "Recent posts",
+    "text": "Recent posts\n\n\n\n\n\n\n\n\n\n\nGeodesics on Curved Surfaces\n\n\n\nApr 15, 2022\n\n\n\n\n\n\n\n\n\n\n\n\nPolygon Smoothing Riddle\n\n\n\nApr 27, 2020\n\n\n\n\n\n\n\n\nNo matching items\n\n\n See all"
+  },
+  {
     "objectID": "posts.html",
     "href": "posts.html",
     "title": "Blog Posts",
     "section": "",
-    "text": "Geodesics on Curved Surfaces\n\n\n\n\n\n\n\nmath\n\n\n\n\nWe investigate geodesics on parametrized curved surfaces which are embedded in 3D space. Visualization and computation is implemented in Python.\n\n\n\n\n\n\nApr 15, 2022\n\n\nManuel\n\n\n\n\n\n\n  \n\n\n\n\nPolygon Smoothing Riddle\n\n\n\n\n\n\n\nmath\n\n\n\n\nWe analyze a geometrical phenomenon appearing in an averaging procedure performed on polygons. Linear algebra and Fourier analysis methods give insights into the mechanism.\n\n\n\n\n\n\nApr 27, 2020\n\n\nManuel and Laura\n\n\n\n\n\n\nNo matching items"
+    "text": "Geodesics on Curved Surfaces\n\n\n\n\n\n\n\nmath\n\n\n\n\nWe investigate geodesics on parametrized curved surfaces which are embedded in 3D space. Visualization and computation is implemented in Python.\n\n\n\n\n\n\nApr 15, 2022\n\n\nManuel\n\n\n\n\n\n\n  \n\n\n\n\nPolygon Smoothing Riddle\n\n\n\n\n\n\n\nmath\n\n\nriddles\n\n\n\n\nWe analyze a geometrical phenomenon appearing in an averaging procedure performed on polygons. Linear algebra and Fourier analysis methods give insights into the mechanism.\n\n\n\n\n\n\nApr 27, 2020\n\n\nManuel and Laura\n\n\n\n\n\n\nNo matching items"
   }
 ]

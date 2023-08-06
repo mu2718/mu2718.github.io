@@ -1,3 +1,3 @@
 # mu2718.github.io
 
-GitHub pages content.
+For rendered page see <https://mu2718.github.io/>, served using GitHub pages. 

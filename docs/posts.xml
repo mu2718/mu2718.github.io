@@ -19,6 +19,7 @@
   <category>math</category>
   <guid>https://mu2718.github.io/posts/geodesics/Geodesics_on_Curved_Surfaces.html</guid>
   <pubDate>Thu, 14 Apr 2022 22:00:00 GMT</pubDate>
+  <media:content url="https://mu2718.github.io/posts/geodesics/image.png" medium="image" type="image/png"/>
 </item>
 <item>
   <title>Polygon Smoothing Riddle</title>
@@ -26,6 +27,7 @@
   <link>https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing.html</link>
   <description><![CDATA[ A random polygon evolves into an ellipse if we iteratively generate a new polygons with its edges being the center of the previous polygon: <a href="https://www.jasondavies.com/random-polygon-ellipse/" class="uri">https://www.jasondavies.com/random-polygon-ellipse/</a> ]]></description>
   <category>math</category>
+  <category>riddles</category>
   <guid>https://mu2718.github.io/posts/polygon-smoothing/PolygonSmoothing.html</guid>
   <pubDate>Sun, 26 Apr 2020 22:00:00 GMT</pubDate>
 </item>
