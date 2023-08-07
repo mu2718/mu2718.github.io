@@ -10,7 +10,17 @@
 <atom:link href="https://mu2718.github.io/posts.xml" rel="self" type="application/rss+xml"/>
 <description>Test description</description>
 <generator>quarto-1.3.361</generator>
-<lastBuildDate>Thu, 14 Apr 2022 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 14 Aug 2023 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>GPS Walkthrough – Series Introduction</title>
+  <dc:creator>Manuel </dc:creator>
+  <link>https://mu2718.github.io/posts/gps/intro.html</link>
+  <description><![CDATA[ Have you ever wondered about how the Global Positioning System (GPS) actually works in detail? I did as well, and wanted to dive into it one day. I said to myself, better buy a HackRF and a GPS antenna to be prepared for this moment, which took some time to come… ]]></description>
+  <category>GPS</category>
+  <category>physics</category>
+  <guid>https://mu2718.github.io/posts/gps/intro.html</guid>
+  <pubDate>Mon, 14 Aug 2023 22:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Geodesics on Curved Surfaces</title>
   <dc:creator>Manuel </dc:creator>
@@ -19,7 +29,7 @@
   <category>math</category>
   <guid>https://mu2718.github.io/posts/geodesics/Geodesics_on_Curved_Surfaces.html</guid>
   <pubDate>Thu, 14 Apr 2022 22:00:00 GMT</pubDate>
-  <media:content url="https://mu2718.github.io/posts/geodesics/image.png" medium="image" type="image/png"/>
+  <media:content url="https://mu2718.github.io/posts/geodesics/image.png" medium="image" type="image/png" height="137" width="144"/>
 </item>
 <item>
   <title>Polygon Smoothing Riddle</title>

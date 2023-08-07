@@ -1,7 +1,8 @@
 ---
 title: "Blog Posts"
 listing:
-  contents: posts
+  id: posts
+  contents: "posts"
   sort: "date desc"
   type: default
   categories: true
@@ -12,7 +13,6 @@ listing:
 page-layout: full
 title-block-banner: True
 comments: false
-
 ---
 
 

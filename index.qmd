@@ -1,9 +1,12 @@
 ---
 title: "Welcome"
 comments: false
+page-layout: full
+
 listing:
   - id: posts
-    contents: posts
+    contents: 
+      - "posts/"
     type: grid
     fields: [image, date, title]
     sort: "date desc"
@@ -13,16 +16,14 @@ listing:
     page-size: 3
 ---
 
-About this blog
+Hello!
+
+You might be here for the [GPS walkthrough](posts/gps/intro.qmd) post series...
 
 
-
-
-## Recent posts
+## Recent Posts
 
 ::: {#posts}
 :::
+<a href="posts/"> <button type="button" class="btn btn-primary float-end btn-sm">All Posts</button></a>
 
-<a href="posts.html"> <button type="button" class="btn btn-primary float-end btn-sm">See all</button></a>
-
-<br>
