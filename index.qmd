@@ -1,13 +1,13 @@
 ---
-title: "Welcome"
+title: "mu2718's Blog"
 comments: false
 page-layout: full
 
 listing:
   - id: posts
-    contents: 
-      - "posts/"
+    contents: "posts/"
     type: grid
+    image-height: "250px"
     fields: [image, date, title]
     sort: "date desc"
     #categories: cloud
@@ -16,14 +16,16 @@ listing:
     page-size: 3
 ---
 
-Hello!
+Hello, welcome to my page! Have a look at my [posts](posts.qmd), all about stuff I found interesting to dive into. Maybe for you as well?
 
-You might be here for the [GPS walkthrough](posts/gps/intro.qmd) post series...
+Direct links for your convenience:
+
+-  [GPS Walkthrough](posts.qmd#category=GPS) post series.
 
 
 ## Recent Posts
 
 ::: {#posts}
 :::
-<a href="posts/"> <button type="button" class="btn btn-primary float-end btn-sm">All Posts</button></a>
+<a href="posts.html"> <button type="button" class="btn btn-primary float-end btn-sm">All Posts</button></a>
 
