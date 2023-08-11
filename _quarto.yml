@@ -4,7 +4,10 @@ project:
 
 website:
   title: "mu2718"
-  site-url: https://mu2718.github.io
+  site-url: "https://mu2718.github.io"
+  google-analytics:
+    tracking-id: "G-Q3G5J0PLVE"
+    storage: none
   description: "Test description"
   navbar:
     background: primary
@@ -12,10 +15,6 @@ website:
       - about.qmd
       - text: Posts
         href: posts.qmd
-#      - text: Series
-#        menu:
-#          - text: GPS Walkthrough
-#            href: posts.qmd#category=gps
       - icon: github
         href: https://github.com/mu2718/
       - icon: rss
