@@ -1,6 +1,6 @@
 ---
 title: "GPS Walkthrough -- Series Introduction"
-description: "A Journey from Radio Wave to Position Fix. This is introduction page shows the motivation and the structuring of this blog post series."
+description: "A Journey from Radio Wave to Position Fix. This introduction post shows the goal and the structure of the blog post series."
 author: Manuel
 date: "2023-08-11"
 categories: [GPS, physics]

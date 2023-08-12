@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Manuel">
-<meta name="dcterms.date" content="2023-08-15">
-<meta name="description" content="A Journey from Radio Wave to Position Fix…">
+<meta name="dcterms.date" content="2023-08-11">
+<meta name="description" content="A Journey from Radio Wave to Position Fix. This introduction post shows the goal and the structure of the blog post series.">
 
 <title>mu2718 - GPS Walkthrough – Series Introduction</title>
 <style>
@@ -93,6 +93,20 @@ ul.task-list li input[type="checkbox"] {
     }
   })
   </script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q3G5J0PLVE"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+ 
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
+gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
+</script>
 <script data-host="https://app.microanalytics.io" data-dnt="false" src="https://app.microanalytics.io/js/script.js" id="ZwSg9rf6GA" async="" defer=""></script>
 <script async="" defer="" src="https://beampipe.io/js/tracker.js" data-beampipe-domain="mu2718.github.io"></script>
 
@@ -150,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
       <h1 class="title">GPS Walkthrough – Series Introduction</h1>
                   <div>
         <div class="description">
-          A Journey from Radio Wave to Position Fix…
+          A Journey from Radio Wave to Position Fix. This introduction post shows the goal and the structure of the blog post series.
         </div>
       </div>
                           <div class="quarto-categories">
@@ -173,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 15, 2023</p>
+        <p class="date">August 11, 2023</p>
       </div>
     </div>
     
@@ -195,7 +209,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>Have you ever wondered about how the Global Positioning System (GPS) actually works in detail? I did as well, and wanted to dive into it one day. I said to myself, better buy a HackRF and a GPS antenna to be prepared for this moment, which took some time to come…</p>
 <p>At the beginning of 2023, I stumbled across the very nice article by Ankur Mohan about “<a href="https://www.telesens.co/2017/07/17/calculating-position-from-raw-gps-data/">Calculating Position from Raw GPS Data</a>”. It finally kindled my motivation to start the long forseen hobby project. While Ankur’s article covers many interesting aspects of GPS, some are missing due to the fact that he relies on a GPS receiver which takes care of radio wave processing and time-of-flight calculation.</p>
-<p>I wanted to fill in these gaps with a little hobby project, since my original motivation was to know GPS <em>from radio wave to position fix</em>. At first, it was at unclear how realistic this goal is. But here we are, after some long nights, things fall into place and I finally know my balcony’s GPS coordinates!</p>
+<p>I wanted to fill in these gaps with a little hobby project, since my original motivation was to know GPS <em>from radio wave to position fix</em>. At first, it was at unclear how realistic this goal is. But here it is: After quite a few rather long nights I finally know my balcony’s GPS coordinates!</p>
 <p>Due to the very diverse topics involved, I found that it might be interesting for others as well. The idea of a walkthrough was born, where we go step-by-step together with theoretical explanations, practical number-crunching and visualizations along the way. To be honest: This journey involves quite a deal of machinery. But in order achieve the goal to really understand it in-depth, we will never rely on black boxes (like high-level software routines) but start from first-principles available to anyone with some highschool math background or good motivation to look things up. Be prepared to learn about</p>
 <ul>
 <li>radio waves and their mathematical description,</li>
@@ -205,13 +219,13 @@ ul.task-list li input[type="checkbox"] {
 <li>GPS (!), its radio signal, telemetry data, and coordinate systems,</li>
 <li>a little physics, as in Doppler shift, Sagnac effect, relativistic time dilation, and orbit calculation,</li>
 <li>flat earth hypothesis is rather difficult to defend considering the results we get here,</li>
-<li>and the metric system might be not such a bad idea after all.</li>
+<li>and the metric units system might be not such a bad idea after all.</li>
 </ul>
 <p>In case you managed to read this far and are still interested, despite of these details we will have to deal with, you are very welcome to continue with me. I promise that at the end we will find the location of my (or your) balcony to better than 2 meters accuracy within a volume of space of more than 25’000 km in diameter!</p>
 </section>
 <section id="walkthrough-steps" class="level2">
 <h2 class="anchored" data-anchor-id="walkthrough-steps">Walkthrough Steps</h2>
-<p>The GPS walkthrough investigates the GPS L1 C/A signal<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, from radio wave to position fix, by performing all calculations in Python using NumPy. It consists of the following steps, each with its dedicated blog post:</p>
+<p>The GPS walkthrough investigates the GPS L1 C/A signal<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> by performing the analysis in Python using NumPy. It consists of the following steps, each with its dedicated blog post:</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -226,8 +240,8 @@ Jupyter Notebooks
 </div>
 </div>
 <ol type="1">
-<li><p><strong><a href="../../posts/gps/1_overview/overview.html">Overview</a></strong>: This post gives an overview by quickly going over all steps and their results, i.e.&nbsp;from radio wave recording to the calculation of the position fix. Detailed analysis and explanations are lacking here. I hope this motivates you to dive deeper in the following.</p></li>
-<li><p><strong>Radio Wave Recording</strong>: I explain how to use the HackRF receiver and a GPS antenna for recording of the GPS radio wave. In case this hardware equipment is not available, it is shown how to be generated artificially. The recording is read and analyzed for signal quality.</p>
+<li><p><strong>Overview</strong>: This post gives an overview by quickly going over all steps and their results, i.e.&nbsp;from radio wave recording to the calculation of the position fix. Detailed analysis and explanations are lacking here. I hope this motivates you to dive deeper in the following.</p></li>
+<li><p><strong>Radio Wave Theory and Recording</strong>: I explain how to use the HackRF receiver and a GPS antenna for recording of the GPS radio wave. In case this hardware equipment is not available, it is shown how to be generated artificially. The recording is read and analyzed for signal quality.</p>
 <p>For getting an understanding of the recorded data as required later, a mathematical model of the radio wave is introduced and the basic principles of a radio receiver sketched. We look into numerical examples and their visualizations for intuition of the theory, as well as an introduction to NumPy.</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -253,13 +267,13 @@ Record your own GPS signal?
 </div>
 </div>
 <ol start="3" type="1">
-<li><p><strong>GPS Signal Theory and Acquisition</strong>: GPS Signals are very weak, even fainter than background noise of the environment. Knowledge of the sent signal type is required in order to detect it using correlation techniques. Here we investigate the specific nature of the GPS signal, play with its properties.</p>
+<li><p><strong>GPS Signal Theory and Acquisition</strong>: GPS Signals are very low power, even weaker than background noise picked up from environment. Knowledge of the sent signal type is required in order to detect it using correlation techniques. Here we investigate the specific nature of the GPS signal and play with its properties.</p>
 <p>Furthermore, we have to discuss effects which distort the received signal. Having this in mind, we finally are able to detect the GPS signal in our recording and identify the available satellites and their signal strength.</p></li>
 <li><p><strong>Signal Tracking</strong>: The former acquisition step needed to perform a blind search for every satellite, which showed to be rather instable to noisy signals and expensive in terms of computation time, even for very short time periods. But once that we found a signal by this procedure, we will find out together how to lock onto it and keep reception stable. This allows us to demodulate the data stream being sent efficiently.</p></li>
-<li><p><strong>Telemetry Decoding and Orbital Position Calculation</strong>: Having a demodulated signal at hand, we get the transmitted bits and bytes after a little synchronization procedure. We dive a little into the specs of GPS. This allows us interpret the telemetry messages with its very precise send time information and orbital parameters.</p>
-<p>Using telemetry information, we can calculate the position of every satellite at every instant of time. Despite their high velocity (4 km/s), this better happens at an accuracy below a few meters, since the quality of our position fix will directly depend on it.</p></li>
-<li><p><strong>Pseudo-Range and Position Fix Calculation</strong>: The send time information and the actual moment of reception, as measured by our receiver’s clock, allows us to determine the time-of-flight of the signal from every satellite independently. Since we have no atomic but a cheap, inaccurate receiver clock, we will need to compensate for this accordingly. The time-of-flight translates to an apparent distance (pseudo-range) due to the constant speed of light.</p>
-<p>Having come this far, we know for every moment in our recording the positions of every satellite and their distance from us. Using suitable optimization methods, we can find our position with a few meters accuracy within the huge space spanning tens of thousands of kilometers!</p></li>
+<li><p><strong>Telemetry Decoding and Orbital Position Calculation</strong>: Having a demodulated signal at hand, we get the transmitted bits and bytes after a straightforward synchronization procedure. We dive a little into the specs of GPS. This allows us interpret the telemetry messages with its very precise send time information and orbital parameters.</p>
+<p>Using the telemetry information, we can calculate the position of every satellite at every instant of time. Despite their high velocity (4 km/s) and altitude (20000 km), this better happens at an accuracy below a few meters, since we cannot expect a high position fix accuracy if we don’t know the satellite positions equally well.</p></li>
+<li><p><strong>Pseudo-Range and Position Fix Calculation</strong>: The send time information and the actual moment of reception, as measured by our receiver’s clock, allows us to determine the time-of-flight of the signal from every satellite independently. Since we have no atomic but a cheap, inaccurate receiver clock, we will need to compensate for this accordingly. The time-of-flight translates to an apparent distance, called pseudo-range, due to the (nearly) constant speed of light. To get the desired positioning accuracy, we need to achieve a time-of-flight error below a few nanoseconds.</p>
+<p>Having come this far, we now know for every moment in our recording the positions of every satellite and their distance from us. Using suitable optimization methods, we find our position with a few meters accuracy within the huge space spanning tens of thousands of kilometers!</p></li>
 </ol>
 <p>Please be patient for these announced posts to be published and motivate me with encouraging comments 🙂 If you want to be noticed about it, subscribe to my newsletter. Already available posts are:</p>
 
@@ -281,6 +295,7 @@ No matching items
 <li id="fn1"><p>For GPS L1 C/A details, see <a href="https://gssc.esa.int/navipedia/index.php/GPS_Signal_Plan#GPS_L1_Band" class="uri">https://gssc.esa.int/navipedia/index.php/GPS_Signal_Plan#GPS_L1_Band</a> and <a href="https://en.wikipedia.org/wiki/GPS_signals#Legacy_GPS_signals" class="uri">https://en.wikipedia.org/wiki/GPS_signals#Legacy_GPS_signals</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
+
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

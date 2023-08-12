@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>mu2718 - mu2718’s Blog</title>
+<title>mu2718 - mu2718’s Newsletter</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -61,35 +59,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-posts .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-posts'] = new List('listing-posts', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q3G5J0PLVE"></script>
 
 <script type="text/javascript">
@@ -107,8 +76,6 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 <script data-host="https://app.microanalytics.io" data-dnt="false" src="https://app.microanalytics.io/js/script.js" id="ZwSg9rf6GA" async="" defer=""></script>
 <script async="" defer="" src="https://beampipe.io/js/tracker.js" data-beampipe-domain="mu2718.github.io"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -164,7 +131,7 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">mu2718’s Blog</h1>
+<h1 class="title">mu2718’s Newsletter</h1>
 </div>
 
 
@@ -179,83 +146,11 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 
 </header>
 
-<p>Hello, welcome to my page! Have a look at my <a href="./posts.html">posts</a>, all about stuff I found interesting to dive into. Maybe for you as well?</p>
-<p>Subscribe to my <a href="./newsletter.html">newsletter</a> for being updated.</p>
-<section id="direct-links" class="level2">
-<h2 class="anchored" data-anchor-id="direct-links">Direct Links</h2>
-<ul>
-<li><a href="./posts.html#category=GPS">GPS Walkthrough</a> post series.</li>
-</ul>
-</section>
-<section id="recent-posts" class="level2">
-<h2 class="anchored" data-anchor-id="recent-posts">Recent Posts</h2>
-<div id="listing-posts" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="GPS,physics" data-listing-date-sort="1691704800000" data-listing-file-modified-sort="1691837760800" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
-<a href="./posts/gps/intro.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/gps/gps-sat.jpg" class="thumbnail-image card-img" style="height: 250px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-GPS Walkthrough – Series Introduction
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Aug 11, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="math" data-listing-date-sort="1649973600000" data-listing-file-modified-sort="1691324463470" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
-<a href="./posts/geodesics/Geodesics_on_Curved_Surfaces.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/geodesics/image.png" class="thumbnail-image card-img" style="height: 250px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Geodesics on Curved Surfaces
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Apr 15, 2022
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="math,riddles" data-listing-date-sort="1587938400000" data-listing-file-modified-sort="1691101275134" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10">
-<a href="./posts/polygon-smoothing/PolygonSmoothing.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-4-output-1.png" style="height: 250px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Polygon Smoothing Riddle
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Apr 27, 2020
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-<p><a href="posts.html"> <button type="button" class="btn btn-primary float-end btn-sm">All Posts</button></a></p>
+<p>With the mail newsletter, I will inform you about updates and new blog posts. You can unsubscribe anytime.</p>
+<iframe src="https://embeds.beehiiv.com/a90777eb-d0b3-49ed-bc15-ed34954eac7b?slim=true" data-test-id="beehiiv-embed" height="52" width="400" frameborder="0" scrolling="no" style="margin: 0; border-radius: 0px !important; background-color: transparent;">
+</iframe>
 
 
-
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

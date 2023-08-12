@@ -18,9 +18,15 @@ listing:
 
 Hello, welcome to my page! Have a look at my [posts](posts.qmd), all about stuff I found interesting to dive into. Maybe for you as well?
 
-Direct links for your convenience:
+Subscribe to my [newsletter](newsletter.qmd) for being updated.
+
+
+
+## Direct Links 
 
 -  [GPS Walkthrough](posts.qmd#category=GPS) post series.
+
+
 
 
 ## Recent Posts

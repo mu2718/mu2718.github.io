@@ -1,0 +1,10 @@
+---
+title: "mu2718's Newsletter"
+comments: false
+page-layout: full
+---
+
+With the mail newsletter, I will inform you about updates and new blog posts. You can unsubscribe anytime.
+
+<iframe src="https://embeds.beehiiv.com/a90777eb-d0b3-49ed-bc15-ed34954eac7b?slim=true" data-test-id="beehiiv-embed" height="52" width="400" frameborder="0" scrolling="no" style="margin: 0; border-radius: 0px !important; background-color: transparent;"></iframe>
+

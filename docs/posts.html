@@ -90,6 +90,20 @@ ul.task-list li input[type="checkbox"] {
     }
   })
   </script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q3G5J0PLVE"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+ 
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied'
+  });
+gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
+</script>
 <script data-host="https://app.microanalytics.io" data-dnt="false" src="https://app.microanalytics.io/js/script.js" id="ZwSg9rf6GA" async="" defer=""></script>
 <script async="" defer="" src="https://beampipe.io/js/tracker.js" data-beampipe-domain="mu2718.github.io"></script>
 
@@ -168,15 +182,37 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<p>Subscribe to the <a href="./newsletter.html">newsletter</a> for updates.</p>
 
 
 
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-posts">
+<div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+     <select id="listing-posts-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-posts'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+       <option value="" disabled="" selected="" hidden="">Order By</option>
+       <option value="index" data-direction="asc">Default</option>
+         <option value="listing-title" data-direction="asc">
+          Title
+        </option>
+         <option value="listing-date-sort" data-direction="asc">
+          Date - Oldest
+        </option>
+         <option value="listing-date-sort" data-direction="desc">
+          Date - Newest
+        </option>
+         <option value="listing-author" data-direction="asc">
+          Author
+        </option>
+     </select>
+  </div>
+</div>
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="GPS,physics" data-listing-date-sort="1692050400000" data-listing-file-modified-sort="1691446695531" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
+<div class="quarto-post image-right" data-index="0" data-categories="GPS,physics" data-listing-date-sort="1691704800000" data-listing-file-modified-sort="1691837760800" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
 <div class="thumbnail">
-<p><a href="./posts/gps/intro.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
+<p><a href="./posts/gps/intro.html"> <img src="./posts/gps/gps-sat.jpg" class="thumbnail-image"> </a></p>
 </div>
 <div class="body">
 <a href="./posts/gps/intro.html">
@@ -197,14 +233,14 @@ physics
 </div>
 <a href="./posts/gps/intro.html">
 <div class="listing-description">
-<p>A Journey from Radio Wave to Position Fix…</p>
+<p>A Journey from Radio Wave to Position Fix. This introduction post shows the goal and the structure of the blog post series.</p>
 </div>
 </a>
 </div>
 <div class="metadata">
 <a href="./posts/gps/intro.html">
 <div class="listing-date">
-Aug 15, 2023
+Aug 11, 2023
 </div>
 <div class="listing-author">
 Manuel

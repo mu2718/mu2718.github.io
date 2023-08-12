@@ -6,7 +6,7 @@ listing:
   sort: "date desc"
   type: default
   categories: true
-  sort-ui: false
+  sort-ui: true
   filter-ui: false
   feed:
     type: partial
@@ -15,4 +15,4 @@ title-block-banner: True
 comments: false
 ---
 
-
+Subscribe to the [newsletter](newsletter.qmd) for updates.
