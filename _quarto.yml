@@ -7,8 +7,8 @@ website:
   site-url: "https://mu2718.github.io"
   google-analytics:
     tracking-id: "G-Q3G5J0PLVE"
-    storage: none
-  description: "Test description"
+    storage: cookies
+  description: "mu2718's Blog"
   navbar:
     background: primary
     right:
@@ -19,15 +19,14 @@ website:
         href: https://github.com/mu2718/
       - icon: rss
         href: posts.xml
+
 format:
   html:
     theme: 
       light: cosmo
     highlight-style: github
-    #css: styles.css
     toc: False
     include-in-header: microanalytics.html
-
 
 comments:
   giscus:
