@@ -16,16 +16,16 @@ listing:
     page-size: 3
 ---
 
-Hello, welcome to my page! Have a look at my [posts](posts.qmd), all about stuff I found interesting to dive into. Maybe for you as well?
+Hello and welcome to my page! Have a look at my [posts](posts.qmd) which are topics I found interesting to dive into. Maybe for you as well?
 
 Subscribe to my [newsletter](newsletter.qmd) for being updated.
 
 
-
 ## Direct Links 
 
--  [GPS Walkthrough](posts.qmd#category=GPS) post series.
+- [GPS walkthrough](posts.qmd#category=GPS) post series,
 
+- [mu2718 on GitHub](https://github.com/mu2718).
 
 
 

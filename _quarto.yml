@@ -11,14 +11,18 @@ website:
   description: "mu2718's Blog"
   navbar:
     background: primary
-    right:
-      - about.qmd
+    left:
       - text: Posts
         href: posts.qmd
+      - about.qmd
+
+    tools:
       - icon: github
-        href: https://github.com/mu2718/
+        href: https://github.com/mu2718/ "asdf"
+        text: "mu2718 on GitHub"
       - icon: rss
         href: posts.xml
+        text: Blog RSS Feed
 
 format:
   html:
