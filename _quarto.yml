@@ -32,10 +32,6 @@ format:
     toc: False
     include-in-header: microanalytics.html
 
-comments:
-  giscus:
-    repo: mu2718/mu2718.github.io
-
 
 
 

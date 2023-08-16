@@ -6,13 +6,12 @@ listing:
   sort: "date desc"
   type: default
   categories: true
-  sort-ui: true
+  sort-ui: false
   filter-ui: false
   feed:
     type: partial
 page-layout: full
 title-block-banner: True
-comments: false
 ---
 
 Subscribe to the [newsletter](newsletter.qmd) for updates.

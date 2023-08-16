@@ -1,6 +1,5 @@
 ---
 title: "mu2718's Blog"
-comments: false
 page-layout: full
 
 listing:
@@ -16,17 +15,16 @@ listing:
     page-size: 3
 ---
 
-Hello and welcome to my page! Have a look at my [posts](posts.qmd) which are topics I found interesting to dive into. Maybe for you as well?
+Welcome to my page! 
 
-Subscribe to my [newsletter](newsletter.qmd) for being updated.
+Have a look at my [posts](posts.qmd) which are topics I found interesting to dive into. Maybe for you as well? Subscribe to my [newsletter](newsletter.qmd) for being updated.
 
 
-## Direct Links 
+## Links 
 
-- [GPS walkthrough](posts.qmd#category=GPS) post series,
+- [GPS walkthrough](posts.qmd#category=GPS) post series
 
-- [mu2718 on GitHub](https://github.com/mu2718).
-
+- [mu2718 on GitHub](https://github.com/mu2718)
 
 
 ## Recent Posts

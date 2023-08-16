@@ -7,11 +7,11 @@ about:
     - icon: github
       text: Github
       href: https://github.com/mu2718/
-comments: false
-
 ---
 
-Hi! My name is Manuel and I am living in Switzerland. I have graduated in physics and currently I am working in IT. In this blog, I occasionally write about my hobby projects. Usually, you can expect to read about physics, electronics, math or computer science.
+Hi! My name is Manuel and I am living in Switzerland. I have graduated in physics and currently I am working in IT. In this blog, I occasionally write about my hobby projects. Usually, you can expect to read about riddles, physics, electronics, math or computer science.
+
+In case you are wondering about the nickname: One possible interpretation identifies 'mu' being the greek letter μ and 2718 the sequence of Euler's number *e*. Therefore mu2718 could stand for *μe*, or in latin letters 'me' 🙂
 
 
 This website is built using the amazing [Quarto](https://quarto.org/) publishing system. Its source code can be found [here](https://github.com/mu2718/mu2718.github.io/).

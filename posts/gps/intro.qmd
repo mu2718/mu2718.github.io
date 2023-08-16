@@ -1,15 +1,15 @@
 ---
-title: "GPS Walkthrough -- Series Introduction"
-description: "A Journey from Radio Wave to Position Fix. This introduction post shows the goal and the structure of the blog post series."
+title: "GPS Walkthrough  -- A Journey from Radio Wave to Position Fix"
+subtitle: Introduction of the Series
+abstract: "The GPS walkthrough post series will guide you to through the process of fully implementing GPS position fix calculation from a recorded radio wave signal. In this introduction, I lay out the motivation, goals and steps to follow in separate blog posts."
 author: Manuel
 date: "2023-08-11"
 categories: [GPS, physics]
-# page-layout: article
 image: gps-sat.jpg
 toc: false
 
 listing:
-  contents: "*/*.qmd"
+  contents: "*/*.ipynb"
   sort: "date asc"
   fields: [date, title]
   type: default
@@ -20,7 +20,7 @@ listing:
 
 ## Introduction 
 
-Have you ever wondered about how the Global Positioning System (GPS) actually works in detail? I did as well, and wanted to dive into it one day. I said to myself, better buy a HackRF and a GPS antenna to be prepared for this moment, which took some time to come...
+Have you ever wondered how the Global Positioning System (GPS) actually works in detail? I did as well, and wanted to dive into it one day. I said to myself, better buy a HackRF and a GPS antenna to be prepared for this moment, which took some time to come...
 
 At the beginning of 2023, I stumbled across the very nice article by Ankur Mohan about "[Calculating Position from Raw GPS Data](https://www.telesens.co/2017/07/17/calculating-position-from-raw-gps-data/)". It finally kindled my motivation to start the long forseen hobby project. While Ankur's article covers many interesting aspects of GPS, some are missing due to the fact that he relies on a GPS receiver which takes care of radio wave processing and time-of-flight calculation. 
 
@@ -38,7 +38,7 @@ To be honest: This journey involves quite a deal of machinery. But in order achi
 - flat earth hypothesis is rather difficult to defend considering the results we get here, 
 - and the metric units system might be not such a bad idea after all.
 
-In case you managed to read this far and are still interested, despite of these details we will have to deal with, you are very welcome to continue with me. I promise that at the end we will find the location of my (or your) balcony to better than 2 meters accuracy within a volume of space of more than 25'000 km in diameter! 
+In case you managed to read this far and are still interested, despite of these details we will have to deal with, you are very welcome to continue with me. I promise that at the end we will find the location of my (or your) balcony to better than 2 meters accuracy within a volume of space of more than 50'000 km in diameter! 
 
 
 ## Walkthrough Steps

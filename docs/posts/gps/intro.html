@@ -8,9 +8,8 @@
 
 <meta name="author" content="Manuel">
 <meta name="dcterms.date" content="2023-08-11">
-<meta name="description" content="A Journey from Radio Wave to Position Fix. This introduction post shows the goal and the structure of the blog post series.">
 
-<title>mu2718 - GPS Walkthrough – Series Introduction</title>
+<title>mu2718 - GPS Walkthrough – A Journey from Radio Wave to Position Fix</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -148,13 +147,9 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">GPS Walkthrough – Series Introduction</h1>
-                  <div>
-        <div class="description">
-          A Journey from Radio Wave to Position Fix. This introduction post shows the goal and the structure of the blog post series.
-        </div>
-      </div>
-                          <div class="quarto-categories">
+      <h1 class="title">GPS Walkthrough – A Journey from Radio Wave to Position Fix</h1>
+            <p class="subtitle lead">Introduction of the Series</p>
+                                <div class="quarto-categories">
                 <div class="quarto-category">GPS</div>
                 <div class="quarto-category">physics</div>
               </div>
@@ -181,6 +176,12 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
       
     </div>
     
+  <div>
+    <div class="abstract">
+      <div class="abstract-title">Abstract</div>
+      The GPS walkthrough post series will guide you to through the process of fully implementing GPS position fix calculation from a recorded radio wave signal. In this introduction, I lay out the motivation, goals and steps to follow in separate blog posts.
+    </div>
+  </div>
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
@@ -194,7 +195,7 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Have you ever wondered about how the Global Positioning System (GPS) actually works in detail? I did as well, and wanted to dive into it one day. I said to myself, better buy a HackRF and a GPS antenna to be prepared for this moment, which took some time to come…</p>
+<p>Have you ever wondered how the Global Positioning System (GPS) actually works in detail? I did as well, and wanted to dive into it one day. I said to myself, better buy a HackRF and a GPS antenna to be prepared for this moment, which took some time to come…</p>
 <p>At the beginning of 2023, I stumbled across the very nice article by Ankur Mohan about “<a href="https://www.telesens.co/2017/07/17/calculating-position-from-raw-gps-data/">Calculating Position from Raw GPS Data</a>”. It finally kindled my motivation to start the long forseen hobby project. While Ankur’s article covers many interesting aspects of GPS, some are missing due to the fact that he relies on a GPS receiver which takes care of radio wave processing and time-of-flight calculation.</p>
 <p>I wanted to fill in these gaps with a little hobby project, since my original motivation was to know GPS <em>from radio wave to position fix</em>. At first, it was at unclear how realistic this goal is. But here it is: After quite a few rather long nights I finally know my balcony’s GPS coordinates!</p>
 <p>Due to the very diverse topics involved, I found that it might be interesting for others as well. The idea of a walkthrough was born, where we go step-by-step together with theoretical explanations, practical number-crunching and visualizations along the way. To be honest: This journey involves quite a deal of machinery. But in order achieve the goal to really understand it in-depth, we will never rely on black boxes (like high-level software routines) but start from first-principles available to anyone with some highschool math background or good motivation to look things up. Be prepared to learn about</p>
@@ -208,7 +209,7 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 <li>flat earth hypothesis is rather difficult to defend considering the results we get here,</li>
 <li>and the metric units system might be not such a bad idea after all.</li>
 </ul>
-<p>In case you managed to read this far and are still interested, despite of these details we will have to deal with, you are very welcome to continue with me. I promise that at the end we will find the location of my (or your) balcony to better than 2 meters accuracy within a volume of space of more than 25’000 km in diameter!</p>
+<p>In case you managed to read this far and are still interested, despite of these details we will have to deal with, you are very welcome to continue with me. I promise that at the end we will find the location of my (or your) balcony to better than 2 meters accuracy within a volume of space of more than 50’000 km in diameter!</p>
 </section>
 <section id="walkthrough-steps" class="level2">
 <h2 class="anchored" data-anchor-id="walkthrough-steps">Walkthrough Steps</h2>

@@ -71,9 +71,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-author','listing-subtitle','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -175,39 +175,18 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-posts">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-     <select id="listing-posts-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-posts'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-       <option value="" disabled="" selected="" hidden="">Order By</option>
-       <option value="index" data-direction="asc">Default</option>
-         <option value="listing-title" data-direction="asc">
-          Title
-        </option>
-         <option value="listing-date-sort" data-direction="asc">
-          Date - Oldest
-        </option>
-         <option value="listing-date-sort" data-direction="desc">
-          Date - Newest
-        </option>
-         <option value="listing-author" data-direction="asc">
-          Author
-        </option>
-     </select>
-  </div>
-</div>
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="GPS,physics" data-listing-date-sort="1691704800000" data-listing-file-modified-sort="1691837760800" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
+<div class="quarto-post image-right" data-index="0" data-categories="GPS,physics" data-listing-date-sort="1691704800000" data-listing-file-modified-sort="1692211838048" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
 <div class="thumbnail">
 <p><a href="./posts/gps/intro.html"> <img src="./posts/gps/gps-sat.jpg" class="thumbnail-image"> </a></p>
 </div>
 <div class="body">
 <a href="./posts/gps/intro.html">
 <h3 class="no-anchor listing-title">
-GPS Walkthrough – Series Introduction
+GPS Walkthrough – A Journey from Radio Wave to Position Fix
 </h3>
 <div class="listing-subtitle">
-
+Introduction of the Series
 </div>
 </a>
 <div class="listing-categories">
@@ -220,7 +199,7 @@ physics
 </div>
 <a href="./posts/gps/intro.html">
 <div class="listing-description">
-<p>A Journey from Radio Wave to Position Fix. This introduction post shows the goal and the structure of the blog post series.</p>
+<p>The GPS walkthrough post series will guide you to through the process of fully implementing GPS position fix calculation from a recorded radio wave signal. In this introduction, I lay out the motivation, goals and steps to follow in separate blog posts.</p>
 </div>
 </a>
 </div>
@@ -235,7 +214,7 @@ Manuel
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="math" data-listing-date-sort="1649973600000" data-listing-file-modified-sort="1691324463470" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="quarto-post image-right" data-index="1" data-categories="math" data-listing-date-sort="1649973600000" data-listing-file-modified-sort="1692211362866" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
 <div class="thumbnail">
 <p><a href="./posts/geodesics/Geodesics_on_Curved_Surfaces.html"> <img src="./posts/geodesics/image.png" class="thumbnail-image"> </a></p>
 </div>
@@ -270,7 +249,7 @@ Manuel
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="math,riddles" data-listing-date-sort="1587938400000" data-listing-file-modified-sort="1691101275134" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10">
+<div class="quarto-post image-right" data-index="2" data-categories="math,riddles" data-listing-date-sort="1587938400000" data-listing-file-modified-sort="1692211341262" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10">
 <div class="thumbnail">
 <p><a href="./posts/polygon-smoothing/PolygonSmoothing.html"> <p class="card-img-top"><img src="posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-4-output-1.png"  class="thumbnail-image card-img"/></p> </a></p>
 </div>
