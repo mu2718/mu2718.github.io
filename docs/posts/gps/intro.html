@@ -8,6 +8,7 @@
 
 <meta name="author" content="Manuel">
 <meta name="dcterms.date" content="2023-08-11">
+<meta name="description" content="This post series will guide you to through the calculation of a position fix from a recorded GPS radio wave signal. In this introduction, the motivation, goals and steps to follow are presented.">
 
 <title>mu2718 - GPS Walkthrough – A Journey from Radio Wave to Position Fix</title>
 <style>
@@ -136,7 +137,7 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
   </li>  
 </ul>
             <div class="quarto-navbar-tools ms-auto">
-    <a href="https://github.com/mu2718/ &quot;asdf&quot;" title="mu2718 on GitHub" class="quarto-navigation-tool px-1" aria-label="mu2718 on GitHub"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/mu2718/" title="mu2718 on GitHub" class="quarto-navigation-tool px-1" aria-label="mu2718 on GitHub"><i class="bi bi-github"></i></a>
     <a href="../../posts.xml" title="Blog RSS Feed" class="quarto-navigation-tool px-1" aria-label="Blog RSS Feed"><i class="bi bi-rss"></i></a>
 </div>
           </div> <!-- /navcollapse -->
@@ -148,8 +149,12 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">GPS Walkthrough – A Journey from Radio Wave to Position Fix</h1>
-            <p class="subtitle lead">Introduction of the Series</p>
-                                <div class="quarto-categories">
+                  <div>
+        <div class="description">
+          This post series will guide you to through the calculation of a position fix from a recorded GPS radio wave signal. In this introduction, the motivation, goals and steps to follow are presented.
+        </div>
+      </div>
+                          <div class="quarto-categories">
                 <div class="quarto-category">GPS</div>
                 <div class="quarto-category">physics</div>
               </div>
@@ -176,12 +181,6 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
       
     </div>
     
-  <div>
-    <div class="abstract">
-      <div class="abstract-title">Abstract</div>
-      The GPS walkthrough post series will guide you to through the process of fully implementing GPS position fix calculation from a recorded radio wave signal. In this introduction, I lay out the motivation, goals and steps to follow in separate blog posts.
-    </div>
-  </div>
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
@@ -195,9 +194,9 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Have you ever wondered how the Global Positioning System (GPS) actually works in detail? I did as well, and wanted to dive into it one day. I said to myself, better buy a HackRF and a GPS antenna to be prepared for this moment, which took some time to come…</p>
-<p>At the beginning of 2023, I stumbled across the very nice article by Ankur Mohan about “<a href="https://www.telesens.co/2017/07/17/calculating-position-from-raw-gps-data/">Calculating Position from Raw GPS Data</a>”. It finally kindled my motivation to start the long forseen hobby project. While Ankur’s article covers many interesting aspects of GPS, some are missing due to the fact that he relies on a GPS receiver which takes care of radio wave processing and time-of-flight calculation.</p>
-<p>I wanted to fill in these gaps with a little hobby project, since my original motivation was to know GPS <em>from radio wave to position fix</em>. At first, it was at unclear how realistic this goal is. But here it is: After quite a few rather long nights I finally know my balcony’s GPS coordinates!</p>
+<p>Have you ever wondered how the Global Positioning System (GPS) actually works in detail? I did as well, and wanted to dive into it one day…</p>
+<p>At the beginning of 2023, I stumbled across the very nice article by Ankur Mohan about “<a href="https://www.telesens.co/2017/07/17/calculating-position-from-raw-gps-data/">Calculating Position from Raw GPS Data</a>”. It finally kindled my motivation to start the long forseen project. While Ankur’s article covers many interesting aspects of GPS, some are missing due to the fact that he relies on a GPS receiver which takes care of radio wave processing and time-of-flight calculation.</p>
+<p>I wanted to fill in these gaps since my original motivation was to know GPS <em>from radio wave to position fix</em>. At first, it was at unclear how realistic this goal is. But here it is: After quite a few rather long nights, I finally know my balcony’s GPS coordinates!</p>
 <p>Due to the very diverse topics involved, I found that it might be interesting for others as well. The idea of a walkthrough was born, where we go step-by-step together with theoretical explanations, practical number-crunching and visualizations along the way. To be honest: This journey involves quite a deal of machinery. But in order achieve the goal to really understand it in-depth, we will never rely on black boxes (like high-level software routines) but start from first-principles available to anyone with some highschool math background or good motivation to look things up. Be prepared to learn about</p>
 <ul>
 <li>radio waves and their mathematical description,</li>
@@ -259,7 +258,7 @@ Record your own GPS signal?
 <p>Furthermore, we have to discuss effects which distort the received signal. Having this in mind, we finally are able to detect the GPS signal in our recording and identify the available satellites and their signal strength.</p></li>
 <li><p><strong>Signal Tracking</strong>: The former acquisition step needed to perform a blind search for every satellite, which showed to be rather instable to noisy signals and expensive in terms of computation time, even for very short time periods. But once that we found a signal by this procedure, we will find out together how to lock onto it and keep reception stable. This allows us to demodulate the data stream being sent efficiently.</p></li>
 <li><p><strong>Telemetry Decoding and Orbital Position Calculation</strong>: Having a demodulated signal at hand, we get the transmitted bits and bytes after a straightforward synchronization procedure. We dive a little into the specs of GPS. This allows us interpret the telemetry messages with its very precise send time information and orbital parameters.</p>
-<p>Using the telemetry information, we can calculate the position of every satellite at every instant of time. Despite their high velocity (4 km/s) and altitude (20000 km), this better happens at an accuracy below a few meters, since we cannot expect a high position fix accuracy if we don’t know the satellite positions equally well.</p></li>
+<p>Using the telemetry information, we can calculate the position of every satellite at every instant of time. Despite their high velocity (4 km/s) and altitude (20’000 km), this better happens at an accuracy below a few meters, since we cannot expect a high position fix accuracy if we don’t know the satellite positions equally well.</p></li>
 <li><p><strong>Pseudo-Range and Position Fix Calculation</strong>: The send time information and the actual moment of reception, as measured by our receiver’s clock, allows us to determine the time-of-flight of the signal from every satellite independently. Since we have no atomic but a cheap, inaccurate receiver clock, we will need to compensate for this accordingly. The time-of-flight translates to an apparent distance, called pseudo-range, due to the (nearly) constant speed of light. To get the desired positioning accuracy, we need to achieve a time-of-flight error below a few nanoseconds.</p>
 <p>Having come this far, we now know for every moment in our recording the positions of every satellite and their distance from us. Using suitable optimization methods, we find our position with a few meters accuracy within the huge space spanning tens of thousands of kilometers!</p></li>
 </ol>

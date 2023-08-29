@@ -1,7 +1,7 @@
 ---
 title: "GPS Walkthrough  -- A Journey from Radio Wave to Position Fix"
-subtitle: Introduction of the Series
-abstract: "The GPS walkthrough post series will guide you to through the process of fully implementing GPS position fix calculation from a recorded radio wave signal. In this introduction, I lay out the motivation, goals and steps to follow in separate blog posts."
+# subtitle: Introduction of the Series
+description: "This post series will guide you to through the calculation of a position fix from a recorded GPS radio wave signal. In this introduction, the motivation, goals and steps to follow are presented."
 author: Manuel
 date: "2023-08-11"
 categories: [GPS, physics]
@@ -20,11 +20,11 @@ listing:
 
 ## Introduction 
 
-Have you ever wondered how the Global Positioning System (GPS) actually works in detail? I did as well, and wanted to dive into it one day. I said to myself, better buy a HackRF and a GPS antenna to be prepared for this moment, which took some time to come...
+Have you ever wondered how the Global Positioning System (GPS) actually works in detail? I did as well, and wanted to dive into it one day...
 
-At the beginning of 2023, I stumbled across the very nice article by Ankur Mohan about "[Calculating Position from Raw GPS Data](https://www.telesens.co/2017/07/17/calculating-position-from-raw-gps-data/)". It finally kindled my motivation to start the long forseen hobby project. While Ankur's article covers many interesting aspects of GPS, some are missing due to the fact that he relies on a GPS receiver which takes care of radio wave processing and time-of-flight calculation. 
+At the beginning of 2023, I stumbled across the very nice article by Ankur Mohan about "[Calculating Position from Raw GPS Data](https://www.telesens.co/2017/07/17/calculating-position-from-raw-gps-data/)". It finally kindled my motivation to start the long forseen project. While Ankur's article covers many interesting aspects of GPS, some are missing due to the fact that he relies on a GPS receiver which takes care of radio wave processing and time-of-flight calculation. 
 
-I wanted to fill in these gaps with a little hobby project, since my original motivation was to know GPS *from radio wave to position fix*. At first, it was at unclear how realistic this goal is. But here it is: After quite a few rather long nights I finally know my balcony's GPS coordinates!
+I wanted to fill in these gaps since my original motivation was to know GPS *from radio wave to position fix*. At first, it was at unclear how realistic this goal is. But here it is: After quite a few rather long nights, I finally know my balcony's GPS coordinates!
 
 Due to the very diverse topics involved, I found that it might be interesting for others as well. The idea of a walkthrough was born, where we go step-by-step together with theoretical explanations, practical number-crunching and visualizations along the way. 
 To be honest: This journey involves quite a deal of machinery. But in order achieve the goal to really understand it in-depth, we will never rely on black boxes (like high-level software routines) but start from first-principles available to anyone with some highschool math background or good motivation to look things up. Be prepared to learn about
@@ -85,7 +85,7 @@ After having this available, be patient for this post to get published for detai
 5. **Telemetry Decoding and Orbital Position Calculation**:
     Having a demodulated signal at hand, we get the transmitted bits and bytes after a straightforward synchronization procedure. We dive a little into the specs of GPS. This allows us interpret the telemetry messages with its very precise send time information and orbital parameters. 
 
-    Using the telemetry information, we can calculate the position of every satellite at every instant of time. Despite their high velocity (4 km/s) and altitude (20000 km), this better happens at an accuracy below a few meters, since we cannot expect a high position fix accuracy if we don't know the satellite positions equally well.
+    Using the telemetry information, we can calculate the position of every satellite at every instant of time. Despite their high velocity (4 km/s) and altitude (20'000 km), this better happens at an accuracy below a few meters, since we cannot expect a high position fix accuracy if we don't know the satellite positions equally well.
 
 7. **Pseudo-Range and Position Fix Calculation**:
     The send time information and the actual moment of reception, as measured by our  receiver's clock, allows us to determine the time-of-flight of the signal from every satellite independently. Since we have no atomic but a cheap, inaccurate receiver clock, we will need to compensate for this accordingly. The time-of-flight translates to an apparent distance, called pseudo-range, due to the (nearly) constant speed of light. To get the desired positioning accuracy, we need to achieve a time-of-flight error below a few nanoseconds.
