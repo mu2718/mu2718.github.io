@@ -314,7 +314,7 @@ Analyze your own GPS radio wave?
 </div>
 </div>
 </div>
-<p>If you want to get more detailed instructions for recording the GPS signal, understand EM waves and SDRs, IQ components and how they can be processed using NumPy, wait for the walkthrough step 2 to get posted. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/sdr_wave.py">SdrWave class</a>.</p>
+<p>If you want to get more detailed instructions for recording the GPS signal, understand EM waves and SDRs, IQ components and how they can be processed using NumPy, wait for the walkthrough step 2 to get posted. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/sdr_wave.py">SdrWave class</a>.</p>
 </section>
 <section id="signal-acquisition" class="level2">
 <h2 class="anchored" data-anchor-id="signal-acquisition">3 Signal Acquisition</h2>
@@ -434,7 +434,7 @@ Carrier Phase: 1.04 radians</code></pre>
 </div>
 </div>
 </div>
-<p>If you want to know more about C/A codes, how we detect it in the recording, what the four demodulation parameters exactly mean and how we have to search for them, then wait for walkthrough step 3 to be posted… In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/acquisition.py">acquisition</a> and <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/gps_ca_code.py">C/A code module</a>.</p>
+<p>If you want to know more about C/A codes, how we detect it in the recording, what the four demodulation parameters exactly mean and how we have to search for them, then wait for walkthrough step 3 to be posted… In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/acquisition.py">acquisition</a> and <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/gps_ca_code.py">C/A code module</a>.</p>
 </section>
 </section>
 <section id="signal-tracking-and-demodulation" class="level2">
@@ -624,13 +624,13 @@ PRN 32:  Acquisition...   Tracking...   BPSK Demodulation... done.</code></pre>
 </div>
 </div>
 <p>This is rather lengthy calculation, taking almost 10 minutes on my laptop for the given length of the recording. Certainly, the algorithm’s are not at all optimized for speed, but are roughly 20 times faster than the acquisition procedure is.</p>
-<p>If you want to know more about control loops, signal processing, demodulation, wait for the walkthrough step 4 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/tracking.py">tracking module</a>.</p>
+<p>If you want to know more about control loops, signal processing, demodulation, wait for the walkthrough step 4 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/tracking.py">tracking module</a>.</p>
 <div class="cell" data-execution_count="11">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to avoid running tracking again, save the output for later experimentation...</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#import pickle</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># if pseudo_symbols and tracking_data:  # save the data if present</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     with open('psymbols.pickle', 'wb') as f:</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#         pickle.dump(pseudo_symbols, f)</span></span>
@@ -723,7 +723,7 @@ Dissection: 13 subframes decoded.
 <li>meta data added by the telemetry decoder (e.g.&nbsp;the subframe’s start pseudo-symbol index, <code>start_symbol</code>, in the sequence of recorded symbols).</li>
 </ul>
 <p>We can observe that a subframe is transmitted every 6 seconds (steps in <code>time_of_week</code>), and that one subframe is encoded using 6000 pseudo-symbols (steps in <code>start_symbol</code>).</p>
-<p>If you want to know more about synchronization, decoding, dissetion and the GPS L1 navigation message data structures, wait for the walkthrough step 5 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/telemetry.py">telemetry module</a>.</p>
+<p>If you want to know more about synchronization, decoding, dissetion and the GPS L1 navigation message data structures, wait for the walkthrough step 5 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/telemetry.py">telemetry module</a>.</p>
 </section>
 <section id="pseudorange-measurement" class="level2">
 <h2 class="anchored" data-anchor-id="pseudorange-measurement">6 Pseudorange Measurement</h2>
@@ -773,7 +773,7 @@ Measuring pseudoranges for PRN 1...
 Measuring pseudoranges for PRN 32...</code></pre>
 </div>
 </div>
-<p>If you want to know more about the measurement of the nanosecond accurate time of reception, pseudoranges, clock corrections, then wait for the walkthrough step 6 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/observables.py">observables module</a>.</p>
+<p>If you want to know more about the measurement of the nanosecond accurate time of reception, pseudoranges, clock corrections, then wait for the walkthrough step 6 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/observables.py">observables module</a>.</p>
 </section>
 <section id="satellite-orbital-position-calculation" class="level2">
 <h2 class="anchored" data-anchor-id="satellite-orbital-position-calculation">7 Satellite Orbital Position Calculation</h2>
@@ -845,7 +845,7 @@ Calculating satellite positions of PRN 1...
 Calculating satellite positions of PRN 32...</code></pre>
 </div>
 </div>
-<p>If you want to know more about solving the Kepler’s equation, its required corrections, coordinate systems and illustration of orbits, then wait for the walkthrough step 7 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/ephemeris.py">ephemeris module</a>.</p>
+<p>If you want to know more about solving the Kepler’s equation, its required corrections, coordinate systems and illustration of orbits, then wait for the walkthrough step 7 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/ephemeris.py">ephemeris module</a>.</p>
 </section>
 <section id="position-fixing" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="position-fixing">8 Position Fixing</h2>
@@ -987,7 +987,7 @@ Calculating satellite positions of PRN 32...</code></pre>
 <section id="position-and-satellite-visualization" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="position-and-satellite-visualization">Position and Satellite Visualization</h3>
 <p>To conclude, we visualize our location and satellites in <a href="#fig-visualize">Figure&nbsp;12</a>. Obviously we only see satellites which are above the horizon, i.e.&nbsp;a direct line of sight is not blocked by the earth.</p>
-<p>And again, if you want to know more about PVT solving, then wait for the walkthrough step 8 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/pvt_solver.py">PVT solver module</a>.</p>
+<p>And again, if you want to know more about PVT solving, then wait for the walkthrough step 8 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/pvt_solver.py">PVT solver module</a>.</p>
 <p>I hope you enjoyed the journey! Feel free to contact me and please leave your comments below. If you appreciated this article and you can afford it, how about to <a href="https://ko-fi.com/mu2718">buy me a coffee?</a></p>
 <script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
 <script type="text/javascript">kofiwidget2.init('Buy me a coffee', '#29abe0', 'E1E2S1R39');kofiwidget2.draw();</script>
