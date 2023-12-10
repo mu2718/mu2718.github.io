@@ -5,6 +5,8 @@ page-layout: full
 listing:
   - id: posts
     contents: "posts/"
+    exclude: 
+      keywords: "series-index"
     type: grid
     image-height: "250px"
     fields: [image, date, title]
@@ -17,12 +19,12 @@ listing:
 
 Welcome to my page! 
 
-Have a look at my [posts](posts.qmd) which are topics I found interesting to dive into. Maybe for you as well? Subscribe to my [newsletter](newsletter.qmd) for being updated.
+Have a look at my [posts](posts.qmd) which are about topics I found interesting to dive into. Maybe for you as well? Subscribe to my [newsletter](newsletter.qmd) for being updated.
 
 
 ## Links 
 
-- [GPS walkthrough](posts.qmd#category=GPS) post series
+- [GPS walkthrough](posts/gps/index.qmd) post series
 
 - [mu2718 on GitHub](https://github.com/mu2718)
 

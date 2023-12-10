@@ -1,0 +1,17 @@
+---
+title: "GPS Walkthrough Series"
+keywords: "series-index"
+toc: false
+listing:
+  contents: "*.{qmd,ipynb}"
+  sort: "date asc"
+  type: default
+  categories: false
+  sort-ui: false
+  filter-ui: false
+page-layout: full
+comments: false
+---
+
+
+See also the series [repository](https://github.com/mu2718/gps-walkthrough/) for source files.

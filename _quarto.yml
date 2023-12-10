@@ -24,11 +24,14 @@ website:
         href: posts.xml
         text: Blog RSS Feed
 
+  repo-url: https://github.com/mu2718/gps-walkthrough/
+  repo-actions: [issue]
+
 format:
   html:
     theme: 
       light: cosmo
-    highlight-style: github
+    highlight-style: breeze
     toc: False
     include-in-header: microanalytics.html
 

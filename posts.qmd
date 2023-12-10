@@ -3,6 +3,8 @@ title: "Blog Posts"
 listing:
   id: posts
   contents: "posts"
+  exclude:
+    keywords: "series-index"
   sort: "date desc"
   type: default
   categories: true

@@ -1,0 +1,89 @@
+---
+title: "GPS Walkthrough -- A Journey from Radio Wave to Position Fix"
+# subtitle: Introduction of the Series
+description: "This post series will guide you to through the calculation of a position fix from a recorded GPS radio wave signal. In this introduction, the motivation, goals and steps to follow are presented."
+author: Manuel
+date: "2023-08-11"
+categories: [GPS, physics]
+image: gps-sat.jpg
+toc: false
+---
+
+For other articles in this series, have a look at the [GPS walkthrough index](index.qmd).
+
+## Introduction 
+
+Have you ever wondered how the Global Positioning System (GPS) actually works in detail? I did as well, and wanted to dive into it one day...
+
+At the beginning of 2023, I stumbled across the very nice article by Ankur Mohan about "[Calculating Position from Raw GPS Data](https://www.telesens.co/2017/07/17/calculating-position-from-raw-gps-data/)". It finally kindled my motivation to start the long forseen project. While Ankur's article covers many interesting aspects of GPS, some are missing due to the fact that he relies on a GPS receiver which takes care of radio wave processing and time-of-flight calculation. 
+
+I wanted to fill in these gaps since my original motivation was to know GPS *from radio wave to position fix*. At first, it was at unclear how realistic this goal is. But here it is: After quite a few rather long nights, I finally know my balcony's GPS coordinates!
+
+Due to the very diverse topics involved, I found that it might be interesting for others as well. The idea of a walkthrough was born, where we go step-by-step together with theoretical explanations, practical number-crunching and visualizations along the way. 
+To be honest: This journey involves quite a deal of machinery. But in order achieve the goal to really understand it in-depth, we will never rely on black boxes (like high-level software routines) but start from first-principles available to anyone with some highschool math background or good motivation to look things up. Be prepared to learn about
+
+- radio waves and their mathematical description,
+- radio receivers and their inner workings,
+- radio signal modulation and demodulation,
+- digital signal processing, filters, and control loops,
+- GPS (!), its radio signal, telemetry data, and coordinate systems,
+- a little physics, as in Doppler shift,  Sagnac effect, relativistic time dilation, and orbit calculation,
+- flat earth hypothesis is rather difficult to defend considering the results we get here, 
+- and the metric units system might be not such a bad idea after all.
+
+In case you managed to read this far and are still interested, despite of these details we will have to deal with, you are very welcome to continue with me. I promise that at the end we will find the location of my (or your) balcony to better than 2 meters accuracy within a volume of space of more than 50'000 km in diameter! 
+
+
+## Walkthrough Steps
+
+The GPS walkthrough investigates the GPS L1 C/A signal^[For GPS L1 C/A details, see <https://gssc.esa.int/navipedia/index.php/GPS_Signal_Plan#GPS_L1_Band> and <https://en.wikipedia.org/wiki/GPS_signals#Legacy_GPS_signals>.] by performing the analysis in Python using NumPy. It consists of the following steps, each with its dedicated blog post:
+
+
+:::{.callout-note}
+## Jupyter Notebooks
+You want to follow the steps by computing the results yourself or applying it on your own signals? Check out the Jupyter notebooks which will be published simultaneously with the blog posts on [gps-walkthrough repository](https://github.com/mu2718/gps-walkthrough).
+:::
+
+
+1. [**Overview**](step1_overview.ipynb): 
+    This post gives an overview by quickly going over all steps and their results, i.e. from radio wave recording to the calculation of the position fix. Detailed analysis and explanations are lacking here. I hope this motivates you to dive deeper in the following.
+
+2. **Radio Wave Theory and Recording**:
+    I explain how to use the HackRF receiver and a GPS antenna for recording of the GPS radio wave. In case this hardware equipment is not available, it is shown how to be generated artificially. The recording is read and analyzed for signal quality. 
+
+    For getting an understanding of the recorded data as required later, a mathematical model of the radio wave is introduced and the basic principles of a radio receiver sketched. We look into numerical examples and their visualizations for intuition of the theory, as well as an introduction to NumPy.
+
+
+:::{.callout-tip collapse=true}
+## Record your own GPS signal?
+
+You want to record your own GPS signal and analyze it? This equipment is needed:
+
+- **SDR receiver** (e.g. HackRF or RTL-based) capable to receive at 1575 MHz. Unlike other GPS software receivers, *no precise clock reference* is required here.
+- **Active GPS antenna** with at least 25dB gain. A cheap 10$ one is sufficient (e.g. MikroTik ACGPSA).
+- **Bias tee voltage supply** if the SDR does not support powering the antenna. (Not required for HackRF with antennas accepting 3.3 Volts.)
+
+After having this available, be patient for this post to get published for detailed instructions...
+:::
+
+
+3. **GPS Signal Theory and Acquisition**:
+    GPS Signals are very low power, even weaker than background noise picked up from environment. Knowledge of the sent signal type is required in order to detect it using correlation techniques. Here we investigate the specific nature of the GPS signal and play with its properties.
+
+    Furthermore, we have to discuss effects which distort the received signal. Having this in mind, we finally are able to detect the GPS signal in our recording and identify the available satellites and their signal strength.
+
+4. **Signal Tracking**:
+    The former acquisition step needed to perform a blind search for every satellite, which showed to be rather instable to noisy signals and expensive in terms of computation time, even for very short time periods. But once that we found a signal by this procedure, we will find out together how to lock onto it and keep reception stable. This allows us to demodulate the data stream being sent efficiently.
+
+5. **Telemetry Decoding and Orbital Position Calculation**:
+    Having a demodulated signal at hand, we get the transmitted bits and bytes after a straightforward synchronization procedure. We dive a little into the specs of GPS. This allows us interpret the telemetry messages with its very precise send time information and orbital parameters. 
+
+    Using the telemetry information, we can calculate the position of every satellite at every instant of time. Despite their high velocity (4 km/s) and altitude (20'000 km), this better happens at an accuracy below a few meters, since we cannot expect a high position fix accuracy if we don't know the satellite positions equally well.
+
+6. **Pseudo-Range and Position Fix Calculation**:
+    The send time information and the actual moment of reception, as measured by our  receiver's clock, allows us to determine the time-of-flight of the signal from every satellite independently. Since we have no atomic but a cheap, inaccurate receiver clock, we will need to compensate for this accordingly. The time-of-flight translates to an apparent distance, called pseudo-range, due to the (nearly) constant speed of light. To get the desired positioning accuracy, we need to achieve a time-of-flight error below a few nanoseconds.
+
+    Having come this far, we now know for every moment in our recording the positions of every satellite and their distance from us. Using suitable optimization methods, we find our position with a few meters accuracy within the huge space spanning tens of thousands of kilometers!
+
+
+Please be patient for these announced posts to be published and motivate me with encouraging comments 🙂 If you want to be noticed about it, subscribe to my newsletter. Already available posts can be found [here](index.qmd).

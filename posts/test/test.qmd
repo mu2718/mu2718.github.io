@@ -18,10 +18,19 @@ aslkdfjalsdjf
 Suppose you have a new programming language called `Fomo` that is just like Python, _except_ you can define functions with `fomo` in addition to `def`.  For example, consider this Python code:
 
 ```python
+
+import numpy 
+
 def hello_world():
     "An example"
     pass
 ```
+kl
+
+
+See [1]
+
+[1]: google.com
 
 
 
