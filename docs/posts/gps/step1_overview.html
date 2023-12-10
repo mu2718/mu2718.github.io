@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Manuel">
+<meta name="dcterms.date" content="2023-12-10">
+<meta name="description" content="This post gives an overview of all steps involved in the GPS walkthrough, with all main results but lacking the detailed explanations of later steps.">
+
+<title>mu2718 - GPS Walkthrough 1 — Overview</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q3G5J0PLVE"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
+</script>
+<script data-host="https://app.microanalytics.io" data-dnt="false" src="https://app.microanalytics.io/js/script.js" id="ZwSg9rf6GA" async="" defer=""></script>
+<script async="" defer="" src="https://beampipe.io/js/tracker.js" data-beampipe-domain="mu2718.github.io"></script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">mu2718</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html" rel="" target="">
+ <span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+    <a href="https://github.com/mu2718/" title="mu2718 on GitHub" class="quarto-navigation-tool px-1" aria-label="mu2718 on GitHub"><i class="bi bi-github"></i></a>
+    <a href="../../posts.xml" title="Blog RSS Feed" class="quarto-navigation-tool px-1" aria-label="Blog RSS Feed"><i class="bi bi-rss"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">GPS Walkthrough 1 — Overview</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+                  <div>
+        <div class="description">
+          This post gives an overview of all steps involved in the GPS walkthrough, with all main results but lacking the detailed explanations of later steps.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">GPS</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Manuel </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 10, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">1 Introduction</a></li>
+  <li><a href="#recording-radio-wave" id="toc-recording-radio-wave" class="nav-link" data-scroll-target="#recording-radio-wave">2 Recording Radio Wave</a></li>
+  <li><a href="#signal-acquisition" id="toc-signal-acquisition" class="nav-link" data-scroll-target="#signal-acquisition">3 Signal Acquisition</a>
+  <ul class="collapse">
+  <li><a href="#first-signal-detection" id="toc-first-signal-detection" class="nav-link" data-scroll-target="#first-signal-detection">First Signal Detection</a></li>
+  <li><a href="#search-satellites" id="toc-search-satellites" class="nav-link" data-scroll-target="#search-satellites">Search Satellites</a></li>
+  </ul></li>
+  <li><a href="#signal-tracking-and-demodulation" id="toc-signal-tracking-and-demodulation" class="nav-link" data-scroll-target="#signal-tracking-and-demodulation">4 Signal Tracking and Demodulation</a>
+  <ul class="collapse">
+  <li><a href="#bpsk-demodulation" id="toc-bpsk-demodulation" class="nav-link" data-scroll-target="#bpsk-demodulation">BPSK Demodulation</a></li>
+  <li><a href="#track-and-demodulate-all" id="toc-track-and-demodulate-all" class="nav-link" data-scroll-target="#track-and-demodulate-all">Track and Demodulate All</a></li>
+  </ul></li>
+  <li><a href="#telemetry-decoding" id="toc-telemetry-decoding" class="nav-link" data-scroll-target="#telemetry-decoding">5 Telemetry Decoding</a></li>
+  <li><a href="#pseudorange-measurement" id="toc-pseudorange-measurement" class="nav-link" data-scroll-target="#pseudorange-measurement">6 Pseudorange Measurement</a></li>
+  <li><a href="#satellite-orbital-position-calculation" id="toc-satellite-orbital-position-calculation" class="nav-link" data-scroll-target="#satellite-orbital-position-calculation">7 Satellite Orbital Position Calculation</a></li>
+  <li><a href="#position-fixing" id="toc-position-fixing" class="nav-link" data-scroll-target="#position-fixing">8 Position Fixing</a>
+  <ul class="collapse">
+  <li><a href="#position-analysis" id="toc-position-analysis" class="nav-link" data-scroll-target="#position-analysis">Position Analysis</a></li>
+  <li><a href="#receiver-clock-analysis" id="toc-receiver-clock-analysis" class="nav-link" data-scroll-target="#receiver-clock-analysis">Receiver Clock Analysis</a></li>
+  <li><a href="#position-and-satellite-visualization" id="toc-position-and-satellite-visualization" class="nav-link" data-scroll-target="#position-and-satellite-visualization">Position and Satellite Visualization</a></li>
+  </ul></li>
+  <li><a href="#sec-refs" id="toc-sec-refs" class="nav-link" data-scroll-target="#sec-refs">References</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mu2718/gps-walkthrough/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+<p>This article is step 1 of the <a href="../../posts/gps/index.html">GPS walkthrough series</a>. Here we give an overview over the whole post series and introduce every step required to get from a raw GPS signal to a position fix. The main results are shown while detailed analysis and explanations are following in later posts.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">1 Introduction</h2>
+<p>In this post series we investigate the GPS L1 C/A, the legacy signal with its coarse acquisition code sent by all GPS satellites in operation.</p>
+<p>We will rely in the following to an external python module developed for this series, the <code>gps_walkthrough</code> module. Open the collapsed code sections below to get to know how it is used an how its outputs are processed. Check the <a href="https://github.com/mu2718/gps-walkthrough/">module source code</a> if you want deeper insights into the details of the processing steps before the more detailed blog articles appear. See also the <a href="#sec-refs">references</a> section below for a list of sources where I have the information collected from.</p>
+<p>To compute the following steps for yourself online, <a href="https://colab.research.google.com/github/mu2718/gps-walkthrough/">open it in Google Colab</a>. You can even feed it your own recorded GPS radio wave to play with the satellite signal and determine your location.</p>
+<p>Now enjoy the journey!</p>
+<div class="cell" data-execution_count="1">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gps_walkthrough <span class="im">as</span> gpswt  <span class="co"># see https://github.com/mu2718/gps-walkthrough/</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the only other packages we will rely on:</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="recording-radio-wave" class="level2">
+<h2 class="anchored" data-anchor-id="recording-radio-wave">2 Recording Radio Wave</h2>
+<p>An active GPS antenna picks up the electromagnetic (EM) wave sent by a satellite (or ‘space vehicle’ in GPS lingo) and feeds it to an integrated signal amplifier and filter. Its output signal is directly proportional to the incoming EM wave at any time. This output is wired up with a software-defined radio (SDR) receiver. This device is able to select a frequency-band and digitize it. Using this setup, we get an unprocessed, digital representation of the incoming GPS signal.</p>
+<p>I am using the <a href="https://greatscottgadgets.com/hackrf/one/">HackRF</a> SDR, a signal generator from Siglent delivering a high-accuracy clock to the SDR, and the u-blox ANN-MB GPS antenna.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Analyze your own GPS radio wave?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For recording the GPS radio wave, have the following equipment ready:</p>
+<ul>
+<li><strong>SDR receiver</strong> (e.g.&nbsp;HackRF or RTL-based) capable to receive at 1575 MHz. No precise clock reference as I use here is required.</li>
+<li><strong>Active GPS antenna</strong> for the L1 band with at least 20dB gain. A cheap 10$ one is sufficient (e.g.&nbsp;MikroTik ACGPSA).</li>
+<li><strong>Bias tee voltage supply</strong> if the SDR does not support powering the antenna. This is not required for HackRF with antennas accepting 3.3 Volts.</li>
+</ul>
+<p>Alternatively, a synthetic recording can be generated using <a href="https://github.com/osqzss/gps-sdr-sim"><code>gps-sdr-sim</code></a>.</p>
+<p>Wait for the walkthrough step 2 to get more detailed instructions…</p>
+</div>
+</div>
+</div>
+<p>With the following command, the HackRF records the <a href="https://gssc.esa.int/navipedia/index.php/GPS_Signal_Plan#GPS_L1_Band">GPS L1 signal</a> at 1575.42 MHz with appropriate <a href="https://hackrf.readthedocs.io/en/latest/hackrf_tools.html?highlight=hackrf_transfer#hackrf-tools">settings</a> for amplifiers and sampling rate of 4 MHz:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> hackrf_transfer <span class="at">-r</span> wave.dat <span class="at">-f</span> 1575420000 <span class="at">-p</span> 1 <span class="at">-a</span> 1 <span class="at">-l</span> 40 <span class="at">-g</span> 40 <span class="at">-s</span> 4000000</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The specified file contains the recorded, raw <a href="https://en.wikipedia.org/wiki/In-phase_and_quadrature_components">in-phase and quadrature components (IQ)</a> of the EM wave amplitude. We can read in this wave file and visualize a snippet of it in <a href="#fig-recording">Figure&nbsp;1</a>.</p>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sampling_rate <span class="op">=</span> <span class="fl">4e6</span>  <span class="co"># 4 MHz sampling rate of recording</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the recorded radio wave file (change dtype='byte' for data from `hackrf_transfer`)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>baseband <span class="op">=</span> gpswt.SdrWave.from_raw_file(<span class="st">'./wave.dat'</span>, sampling_rate<span class="op">=</span>sampling_rate, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                                       <span class="co">#, max_samples=100000000)  # limit samples for fast experiments</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                                       dtype<span class="op">=</span><span class="st">'float32'</span>) </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># cut the first 0.1 seconds during antenna power up</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>baseband <span class="op">=</span> baseband.get_interval(from_time<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Wave recording read. Duration: </span><span class="sc">{</span>baseband<span class="sc">.</span>duration()<span class="sc">:0.2f}</span><span class="ss"> s'</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># visualize a snippet </span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> <span class="fl">0.2</span>   <span class="co"># select start time</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="fl">1e-3</span>  <span class="co"># time window of 1ms</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>signal_slice <span class="op">=</span> baseband.get_interval(from_time<span class="op">=</span>t0, to_time<span class="op">=</span>t0<span class="op">+</span>dt)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.linspace(t0, t0<span class="op">+</span>dt, <span class="bu">len</span>(signal_slice.samples))</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">2</span>))</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>plt.plot(t, np.real(signal_slice.samples),<span class="st">'-'</span>, label<span class="op">=</span><span class="st">'In-Phase $I$'</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>plt.plot(t, np.imag(signal_slice.samples),<span class="st">'-'</span>, label<span class="op">=</span><span class="st">'Quadrature $Q$'</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Receiver Time $t$ [s]'</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Amplitude [a.u.]'</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Wave recording read. Duration: 84.26 s</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="fig-recording" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-recording-output-2.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Snippet of 1 ms of the recorded radio wave baseband signal with its in-phase and quadrature amplitudes.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>If you want to get more detailed instructions for recording the GPS signal, understand EM waves and SDRs, IQ components and how they can be processed using NumPy, wait for the walkthrough step 2 to get posted. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/sdr_wave.py">SdrWave class</a>.</p>
+</section>
+<section id="signal-acquisition" class="level2">
+<h2 class="anchored" data-anchor-id="signal-acquisition">3 Signal Acquisition</h2>
+<p>Having the radio wave recorded, we can look for a satellite signal. Those of us having experience with pre-internet radio know: Tuning-in on a channel means essentially turning one knob to set the frequency right (and sometimes redirecting and stretching the antenna). GPS L1 C/A is not much different, but we have four knobs which have to be set, the demodulation parameters:</p>
+<dl>
+<dt>Frequency Shift</dt>
+<dd>
+GPS L1 satellites send on a carrier frequency of 1575.42 MHz with very high accuracy. But due the satellites high speeds of up to 4000 m/s relative to us, the <a href="https://en.wikipedia.org/wiki/Doppler_effect">Doppler effect</a> physically shifts the received frequency up to <span class="math inline">\(\pm 5000\)</span> Hz. Despite its relatively small magnitude, the Doppler shift has to be compensated for signal reception. Note that changes in velocity of the satellite relative to the receiver (e.g.&nbsp;in a fly-over) results in changes of this parameter over time and thereby need to be readjusted constantly. <br> An <em>inaccurate receiver clock</em>, i.e.&nbsp;the clock built into the SDR receiver, is an additional source of frequency shift: As we base all our measurement on it, a too slow clock will show up as too high frequencies in the recording and vice versa. Since I use an external high-accuracy clock, the frequency shift can be fully attributed to the Doppler effect in the following.
+</dd>
+<dt>PRN number (C/A Code)</dt>
+<dd>
+All satellites send on the same frequency. Using a <a href="https://en.wikipedia.org/wiki/Code-division_multiple_access">code-division multiple access</a> (CDMA) method, where each satellite sends its own code, we can distinguish EM wave contributions from different senders. These code sequences are called <em>C/A codes</em> and are identified by their pseudo-random noise or <em>PRN numbers</em>, ranging from 1 to 37. The PRN number has therefore to be set to select a specific satellite to listen to.
+</dd>
+<dt>Code Delay</dt>
+<dd>
+The C/A code sequence of a satellite can only be detected if we know its time of reception to within a microsecond. The <em>code delay</em> is defined by the time the code is sent, as expected based on the receiver’s own inaccurate clock, and the actually observed time of reception. Note that changes in distance between the receiver and a satellite modifies this value by 1 <span class="math inline">\(\mu s\)</span> per 300 meters distance. Since satellites travel at up to 4000 m/s, we need to constantly readjust the delay to maintain reception.
+</dd>
+<dt>Carrier Phase Angle</dt>
+<dd>
+GPS L1 satellites send telemetry data (GPS time, orbital parameters, …). It is transmitted in the EM wave using the <a href="https://en.wikipedia.org/wiki/Phase-shift_keying#Binary_phase-shift_keying_(BPSK)">binary phase-shift keying</a> (BPSK) modulation technique. In order to demodulate this information, we need to distinguish between the sine and cosine contributions of the carrier frequency, i.e.&nbsp;the <em>phase angle</em> of the received wave. Note that changes in distance to a satellite or atmospheric conditions modify the phase over time.
+</dd>
+</dl>
+<p>The GPS signal <em>acquisition</em> procedure tries to find the value of these parameters for optimal signal reception by going through all combinations of parameters settings and picking the optimal one.</p>
+<section id="first-signal-detection" class="level3">
+<h3 class="anchored" data-anchor-id="first-signal-detection">First Signal Detection</h3>
+<p>For the very first millisecond of our radio wave recording, let’s try to find the signal sent by the satellite which emits the C/A code PRN 16 by performing the acquisition:</p>
+<div class="cell" data-execution_count="3">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>acq <span class="op">=</span> gpswt.Acquisition(prn_id<span class="op">=</span><span class="dv">16</span>, sampling_dt<span class="op">=</span>baseband.sampling_dt)  <span class="co"># look for PRN 16, I know it is there :) </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>acq_data <span class="op">=</span> acq.search(baseband.get_interval(to_time<span class="op">=</span><span class="fl">0.001</span>),           <span class="co"># look at first 1 ms = 1 C/A code period</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                      delta_freq_range<span class="op">=</span>(<span class="op">-</span><span class="dv">5000</span>, <span class="dv">5000</span>),                 <span class="co"># increase to 100k for HackRF w/o external clock</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                      delta_freq_step<span class="op">=</span><span class="dv">10</span>)[<span class="op">-</span><span class="dv">1</span>]                         <span class="co"># fine-grained Doppler steps </span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Signal Power:  </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">abs</span>(acq_data[<span class="st">'correlator'</span>])<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> <span class="dv">100</span><span class="sc">:.2f}</span><span class="ss"> % of total"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Doppler Shift: </span><span class="sc">{</span>acq_data[<span class="st">'delta_freq'</span>]<span class="sc">}</span><span class="ss"> Hz"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Code Delay:    </span><span class="sc">{</span>acq_data[<span class="st">'delay'</span>] <span class="op">*</span> <span class="fl">1e6</span><span class="sc">}</span><span class="ss"> microseconds"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Carrier Phase: </span><span class="sc">{</span>np<span class="sc">.</span>angle(acq_data[<span class="st">'correlator'</span>])<span class="sc">:.2f}</span><span class="ss"> radians"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Signal Power:  1.69 % of total
+Doppler Shift: -2830.0 Hz
+Code Delay:    13.0 microseconds
+Carrier Phase: 1.04 radians</code></pre>
+</div>
+</div>
+<p>These are the optimal demodulation parameter settings the acquisition procedure has found. Some observations we can make already:</p>
+<ul>
+<li>Despite that the satellite’s signal power is below 2% of the total power that the SDR records, we can isolate it and distinguish it from noise and other satellites.</li>
+<li>A negative Doppler shift means that the received frequency is lower than it was sent by the satellite. As we know it from everyday acoustic experiences, we can infer that this satellite is heading away from us. We will confirm this later on.</li>
+</ul>
+<p>The scanning on Doppler shift and code delay performed during acquisition is shown in <a href="#fig-acq-scan">Figure&nbsp;2</a>. We can observe that a discrepancy of only 1 <span class="math inline">\(\mu s\)</span> of in code delay and 1000 Hz in frequency shift results in total loss of the signal. This distinct signature of the peak indicates that our demodulation works and that we have detected a signal sent by a satellite!!</p>
+<div class="cell" data-execution_count="4">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>plt.subplot()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plt.imshow(acq._scan_data <span class="op">*</span> <span class="dv">100</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>           extent<span class="op">=</span>(<span class="op">-</span><span class="dv">5000</span>,<span class="dv">5000</span>, <span class="dv">0</span>, <span class="dv">1000</span>),  <span class="co"># scan parameter space</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>           cmap<span class="op">=</span><span class="st">'OrRd'</span>, origin<span class="op">=</span><span class="st">'lower'</span>, aspect<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># center on global maximum</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>plt.ylim([acq_data[<span class="st">'delay'</span>]<span class="op">*</span><span class="fl">1e6</span> <span class="op">-</span> <span class="dv">5</span>, acq_data[<span class="st">'delay'</span>]<span class="op">*</span><span class="fl">1e6</span> <span class="op">+</span> <span class="dv">5</span>])</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>plt.xlim([acq_data[<span class="st">'delta_freq'</span>] <span class="op">-</span> <span class="dv">2000</span>, acq_data[<span class="st">'delta_freq'</span>] <span class="op">+</span> <span class="dv">2000</span>])</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Doppler Frequency Shift $\Delta f$ [Hz]'</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Code Delay $</span><span class="ch">\\</span><span class="st">tau$ [$</span><span class="ch">\\</span><span class="st">mu$s]'</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.colorbar(label<span class="op">=</span><span class="st">'Signal Power [%]'</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-acq-scan" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-acq-scan-output-1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Received signal power of one satellite under different demodulation parameters. The full acquisition search region is zoomed in on the peak power.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="search-satellites" class="level3">
+<h3 class="anchored" data-anchor-id="search-satellites">Search Satellites</h3>
+<p>We can search for all satellites in the first few milliseconds of our signal using the acquisition procedure, see <a href="#fig-acq-all">Figure&nbsp;3</a>. Since we expect to see only a handful of satellites, we have to conclude that a the noise floor of around 0.5% power is present in all PRNs: We get spurious signals not originating from senders but noise on all PRNs.</p>
+<p>Five satellites can be identified that send well above the noise floor. Since at least 4 satellites are required for a position fix, we can proceed.</p>
+<div class="cell" data-execution_count="5">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>prn_ids <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">38</span>)  <span class="co"># PRN IDs to search for</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>signal_strength <span class="op">=</span> np.zeros(<span class="bu">len</span>(prn_ids))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, prn_id <span class="kw">in</span> <span class="bu">enumerate</span>(prn_ids):</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    signal_slice <span class="op">=</span> baseband.get_interval(to_time<span class="op">=</span><span class="fl">0.05</span>)  <span class="co"># take first 50 ms</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    acq <span class="op">=</span> gpswt.Acquisition(prn_id, sampling_dt<span class="op">=</span>baseband.sampling_dt)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    acq_data <span class="op">=</span> acq.search(signal_slice,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                          delta_freq_step<span class="op">=</span><span class="dv">500</span>, </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                          delta_freq_range<span class="op">=</span>(<span class="op">-</span><span class="dv">5000</span>,<span class="dv">5000</span>)) <span class="co"># increase to 100k for HackRF w/o external clock</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    signal_strength[i] <span class="op">=</span> np.median(np.<span class="bu">abs</span>(acq_data[<span class="st">'correlator'</span>]<span class="op">**</span><span class="dv">2</span>))  <span class="co"># average power</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>best_prns <span class="op">=</span> np.argsort(<span class="op">-</span>signal_strength)[:<span class="dv">5</span>] <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Top-5 PRNs: </span><span class="sc">{</span>best_prns<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">2</span>))</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>plt.bar(prn_ids, signal_strength <span class="op">*</span> <span class="dv">100</span>, tick_label<span class="op">=</span>prn_ids)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Satellite [PRN #]'</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Signal Power [%]'</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Top-5 PRNs: [21 16 27  1 32]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="fig-acq-all" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-acq-all-output-2.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: Received signal power on all 37 C/A codes identified by their PRN number during first 50 ms of the recording.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>If you want to know more about C/A codes, how we detect it in the recording, what the four demodulation parameters exactly mean and how we have to search for them, then wait for walkthrough step 3 to be posted… In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/acquisition.py">acquisition</a> and <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/gps_ca_code.py">C/A code module</a>.</p>
+</section>
+</section>
+<section id="signal-tracking-and-demodulation" class="level2">
+<h2 class="anchored" data-anchor-id="signal-tracking-and-demodulation">4 Signal Tracking and Demodulation</h2>
+<p>In order to maintain reception over the time of the recording, we constantly need to readjust to modulation parameters for each satellite. As shown in <a href="#fig-tracking-disabled-dll">Figure&nbsp;4</a>, the satellite’s signal is lost in a fraction of a second if not done so.</p>
+<div class="cell" data-execution_count="6">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get initial doppler shift and code delay parameters using acquisition procedure</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>acq <span class="op">=</span> gpswt.Acquisition(prn_id<span class="op">=</span><span class="dv">16</span>, sampling_dt<span class="op">=</span>baseband.sampling_dt)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>acq_data <span class="op">=</span> acq.search(baseband.get_interval(to_time<span class="op">=</span><span class="fl">0.005</span>))  <span class="co"># first periods only</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>delta_freq_start <span class="op">=</span> np.median(acq_data[<span class="st">'delta_freq'</span>])</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>delay_start <span class="op">=</span> np.median(acq_data[<span class="st">'delay'</span>])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># tracking with disabled delay-locked loop (DLL)</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>tracker <span class="op">=</span> gpswt.Tracking(prn_id<span class="op">=</span><span class="dv">16</span>, sampling_dt<span class="op">=</span>baseband.sampling_dt, </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                         dll_guided<span class="op">=</span><span class="va">False</span>, dll_ki<span class="op">=</span><span class="fl">0.0</span>,  <span class="co"># disable DLL               </span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                         delta_freq_start<span class="op">=</span>delta_freq_start,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                         delay_start<span class="op">=</span>delay_start)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>tracking_data <span class="op">=</span> tracker.track(baseband.get_interval(to_time<span class="op">=</span><span class="fl">1.0</span>))</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>amplitudes <span class="op">=</span> tracking_data[<span class="st">'correlator'</span>]</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> tracking_data[<span class="st">'time_code_start'</span>]</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">2.</span><span class="op">*</span><span class="dv">1</span>))</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>ax.plot(t, <span class="bu">abs</span>(amplitudes)<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> <span class="dv">100</span>, <span class="st">'b'</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Receiver Time $t$ [s]'</span>) </span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Signal Power [%]'</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-tracking-disabled-dll" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-tracking-disabled-dll-output-1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;4: Signal power with a fixed code delay parameter for CDMA demodulation. We lose the signal within a fraction of a second.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Constant readjustment could be performed with the acquisition procedure shown above, by blindly searching the optimal parameters for every millisecond of the signal individually. But there are some major drawbacks using this approach.</p>
+<p>Exploiting the fact that the parameters change continuously, we can keep them optimized using <a href="https://en.wikipedia.org/wiki/Control_loop">control loops</a>: One loop locking on the frequency, one on the code delay, and one on the phase. This procedure is called <em>tracking</em> of the signal and has several advantages compared to the acquisition algorithm: It is much faster since it does not start search blindly from scratch, yields more accurate parameter values, and is more robust to noise.</p>
+<p>The result of tracking is a</p>
+<ul>
+<li>high-precision code delay value (for our analysis here we achieve less than 10 nanoseconds) for accurate time-of-flight estimation, and</li>
+<li>the <em><a href="https://en.wikipedia.org/wiki/Code-division_multiple_access">CDMA</a>-demodulated</em> signal, which allows to decode the telemetry messages sent by each satellite.</li>
+</ul>
+<p>Tracking of PRN 16 is shown in <a href="#fig-tracking">Figure&nbsp;5</a>. After a short time period at the beginning where the control loops lock-in on the optimal values, the parameters develop steadily and signal power is maintained.</p>
+<div class="cell" data-execution_count="7">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get initial doppler shift and code delay parameters using acquisition procedure</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>acq <span class="op">=</span> gpswt.Acquisition(prn_id<span class="op">=</span><span class="dv">16</span>, sampling_dt<span class="op">=</span>baseband.sampling_dt)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>acq_data <span class="op">=</span> acq.search(baseband.get_interval(to_time<span class="op">=</span><span class="fl">0.005</span>))  <span class="co"># first periods only</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>delta_freq_start <span class="op">=</span> np.median(acq_data[<span class="st">'delta_freq'</span>])</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>delay_start <span class="op">=</span> np.median(acq_data[<span class="st">'delay'</span>])</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>tracker <span class="op">=</span> gpswt.Tracking(prn_id<span class="op">=</span><span class="dv">16</span>, sampling_dt<span class="op">=</span>baseband.sampling_dt,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                         delta_freq_start<span class="op">=</span>delta_freq_start,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                         delay_start<span class="op">=</span>delay_start)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>tracking_data <span class="op">=</span> tracker.track(baseband.get_interval(to_time<span class="op">=</span><span class="fl">1.0</span>))</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>amplitudes <span class="op">=</span> tracking_data[<span class="st">'correlator'</span>]</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> tracking_data[<span class="st">'time_code_start'</span>]</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">4</span>, <span class="dv">1</span>, sharex<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">2.</span><span class="op">*</span><span class="dv">4</span>))</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>ax[<span class="op">-</span><span class="dv">1</span>].set_xlabel(<span class="st">'Receiver Time $t$ [s]'</span>) </span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].plot(t, <span class="bu">abs</span>(amplitudes)<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> <span class="dv">100</span>, <span class="st">'b'</span>)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_ylabel(<span class="st">'Signal Power [%]'</span>)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_ylabel(<span class="st">'Code Delay $</span><span class="ch">\\</span><span class="st">tau$ [$\mu$s]'</span>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].plot(t, tracking_data[<span class="st">'delay_used'</span>] <span class="op">*</span> <span class="fl">1e6</span>, <span class="st">'b'</span>, label<span class="op">=</span><span class="st">'Used'</span>)</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].plot(t, (tracking_data[<span class="st">'delay_used'</span>] <span class="op">+</span> tracking_data[<span class="st">'discriminator_tau'</span>]) <span class="op">*</span> <span class="fl">1e6</span>,</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>           <span class="st">'g'</span>, label<span class="op">=</span><span class="st">'Measured'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].plot(t, tracking_data[<span class="st">'delay'</span>] <span class="op">*</span> <span class="fl">1e6</span>, <span class="st">'r'</span>, label<span class="op">=</span><span class="st">'Estimated'</span>)</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].legend()    </span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].plot(t, tracking_data[<span class="st">'delta_freq'</span>], <span class="st">'m'</span>)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">2</span>].set_ylabel(<span class="st">'Doppler Shift $\Delta f$ [Hz]'</span>)</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">3</span>].plot(t, tracking_data[<span class="st">'phi'</span>], <span class="st">'g'</span>)</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">3</span>].set_ylabel(<span class="st">'Phase $\Phi$ [rad]'</span>)</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-tracking" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-tracking-output-1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;5: Tracking of a PRN 16. Code delay, Doppler shift and phase are constantly adjusted to maintain signal reception.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Over the shown time period, the code delay needs to be increased constantly. Equally as for the negative Doppler shift frequency, this is a consequence of the fact that this satellite is heading away from us and its distance is thereby increasing, i.e.&nbsp;its signal arrives more and more delayed over time. Over the shown time period of 1s, we observe an increase of approx. 1.5<span class="math inline">\(\mu\)</span>s in delay. Multiplied by the speed of light, this corresponds to a speed of roughly 450 m/s. (Notice, that this value does not reflect the satellite’s speed, but only to its component along the line of sight from us.)</p>
+<section id="bpsk-demodulation" class="level3">
+<h3 class="anchored" data-anchor-id="bpsk-demodulation">BPSK Demodulation</h3>
+<p>Each GPS L1 satellite sends navigation messages (LNAV) which contains the telemetry data. These messages are modulated onto the CDMA signal using <a href="https://en.wikipedia.org/wiki/Phase-shift_keying#Binary_phase-shift_keying_(BPSK)">binary phase-shift keying (BPSK)</a>. We see in <a href="#fig-signal-demodulated">Figure&nbsp;6</a>, after the lock-in phase of the tracking, that a clean digital signal can be observed. Obviously, the BPSK demodulation yielding the binary information is straightforward.</p>
+<div class="cell" data-execution_count="8">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">2.</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ax.plot(t, np.real(amplitudes) <span class="op">/</span> np.<span class="bu">abs</span>(amplitudes), <span class="st">'c'</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Norm. In-Phase $I \, / \, |A| $'</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Receiver Time $t$ [s]'</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-signal-demodulated" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-signal-demodulated-output-1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;6: CDMA-Demodulated telemetry signal of a satellite.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A different method allowing to visualize digital modulation of a signal over longer time periods are <a href="https://en.wikipedia.org/wiki/Constellation_diagram">constellation diagrams</a>. In <a href="#fig-signal-constellation">Figure&nbsp;7</a>, we observe that later CDMA demodulated samples (blue, green, yellow), where signal tracking locked after startup (purple), fall into two well distinguishable spots. These are the two states encoding a bit in the BPSK scheme. That means that the signal tracking and CDMA demodulation is reliable over the first 10s, and BPSK demodulation will work flawlessly.</p>
+<div class="cell" data-execution_count="9">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>tracker <span class="op">=</span> gpswt.Tracking(prn_id<span class="op">=</span><span class="dv">16</span>, sampling_dt<span class="op">=</span>baseband.sampling_dt, </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                         delta_freq_start<span class="op">=</span>acq_data[<span class="dv">0</span>][<span class="st">'delta_freq'</span>],</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                         delay_start<span class="op">=</span>acq_data[<span class="dv">0</span>][<span class="st">'delay'</span>])</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>tracking_data <span class="op">=</span> tracker.track(baseband.get_interval(to_time<span class="op">=</span><span class="dv">10</span>))  <span class="co"># 10 s interval</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>amplitudes <span class="op">=</span> tracking_data[<span class="st">'correlator'</span>]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>ax.scatter(np.real(amplitudes), np.imag(amplitudes), </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>           marker<span class="op">=</span><span class="st">'.'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, c<span class="op">=</span><span class="bu">range</span>(<span class="bu">len</span>(amplitudes)))</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">'equal'</span>, <span class="st">'box'</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'In-phase $I$'</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Quadrature $Q$'</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>ax.grid(which<span class="op">=</span><span class="st">'major'</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-signal-constellation" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-signal-constellation-output-1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;7: Constellation diagram of CDMA-demodulated signal during the first 10 seconds. Color indicates reception time from start (purple) to end (yellow). A point represent the IQ sample of one C/A code.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="track-and-demodulate-all" class="level3">
+<h3 class="anchored" data-anchor-id="track-and-demodulate-all">Track and Demodulate All</h3>
+<p>We can now get the navigation messages being sent by performing all steps shown above for each satellite:</p>
+<ol type="1">
+<li>Acquisition, to find initial demodulation parameters.</li>
+<li>Tracking, to follow the parameters over long recording time and get CDMA demodulation.</li>
+<li>BPSK demodulation, to get the encoded binary stream of the navigation messages.</li>
+</ol>
+<div class="cell" data-execution_count="10">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Analyzing signal of length </span><span class="sc">{</span>baseband<span class="sc">.</span>duration()<span class="sc">:.1f}</span><span class="ss"> s:'</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>pseudo_symbols <span class="op">=</span> {}</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>tracking_data <span class="op">=</span> {}</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn_id <span class="kw">in</span> best_prns:</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'PRN </span><span class="sc">{</span>prn_id<span class="sc">}</span><span class="ss">:'</span>, end<span class="op">=</span><span class="st">''</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'  Acquisition... '</span>, end<span class="op">=</span><span class="st">''</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    acq <span class="op">=</span> gpswt.Acquisition(prn_id, sampling_dt<span class="op">=</span>baseband.sampling_dt)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    acq_data <span class="op">=</span> acq.search(baseband.get_interval(to_time<span class="op">=</span><span class="fl">0.05</span>))  <span class="co"># check first 50ms = 50 code periods</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    delta_freq_start <span class="op">=</span> np.median(acq_data[<span class="st">'delta_freq'</span>])</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    delay_start <span class="op">=</span> np.median(acq_data[<span class="st">'delay'</span>])</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'  Tracking... '</span>, end<span class="op">=</span><span class="st">''</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    tracker <span class="op">=</span> gpswt.Tracking(prn_id, sampling_dt<span class="op">=</span>baseband.sampling_dt,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                             delta_freq_start<span class="op">=</span>delta_freq_start,</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>                             delay_start<span class="op">=</span>delay_start)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    tracking_data[prn_id] <span class="op">=</span> tracker.track(baseband, progress<span class="op">=</span><span class="va">False</span>)  <span class="co"># track full signal length</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'  BPSK Demodulation... done.'</span>)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    pseudo_symbols[prn_id] <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        np.real(tracking_data[prn_id][<span class="st">'correlator'</span>]) <span class="op">&gt;</span> <span class="dv">0</span>  <span class="co"># distinguish between 0 and 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analyzing signal of length 84.3 s:
+PRN 21:  Acquisition...   Tracking...   BPSK Demodulation... done.
+PRN 16:  Acquisition...   Tracking...   BPSK Demodulation... done.
+PRN 27:  Acquisition...   Tracking...   BPSK Demodulation... done.
+PRN 1:  Acquisition...   Tracking...   BPSK Demodulation... done.
+PRN 32:  Acquisition...   Tracking...   BPSK Demodulation... done.</code></pre>
+</div>
+</div>
+<p>This is rather lengthy calculation, taking almost 10 minutes on my laptop for the given length of the recording. Certainly, the algorithm’s are not at all optimized for speed, but are roughly 20 times faster than the acquisition procedure is.</p>
+<p>If you want to know more about control loops, signal processing, demodulation, wait for the walkthrough step 4 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/tracking.py">tracking module</a>.</p>
+<div class="cell" data-execution_count="11">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to avoid running tracking again, save the output for later experimentation...</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># if pseudo_symbols and tracking_data:  # save the data if present</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     with open('psymbols.pickle', 'wb') as f:</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#         pickle.dump(pseudo_symbols, f)</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     with open('trackdata.pickle', 'wb') as f:</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#         pickle.dump(tracking_data, f)</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># with open('psymbols.pickle', 'rb') as f:  # load it from file if available</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     pseudo_symbols = pickle.load(f)</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co"># with open('trackdata.pickle', 'rb') as f:</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     tracking_data = pickle.load(f)</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># best_prns = list(pseudo_symbols.keys())</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="telemetry-decoding" class="level2">
+<h2 class="anchored" data-anchor-id="telemetry-decoding">5 Telemetry Decoding</h2>
+<p>The telemetry data sent in navigation messages by all satellites contain information about their orbital parameters as well as clock error information of the on-board atomic clocks. Both are required for calculating a satellite’s position very accurately at every moment in time.</p>
+<p>The BPSK demodulation done above yields a binary stream. Its constituents are called <em>pseudo-symbols</em>. The actual information carrying bits, used for encoding the telemetry message, consist of 20 identically repeated pseudo-symbols. Messages sent by the satellite are encoded in a data structure called which consists of give <em>subframes</em>. To get the frame data, we have to perform the following steps:</p>
+<ul>
+<li>Bit synchronization: Find out where in the stream of pseudo-symbols a bit starts.</li>
+<li>Bit decoding: Decode the pseudo-symbols and generate the stream of bits.</li>
+<li>Frame synchronization: Find the start of a frame in the stream of bits.</li>
+<li>Frame dissection: Read the frame data structure, check its validity using checksums, and represent it in a usable form.</li>
+</ul>
+<p>Let’s do that for all satellites:</p>
+<div class="cell" data-execution_count="12">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>telemetry <span class="op">=</span> {}</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn_id <span class="kw">in</span> best_prns:</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'PRN </span><span class="sc">{</span>prn_id<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    bits, bit_start_symbol <span class="op">=</span> gpswt.telemetry.bit_synchronize(pseudo_symbols[prn_id])</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    bits, subframe_start_bit <span class="op">=</span> gpswt.telemetry.subframe_synchronize(bits)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    telemetry_data <span class="op">=</span> gpswt.telemetry.subframe_dissect(bits, subframe_start_bit, bit_start_symbol)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    telemetry[prn_id] <span class="op">=</span> telemetry_data</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>PRN 21
+Bits: synced, avg. pseudo-symbol errors per bit: 0.002
+Subframes: synced, found 14, valid 13
+Dissection: 13 subframes decoded.
+
+PRN 16
+Bits: synced, avg. pseudo-symbol errors per bit: 0.003
+Subframes: synced, found 14, valid 13
+Dissection: 13 subframes decoded.
+
+PRN 27
+Bits: synced, avg. pseudo-symbol errors per bit: 0.001
+Subframes: synced, found 14, valid 13
+Dissection: 13 subframes decoded.
+
+PRN 1
+Bits: synced, avg. pseudo-symbol errors per bit: 0.002
+Subframes: synced, found 14, valid 13
+Dissection: 13 subframes decoded.
+
+PRN 32
+Bits: synced, avg. pseudo-symbol errors per bit: 0.004
+Subframes: synced, found 14, valid 13
+Dissection: 13 subframes decoded.
+</code></pre>
+</div>
+</div>
+<p>We see from the output that the telemetry data of all five satellites was successfully decoded. While a few pseudo-symbols are reported to be faulty, the signal quality was good enough that almost all subframes were valid, i.e.&nbsp;contain no bit errors.</p>
+<p>Let’s have a look at the telemetry data of one of the satellites. The first five received subframes read</p>
+<div class="cell" data-execution_count="13">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):  <span class="co"># show a full frame = 5 subframes</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(telemetry[<span class="dv">16</span>][i])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'start_symbol': 3964, 'subframe_id': 1, 'integrity': 0, 'time_of_week': 52116, 'clock': {'week_number': 213, 'sv_health': 0, 'T_GD': -1.0244548320770264e-08, 't_oc': 57600, 'a_f2': 0.0, 'a_f1': 3.183231456205249e-12, 'a_f0': -0.0005030031315982342}}
+{'start_symbol': 9964, 'subframe_id': 2, 'integrity': 0, 'time_of_week': 52122, 'ephemeris': {'C_rs': 131.75, 'dn': 4.2019607428169266e-09, 'M_0': -3.0335492879613675, 'C_uc': 1.642853021621704e-06, 'e': 0.01333794859237969, 'C_us': 9.84780490398407e-06, 'sqrtA': 5153.60133934021, 't_oe': 57600}}
+{'start_symbol': 15964, 'subframe_id': 3, 'integrity': 0, 'time_of_week': 52128, 'ephemeris': {'C_ic': -9.313225746154785e-09, 'Omega_0': 0.6220877159703716, 'C_is': -2.3096799850463867e-07, 'i_0': 0.965627893317696, 'C_rc': 192.03125, 'omega': 0.7866631281797375, 'Omega_dot': -7.618888785870861e-09, 'I_dot': 6.321691895270685e-11}}
+{'start_symbol': 21964, 'subframe_id': 4, 'integrity': 0, 'time_of_week': 52134}
+{'start_symbol': 27964, 'subframe_id': 5, 'integrity': 0, 'time_of_week': 52140}</code></pre>
+</div>
+</div>
+<p>The subframes data structure contains:</p>
+<ul>
+<li><code>time_of_week</code>: exact time of sending of this subframe by the satellite in seconds, as measured by the satellite’s atomic clock,</li>
+<li><code>clock</code>: satellite clock correction data, since the atomic clocks need still some correction to be accurate enough for our purposes,</li>
+<li><code>ephemeris</code>: parameters required to calculate the satellite orbit positions at any time,</li>
+<li>meta data added by the telemetry decoder (e.g.&nbsp;the subframe’s start pseudo-symbol index, <code>start_symbol</code>, in the sequence of recorded symbols).</li>
+</ul>
+<p>We can observe that a subframe is transmitted every 6 seconds (steps in <code>time_of_week</code>), and that one subframe is encoded using 6000 pseudo-symbols (steps in <code>start_symbol</code>).</p>
+<p>If you want to know more about synchronization, decoding, dissetion and the GPS L1 navigation message data structures, wait for the walkthrough step 5 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/telemetry.py">telemetry module</a>.</p>
+</section>
+<section id="pseudorange-measurement" class="level2">
+<h2 class="anchored" data-anchor-id="pseudorange-measurement">6 Pseudorange Measurement</h2>
+<p>In order to calculate our position, we need to perform measurements of so called <a href="https://gssc.esa.int/navipedia/index.php/GNSS_Basic_Observables">observables</a>. The one we will consider here is called <em><a href="https://en.wikipedia.org/wiki/Pseudorange">pseudorange</a></em>. It represents a measurable quantity which is related to the distance between the receiver and a satellite. The pseudorange to satellite i is defined by</p>
+<p><span class="math display">\[ R_i = c \, (t_{i} - T_{i}) \]</span></p>
+<p>with the speed of light <span class="math inline">\(c\)</span>, the receiving time <span class="math inline">\(t_i\)</span> of a signal as measured by the receiver, and the send time <span class="math inline">\(T_i\)</span> of this signal as measured by satellite i’s atomic clock in <a href="https://en.wikipedia.org/wiki/Global_Positioning_System#Timekeeping">GPS time</a>. Therefore, measuring <span class="math inline">\(t_i\)</span> and decoding <span class="math inline">\(T_i\)</span> from the telemetry allows us to infer <span class="math inline">\(R_i\)</span>.</p>
+<p>The reason why this is not the actual range or distance: While <span class="math inline">\(T_i\)</span> is very accurate thanks to the atomic clocks and their correction information available through telemetry, the cheap receiver clock built into our SDR, on which we base our measurements of <span class="math inline">\(t_r\)</span>, is not accurate at all. Furthermore, the speed of light might not correspond to the radio wave’s effective speed of propagation (atmosphere’s influence). These discrepancies make the pseudorange deviate from the actual, physical distance and have to be taken into account later.</p>
+<p>Let’s have a look at pseudoranges of PRN 16 during the first few seconds:</p>
+<div class="cell" data-execution_count="14">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pseudo_range <span class="op">=</span> gpswt.observables.pseudo_ranges(telemetry[<span class="dv">16</span>], tracking_data[<span class="dv">16</span>], </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                                               observation_interval<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>):</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"t_i = </span><span class="sc">{</span>pseudo_range[<span class="st">'receive_time'</span>][k]<span class="sc">:.6f}</span><span class="ss"> s, "</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"T_i = </span><span class="sc">{</span>pseudo_range[<span class="st">'send_time_gps'</span>][k]<span class="sc">:.6f}</span><span class="ss"> s, "</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"R_i - r = </span><span class="sc">{</span>pseudo_range[<span class="st">'pseudo_range'</span>][k] <span class="op">-</span> pseudo_range[<span class="st">'pseudo_range'</span>][<span class="dv">0</span>]<span class="sc">:.2f}</span><span class="ss"> m"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>t_i = 0.000000 s, T_i = 52106.036490 s, R_i - r = 0.00 m
+t_i = 1.000000 s, T_i = 52107.036488 s, R_i - r = 543.89 m
+t_i = 2.000000 s, T_i = 52108.036486 s, R_i - r = 1085.70 m
+t_i = 3.000000 s, T_i = 52109.036485 s, R_i - r = 1626.99 m</code></pre>
+</div>
+</div>
+<p>A comparison between the receiver time <span class="math inline">\(t_i\)</span> and the send time <span class="math inline">\(T_i\)</span> reveals that they are roughly in sync, but off by almost a day. In the last shown digits of <span class="math inline">\(T_i\)</span>, we can observe that the signal received at the integer values <span class="math inline">\(t_i\)</span> are sent earlier and earlier, explained by an increasing in distance and pseudorange. Its change is reported as <span class="math inline">\(R_i - r\)</span>, where <span class="math inline">\(r\)</span> is a constant. We can read off a receding speed of approx. 540 m/s of the satellite (again only in line of sight).</p>
+<p>Let’s measure the pseudoranges for all satellites as we need them in our next steps.</p>
+<div class="cell" data-execution_count="15">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>position_fix_time_interval <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Measurement Time Interval: </span><span class="sc">{</span>position_fix_time_interval<span class="sc">}</span><span class="ss"> s</span><span class="ch">\n</span><span class="ss">'</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>pseudo_ranges <span class="op">=</span> {}</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn <span class="kw">in</span> best_prns:</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Measuring pseudoranges for PRN </span><span class="sc">{</span>prn<span class="sc">}</span><span class="ss">...'</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    pseudo_ranges[prn] <span class="op">=</span> gpswt.observables.pseudo_ranges(telemetry[prn], tracking_data[prn], </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                                                         position_fix_time_interval)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Measurement Time Interval: 0.5 s
+
+Measuring pseudoranges for PRN 21...
+Measuring pseudoranges for PRN 16...
+Measuring pseudoranges for PRN 27...
+Measuring pseudoranges for PRN 1...
+Measuring pseudoranges for PRN 32...</code></pre>
+</div>
+</div>
+<p>If you want to know more about the measurement of the nanosecond accurate time of reception, pseudoranges, clock corrections, then wait for the walkthrough step 6 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/observables.py">observables module</a>.</p>
+</section>
+<section id="satellite-orbital-position-calculation" class="level2">
+<h2 class="anchored" data-anchor-id="satellite-orbital-position-calculation">7 Satellite Orbital Position Calculation</h2>
+<p>In order to infer our position from the measured pseudoranges, we additionally need to know the position of each satellite at the time of sending a signal. As we want to know our position at meter accuracy, we better know the satellites position at the same accuracy at every instant of time.</p>
+<p><a href="https://en.wikipedia.org/wiki/Kepler%27s_equation">Kepler’s equation</a> allows to calculate orbits, i.e.&nbsp;position at any time, of objects (satellites) under the gravitational influence of a central mass (earth). Things would unfortunately not work out at the required accuracy, because some assumptions underlying this equation are violated:</p>
+<ul>
+<li>The central mass is homogenous and spherical: As we know when climbing mountains, the earth shows some deviations to this.</li>
+<li>No other other forces are present: The moon and sun influence the orbit with their gravitational forces, and there is a non-negligible “air” resistance due to particles in space.</li>
+</ul>
+<p>These effects need to be considered and put a correction on top of Kepler’s solution. For this, all required information is sent in the ephemeris parameters in the telemetry messages.</p>
+<p>Therefore, let’s calculate the position of the satellite sending PRN 16 at GPS time 0, at the beginning of the current week, and 12 hours later:</p>
+<div class="cell" data-execution_count="16">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract complete set of ephemeris data from subframes</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>ephemeris_subframes <span class="op">=</span> [subframe[<span class="st">'ephemeris'</span>] <span class="cf">for</span> subframe <span class="kw">in</span> telemetry[<span class="dv">16</span>] </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                       <span class="cf">if</span> <span class="st">'ephemeris'</span> <span class="kw">in</span> subframe.keys()]</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>ephemeris <span class="op">=</span> {}</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> subframe <span class="kw">in</span> ephemeris_subframes:</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    ephemeris.update(subframe)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">11.97</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">60</span>])  <span class="co"># GPS time in seconds</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> gpswt.ephemeris.sat_position(t, ephemeris)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ti, posi <span class="kw">in</span> <span class="bu">zip</span>(t, pos):</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f't = </span><span class="sc">{</span>ti<span class="op">/</span><span class="dv">3600</span><span class="sc">:&gt;5.2f}</span><span class="ss">h, (x,y,z) = (</span><span class="sc">{</span>posi[<span class="dv">0</span>]<span class="op">/</span><span class="dv">1000</span><span class="sc">:&gt;10.3f}</span><span class="ss">, '</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f'</span><span class="sc">{</span>posi[<span class="dv">1</span>]<span class="op">/</span><span class="dv">1000</span><span class="sc">:&gt;10.3f}</span><span class="ss">, </span><span class="sc">{</span>posi[<span class="dv">2</span>]<span class="op">/</span><span class="dv">1000</span><span class="sc">:&gt;10.3f}</span><span class="ss">) km'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>t =  0.00h, (x,y,z) = (-15948.384,   5789.441,  20242.277) km
+t = 11.97h, (x,y,z) = ( 15983.496,  -5760.857,  20223.744) km</code></pre>
+</div>
+</div>
+<p>The shown <span class="math inline">\((x,y,z)\)</span> coordinate is this satellite’s position in the <em>GPS coordinate system <a href="https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84">WGS84</a></em>. It is as <a href="https://en.wikipedia.org/wiki/Earth-centered,_Earth-fixed_coordinate_system">earth-centered earth-fixed (ECEF)</a> system, i.e.&nbsp;<span class="math inline">\((0,0,0)\)</span> is at the earth’s center, the <span class="math inline">\(z\)</span> axis is along to rotation axis, and the whole system is rotating together with the earth, such that a fixed position on the surface does not change coordinates with time.</p>
+<p>We can directly read off the corotating behavior: GPS satellite’s have a orbital period of approx. 12 hours. Therefore, we would expect to two positions reported above to be identical. This is almost the case, were it not for the minus signs change in <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates. In 12 hours, the earth spun half a rotation around the <span class="math inline">\(z\)</span> axis, changing the coordinates of the same physical position (in a inertial frame) exactly in the observed manner, i.e.&nbsp;turning <span class="math inline">\((x,y,z) \rightarrow (-x,-y,z)\)</span>.</p>
+<p>From the reported satellite position we derive:</p>
+<div class="cell" data-execution_count="17">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Sat. distance from earth center: </span><span class="sc">{</span>np<span class="sc">.</span>sqrt(np.<span class="bu">sum</span>(pos[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span><span class="fl">1e3</span> <span class="sc">:.3f}</span><span class="ss"> km'</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Sat. altitude from surface:      </span><span class="sc">{</span>np<span class="sc">.</span>sqrt(np.<span class="bu">sum</span>(pos[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span><span class="fl">1e3</span> <span class="op">-</span> gpswt<span class="sc">.</span>ephemeris<span class="sc">.</span>EARTH_RADIUS<span class="op">/</span><span class="fl">1e3</span> <span class="sc">:.3f}</span><span class="ss"> km'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sat. distance from earth center: 26412.466 km
+Sat. altitude from surface:      20034.329 km</code></pre>
+</div>
+</div>
+<p>Finally, we can calculate the position of every satellite for every point in time in our wave recording.</p>
+<div class="cell" data-execution_count="18">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>satellite_positions <span class="op">=</span> {}</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn <span class="kw">in</span> best_prns:</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Calculating satellite positions of PRN </span><span class="sc">{</span>prn<span class="sc">}</span><span class="ss">...'</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    ephemeris_subframes <span class="op">=</span> [subframe[<span class="st">'ephemeris'</span>] <span class="cf">for</span> subframe <span class="kw">in</span> telemetry[prn] </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                           <span class="cf">if</span> <span class="st">'ephemeris'</span> <span class="kw">in</span> subframe.keys()]</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    ephemeris <span class="op">=</span> {}</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subframe <span class="kw">in</span> <span class="bu">reversed</span>(ephemeris_subframes):  <span class="co"># use newest ephemeris data</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>        ephemeris.update(subframe)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    send_time_gps <span class="op">=</span> pseudo_ranges[prn][<span class="st">'send_time_gps'</span>]</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    satellite_positions[prn] <span class="op">=</span> gpswt.ephemeris.sat_position(send_time_gps, ephemeris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Calculating satellite positions of PRN 21...
+Calculating satellite positions of PRN 16...
+Calculating satellite positions of PRN 27...
+Calculating satellite positions of PRN 1...
+Calculating satellite positions of PRN 32...</code></pre>
+</div>
+</div>
+<p>If you want to know more about solving the Kepler’s equation, its required corrections, coordinate systems and illustration of orbits, then wait for the walkthrough step 7 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/ephemeris.py">ephemeris module</a>.</p>
+</section>
+<section id="position-fixing" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="position-fixing">8 Position Fixing</h2>
+<p>In this last step of our journey, we finally will get our location, a <em>position fix</em>. From our measured pseudoranges and the satellite’s positions, we should be able to infer it. This process is called <em>PVT solving</em>, since we get position (P) and velocity (V) of the receiver and an accurate time (T).</p>
+<p>The PVT solver algorithm is sketched in <a href="#fig-pvt-solve">Figure&nbsp;8</a>. Starting from an initial estimate of P, V and T, we need a model which generates the observables one would measure in this situation (model observables). Then a comparison of this model output with the actually measured quantities (measured observables) determines the mismatch and estimates how much the initial PVT estimate was off to get a smaller mismatch. This process is iteratively repeated until the model and measurement match good enough. We arrive at a PVT fix.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-pvt-solve" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-pvt-solve">flowchart LR
+  E[/PVT Estimate/] --&gt; A[Measurement\nModel] 
+  A --&gt; D[Model\nObservables] --&gt; B[Observables Mismatch]
+  X[/Measured\nObservables/] --&gt; B
+  B --&gt; F[PVT Correction]
+  F --&gt; E
+</pre>
+</div>
+<figcaption class="figure-caption">Figure&nbsp;8: PVT solving process from measured observables as input to the PVT estimate as output.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In our case, the observables are the pseudoranges, and the model contains the satellite positions. It calculates euclidean distances between them and the current position estimate. The earth center <span class="math inline">\((0,0,0)\)</span> as initial position is good enough as a starting point and the process converges to the true position and time. Here, we neglect velocity V and assume a stationary receiver. The iterative procedure reduces to a simple least-squares optimization problem which is solved by the <a href="https://en.wikipedia.org/wiki/Gradient_descent">gradient descent method</a>.</p>
+<section id="position-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="position-analysis">Position Analysis</h3>
+<p>Let’s do that on our data and transform the WGS84 coordinates to better known longitude and latitude:</p>
+<div class="cell" data-execution_count="19">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>position_solution <span class="op">=</span> gpswt.pvt_solver.position_fix(pseudo_ranges, satellite_positions)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>positions_ellipsoid <span class="op">=</span> np.array([gpswt.coordinates.ecef_to_ellipsoid(<span class="op">*</span>pos[<span class="dv">0</span>:<span class="dv">3</span>])</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                                <span class="cf">for</span> pos <span class="kw">in</span> position_solution])</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>receive_pos_ellipsoid <span class="op">=</span> np.mean(positions_ellipsoid, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Average Position: </span><span class="sc">{</span>receive_pos_ellipsoid[<span class="dv">0</span>]<span class="sc">:0.1f}</span><span class="ss">XX°N,'</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f' </span><span class="sc">{</span>receive_pos_ellipsoid[<span class="dv">1</span>]<span class="sc">:.1f}</span><span class="ss">XX°E,'</span> </span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f' </span><span class="sc">{</span>receive_pos_ellipsoid[<span class="dv">2</span>]<span class="sc">:.2f}</span><span class="ss"> m Altitude'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Average Position: 46.9XX°N, 7.4XX°E, 656.40 m Altitude</code></pre>
+</div>
+</div>
+<p>(Since my home is such a calm place, i censored some of the digits in order to keep it like that.) The big question is, whether this is correct. Entering it in Google maps marks a spot which is only 2 meters away from my balcony where the receiver sits! The altitude matches within 10 meters with what the ‘GPSTest’ app on my smartphone shows. We have found the receiver’s location in a volume of space spanning tens of thousands of kilometers in diameter! Isn’t it cool? 😀</p>
+<p>The above position is a long time average over the recording. In <a href="#fig-position-variation">Figure&nbsp;9</a>, we can see how the position fix varies over time. Since the receiver was stationary, variations have to be attributed to errors in measurement and PVT model. The discrepancy between the measured and modelled pseudoranges are shown in <a href="#fig-prange-residuals">Figure&nbsp;10</a> for every satellite. For some of them, 5 to 10 meters distance errors (corresponding to 15-30 nanoseconds) couldn’t be reduced by a more optimal PVT solution. These residuals cannot be explained by the model.</p>
+<p>There is a reasons for the variation and residuals: Our model does not incorporate atmospheric effects. They influences radio propagation speed and thereby our estimation of the pseudorange. Some of them could be addressed: Ionosphere and troposphere data would be available in telemetry. (Feel free to send me a pull request to add this feature 😉) Other more localized variations of the atmosphere cannot be modelled and will remain as residuals. Taking into account a better model and other satellite system would allow a more stable and accurate position fix.</p>
+<div class="cell" data-execution_count="20">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> position_solution <span class="op">-</span> np.mean(position_solution, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> np.vstack([gpswt.coordinates.ecef_to_local(pt, </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                                             receive_pos_ellipsoid[<span class="dv">0</span>], </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                                             receive_pos_ellipsoid[<span class="dv">1</span>], </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                                            ) <span class="cf">for</span> pt <span class="kw">in</span> delta[:, <span class="dv">0</span>:<span class="dv">3</span>]])</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>receiver_time <span class="op">=</span> pseudo_ranges[best_prns[<span class="dv">0</span>]][<span class="st">'receive_time'</span>]</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">3</span>))</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>plt.plot(receiver_time, delta[:, <span class="dv">0</span>], label<span class="op">=</span><span class="st">'East'</span>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>plt.plot(receiver_time, delta[:, <span class="dv">1</span>], label<span class="op">=</span><span class="st">'North'</span>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>plt.plot(receiver_time, delta[:, <span class="dv">2</span>], label<span class="op">=</span><span class="st">'Up'</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Position Fix Variation [m]'</span>)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Receiver Time [s]'</span>)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="dv">20</span>,<span class="dv">30</span>])</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-position-variation" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-position-variation-output-1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;9: Position fix variation from mean value, in local ENU coordinates.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="21">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>pseudo_range_errors <span class="op">=</span> np.vstack([gpswt.pvt_solver._position_fix_error_function(x, ti, pseudo_ranges, satellite_positions) </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="cf">for</span> ti, x <span class="kw">in</span> <span class="bu">enumerate</span>(position_solution)])</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">3</span>))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn_index, prn <span class="kw">in</span> <span class="bu">enumerate</span>(best_prns):</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    plt.plot(receiver_time, pseudo_range_errors[:, prn_index], label<span class="op">=</span><span class="ss">f'PRN </span><span class="sc">{</span>prn<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Pseudorange Residual [m]'</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Receiver Time [s]'</span>)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-prange-residuals" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-prange-residuals-output-1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;10: Pseudorange residuals, i.e.&nbsp;not explained mismatch from model pseudorange at optimal position/time solution, for all satellites.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="receiver-clock-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="receiver-clock-analysis">Receiver Clock Analysis</h3>
+<p>In addition to the position, we also get a very accurate GPS time in the PVT solving process. With this we can analyze how accurate our clock is. As mentioned in Section 2, a Siglent function generator was used as a high-precision reference clock. The spec sheet reports a precision of better than <span class="math inline">\(10^{-6}\)</span>, i.e.&nbsp;less than a microsecond off per second. Let’s have a look wether that’s true:</p>
+<div class="cell" data-execution_count="22">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># bias = difference between receiver time and GPS time</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>clock_bias <span class="op">=</span> receiver_time <span class="op">-</span> position_solution[:, <span class="dv">3</span>]</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>fit_bias <span class="op">=</span> stats.linregress(receiver_time, clock_bias)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co"># a perfect receiver clock has slope = 1 s/s, but we get</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Average clock drift: </span><span class="sc">{</span>(fit_bias.slope <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> <span class="fl">1e6</span><span class="sc">:0.2f}</span><span class="ss"> microseconds/second'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Average clock drift: 0.50 microseconds/second</code></pre>
+</div>
+</div>
+<p>Indeed we find that the promise is hold, it is only slightly too fast. What about the long term stability? In <a href="#fig-clock-stability">Figure&nbsp;11</a>, we see slight variations of less than <span class="math inline">\(\pm 0.5\mu s\)</span> within 80 seconds recording period. The clock is rather stable.</p>
+<div class="cell" data-execution_count="23">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="fl">2.5</span>))</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>plt.plot(receiver_time, (clock_bias <span class="op">-</span> receiver_time<span class="op">*</span>fit_bias.slope <span class="op">-</span> fit_bias.intercept) <span class="op">*</span> <span class="fl">1e6</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Non-Linear Clock Bias [$\mu s$]'</span>)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Receiver Time [s]'</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-clock-stability" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-clock-stability-output-1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;11: Receiver clock stability. The clock bias is shown with its linear component (clock drift) removed.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="position-and-satellite-visualization" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="position-and-satellite-visualization">Position and Satellite Visualization</h3>
+<p>To conclude, we visualize our location and satellites in <a href="#fig-visualize">Figure&nbsp;12</a>. Obviously we only see satellites which are above the horizon, i.e.&nbsp;a direct line of sight is not blocked by the earth.</p>
+<p>And again, if you want to know more about PVT solving, then wait for the walkthrough step 8 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/gps_walkthrough/pvt_solver.py">PVT solver module</a>.</p>
+<p>I hope you enjoyed the journey! Feel free to contact me and please leave your comments below. If you appreciated this article and you can afford it, how about to <a href="https://ko-fi.com/mu2718">buy me a coffee?</a></p>
+<script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
+<script type="text/javascript">kofiwidget2.init('Buy me a coffee', '#29abe0', 'E1E2S1R39');kofiwidget2.draw();</script>
+<p><br></p>
+<div class="page-columns page-full">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">15</span>))</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>ax.set_proj_type(<span class="st">'ortho'</span>)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot earth in spherical approximation</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="dv">6378137</span> <span class="op">/</span> <span class="dv">1000</span> <span class="co"># [km] earth radius</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>u, v <span class="op">=</span> np.meshgrid(np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">25</span>),  <span class="co"># wireframe for every 15°</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>                   np.linspace(<span class="dv">0</span>, np.pi, <span class="dv">13</span>)) </span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> R <span class="op">*</span> np.cos(u) <span class="op">*</span> np.sin(v)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> R <span class="op">*</span> np.sin(u) <span class="op">*</span> np.sin(v)</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> R <span class="op">*</span> np.cos(v)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>ax.plot_wireframe(x, y, z, alpha<span class="op">=</span><span class="fl">0.2</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="co"># add equator and null meridian</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">25</span>)</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>ax.plot(R <span class="op">*</span> np.cos(u), R<span class="op">*</span>np.sin(u), <span class="dv">0</span><span class="op">*</span>u, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>ax.plot(R <span class="op">*</span> np.cos(u), <span class="dv">0</span><span class="op">*</span>u, R<span class="op">*</span>np.sin(u), color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="co"># draw equatorial plane</span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(np.linspace(<span class="op">-</span><span class="dv">5</span><span class="op">*</span>R, <span class="dv">5</span><span class="op">*</span>R, <span class="dv">20</span>), </span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>                   np.linspace(<span class="op">-</span><span class="dv">5</span><span class="op">*</span>R, <span class="dv">5</span><span class="op">*</span>R, <span class="dv">20</span>))</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> <span class="dv">0</span> <span class="op">*</span> x</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>ax.plot_surface(x, y, z, alpha<span class="op">=</span><span class="fl">0.2</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a><span class="co"># plot our position in red</span></span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>ax.stem(<span class="op">*</span>(position_solution[:, <span class="dv">0</span>:<span class="dv">3</span>]<span class="op">/</span><span class="dv">1000</span>).transpose(), </span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>        markerfmt<span class="op">=</span><span class="st">'or'</span>, bottom<span class="op">=</span><span class="dv">0</span>, orientation<span class="op">=</span><span class="st">'z'</span>)</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a><span class="co"># plot satellites position</span></span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn <span class="kw">in</span> best_prns:    </span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>    ax.stem(<span class="op">*</span>(satellite_positions[prn][<span class="op">-</span><span class="dv">2</span>:<span class="op">-</span><span class="dv">1</span>]<span class="op">/</span><span class="dv">1000</span>).transpose(), </span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>            markerfmt<span class="op">=</span><span class="st">'og'</span>, bottom<span class="op">=</span><span class="dv">0</span>, orientation<span class="op">=</span><span class="st">'z'</span>)</span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>    ax.text(<span class="op">*</span>(satellite_positions[prn][<span class="op">-</span><span class="dv">1</span>]<span class="op">/</span><span class="dv">1000</span> <span class="op">+</span> [<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1000</span>]), <span class="bu">str</span>(prn), <span class="va">None</span>)</span>
+<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a>ax.set_box_aspect([ub <span class="op">-</span> lb <span class="cf">for</span> lb, ub <span class="kw">in</span> (<span class="bu">getattr</span>(ax, <span class="ss">f'get_</span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">lim'</span>)() <span class="cf">for</span> a <span class="kw">in</span> <span class="st">'xyz'</span>)])  <span class="co"># set equal aspect ratio</span></span>
+<span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel((<span class="st">'x [km]'</span>))</span>
+<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel((<span class="st">'y [km]'</span>))</span>
+<span id="cb38-38"><a href="#cb38-38" aria-hidden="true" tabindex="-1"></a>ax.set_zlabel((<span class="st">'z [km]'</span>))</span>
+<span id="cb38-39"><a href="#cb38-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb38-40"><a href="#cb38-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-41"><a href="#cb38-41" aria-hidden="true" tabindex="-1"></a>plt.figure(fig)</span>
+<span id="cb38-42"><a href="#cb38-42" aria-hidden="true" tabindex="-1"></a>ax.view_init(<span class="dv">90</span>,<span class="dv">90</span>)</span>
+<span id="cb38-43"><a href="#cb38-43" aria-hidden="true" tabindex="-1"></a>fig.set_size_inches(<span class="dv">8</span>,<span class="dv">8</span>)</span>
+<span id="cb38-44"><a href="#cb38-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb38-45"><a href="#cb38-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-46"><a href="#cb38-46" aria-hidden="true" tabindex="-1"></a>plt.figure(fig)</span>
+<span id="cb38-47"><a href="#cb38-47" aria-hidden="true" tabindex="-1"></a>ax.view_init(<span class="dv">0</span>,<span class="dv">90</span>)</span>
+<span id="cb38-48"><a href="#cb38-48" aria-hidden="true" tabindex="-1"></a>fig.set_size_inches(<span class="dv">8</span>,<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div id="fig-visualize" class="cell column-screen quarto-layout-panel" data-execution_count="24">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 100.0%;justify-content: center;">
+<div id="fig-visualize-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-visualize-output-1.png" class="img-fluid figure-img" data-ref-parent="fig-visualize"></p>
+<figcaption class="figure-caption">(a) Earth with indicated equator and prime meridian, our position (red), and satellites in WGS84 coordinate system. Stems are drawn from the equatorial plane (gray).</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-visualize-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-visualize-output-2.png" class="img-fluid figure-img" data-ref-parent="fig-visualize"></p>
+<figcaption class="figure-caption">(b) Top View.</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-visualize-3" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="step1_overview_files/figure-html/fig-visualize-output-3.png" class="img-fluid figure-img" data-ref-parent="fig-visualize"></p>
+<figcaption class="figure-caption">(c) Side View.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;12: Visualization of the geometric situation in a moment during the GPS radio wave recording.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-refs" class="level2">
+<h2 class="anchored" data-anchor-id="sec-refs">References</h2>
+<ul>
+<li><a href="https://gssc.esa.int/navipedia/index.php/GPS_Signal_Plan#GPS_L1_Band">navipedia GPS L1 C/A</a></li>
+<li><a href="https://en.wikipedia.org/wiki/GPS_signals#Legacy_GPS_signals">Wikipedia GPS L1 C/A</a></li>
+<li><a href="https://gnss-sdr.org/docs/tutorials/gnss-signals/#gps-l1">gnss-sdr GPS L1 C/A</a></li>
+<li><a href="https://www.gps.gov/technical/icwg/IS-GPS-200L.pdf">gps.gov IS-GPS-200 GPS specification</a> (PDF)</li>
+<li><a href="https://www.telesens.co/2017/07/17/calculating-position-from-raw-gps-data/">Calculating Position from Raw GPS Data</a>, blog post by Ankur Mohan</li>
+</ul>
+<p>See also more specific technical references in the source code of the <a href="https://github.com/mu2718/gps-walkthrough/"><code>gps_walkthrough</code> python module</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="mu2718/mu2718.github.io" data-repo-id="R_kgDOJ0az-A" data-category="General" data-category-id="DIC_kwDOJ0az-M4CYLUK" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

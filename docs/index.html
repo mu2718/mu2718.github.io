@@ -72,7 +72,8 @@ ul.task-list li input[type="checkbox"] {
 
     const options = {
       valueNames: ['listing-image','listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
+      page: 3,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
     };
 
@@ -167,11 +168,11 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 </header>
 
 <p>Welcome to my page!</p>
-<p>Have a look at my <a href="./posts.html">posts</a> which are topics I found interesting to dive into. Maybe for you as well? Subscribe to my <a href="./newsletter.html">newsletter</a> for being updated.</p>
+<p>Have a look at my <a href="./posts.html">posts</a> which are about topics I found interesting to dive into. Maybe for you as well? Subscribe to my <a href="./newsletter.html">newsletter</a> for being updated.</p>
 <section id="links" class="level2">
 <h2 class="anchored" data-anchor-id="links">Links</h2>
 <ul>
-<li><p><a href="./posts.html#category=GPS">GPS walkthrough</a> post series</p></li>
+<li><p><a href="./posts/gps/index.html">GPS walkthrough</a> post series</p></li>
 <li><p><a href="https://github.com/mu2718">mu2718 on GitHub</a></p></li>
 </ul>
 </section>
@@ -179,8 +180,27 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="recent-posts">Recent Posts</h2>
 <div id="listing-posts" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="GPS,physics" data-listing-date-sort="1691704800000" data-listing-file-modified-sort="1693327620614" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
-<a href="./posts/gps/intro.html" class="quarto-grid-link">
+<div class="g-col-1" data-index="0" data-categories="GPS" data-listing-date-sort="1702162800000" data-listing-file-modified-sort="1702231908292" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20">
+<a href="./posts/gps/step1_overview.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/gps/step1.png" class="thumbnail-image card-img" style="height: 250px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+GPS Walkthrough 1 — Overview
+</h5>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Dec 10, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="GPS,physics" data-listing-date-sort="1691704800000" data-listing-file-modified-sort="1702232034401" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
+<a href="./posts/gps/step0_intro.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
 <img src="./posts/gps/gps-sat.jpg" class="thumbnail-image card-img" style="height: 250px;">
@@ -198,7 +218,7 @@ Aug 11, 2023
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="math" data-listing-date-sort="1649973600000" data-listing-file-modified-sort="1693327424153" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="g-col-1" data-index="2" data-categories="math" data-listing-date-sort="1649973600000" data-listing-file-modified-sort="1702231908276" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
 <a href="./posts/geodesics/Geodesics_on_Curved_Surfaces.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -217,10 +237,10 @@ Apr 15, 2022
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="math,riddles" data-listing-date-sort="1587938400000" data-listing-file-modified-sort="1693327424157" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10">
+<div class="g-col-1" data-index="3" data-categories="math,riddles" data-listing-date-sort="1587938400000" data-listing-file-modified-sort="1702231908296" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10">
 <a href="./posts/polygon-smoothing/PolygonSmoothing.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-4-output-1.png" style="height: 250px;"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img data-src="posts/polygon-smoothing/PolygonSmoothing_files/figure-html/cell-4-output-1.png" style="height: 250px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 Polygon Smoothing Riddle
@@ -238,6 +258,9 @@ Apr 27, 2020
 <div class="listing-no-matching d-none">
 No matching items
 </div>
+<nav id="posts-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div>
 <p><a href="posts.html"> <button type="button" class="btn btn-primary float-end btn-sm">All Posts</button></a></p>
 
@@ -483,4 +506,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mu2718/gps-walkthrough/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>

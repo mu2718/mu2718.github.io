@@ -10,15 +10,25 @@
 <atom:link href="https://mu2718.github.io/posts.xml" rel="self" type="application/rss+xml"/>
 <description>mu2718&#39;s Blog</description>
 <generator>quarto-1.3.361</generator>
-<lastBuildDate>Thu, 10 Aug 2023 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 09 Dec 2023 23:00:00 GMT</lastBuildDate>
+<item>
+  <title>GPS Walkthrough 1 — Overview</title>
+  <dc:creator>Manuel </dc:creator>
+  <link>https://mu2718.github.io/posts/gps/step1_overview.html</link>
+  <description><![CDATA[ This article is step 1 of the <a href="../../posts/gps/index.html">GPS walkthrough series</a>. Here we give an overview over the whole post series and introduce every step required to get from a raw GPS signal to a position fix. The main results are shown while detailed analysis and explanations are following in later posts. ]]></description>
+  <category>GPS</category>
+  <guid>https://mu2718.github.io/posts/gps/step1_overview.html</guid>
+  <pubDate>Sat, 09 Dec 2023 23:00:00 GMT</pubDate>
+  <media:content url="https://mu2718.github.io/posts/gps/step1.png" medium="image" type="image/png" height="136" width="144"/>
+</item>
 <item>
   <title>GPS Walkthrough – A Journey from Radio Wave to Position Fix</title>
   <dc:creator>Manuel </dc:creator>
-  <link>https://mu2718.github.io/posts/gps/intro.html</link>
-  <description><![CDATA[ Have you ever wondered how the Global Positioning System (GPS) actually works in detail? I did as well, and wanted to dive into it one day… ]]></description>
+  <link>https://mu2718.github.io/posts/gps/step0_intro.html</link>
+  <description><![CDATA[ For other articles in this series, have a look at the <a href="../../posts/gps/index.html">GPS walkthrough index</a>. ]]></description>
   <category>GPS</category>
   <category>physics</category>
-  <guid>https://mu2718.github.io/posts/gps/intro.html</guid>
+  <guid>https://mu2718.github.io/posts/gps/step0_intro.html</guid>
   <pubDate>Thu, 10 Aug 2023 22:00:00 GMT</pubDate>
   <media:content url="https://mu2718.github.io/posts/gps/gps-sat.jpg" medium="image" type="image/jpeg"/>
 </item>

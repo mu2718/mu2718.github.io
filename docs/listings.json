@@ -1,12 +1,16 @@
 [
   {
-    "listing": "/posts/gps/intro.html",
-    "items": []
+    "listing": "/posts/gps/index.html",
+    "items": [
+      "/posts/gps/step0_intro.html",
+      "/posts/gps/step1_overview.html"
+    ]
   },
   {
     "listing": "/index.html",
     "items": [
-      "/posts/gps/intro.html",
+      "/posts/gps/step1_overview.html",
+      "/posts/gps/step0_intro.html",
       "/posts/geodesics/Geodesics_on_Curved_Surfaces.html",
       "/posts/polygon-smoothing/PolygonSmoothing.html"
     ]
@@ -14,7 +18,8 @@
   {
     "listing": "/posts.html",
     "items": [
-      "/posts/gps/intro.html",
+      "/posts/gps/step1_overview.html",
+      "/posts/gps/step0_intro.html",
       "/posts/geodesics/Geodesics_on_Curved_Surfaces.html",
       "/posts/polygon-smoothing/PolygonSmoothing.html"
     ]

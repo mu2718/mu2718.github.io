@@ -8,6 +8,7 @@
 
 <meta name="author" content="Manuel">
 <meta name="dcterms.date" content="2022-04-15">
+<meta name="description" content="We investigate geodesics on parametrized curved surfaces which are embedded in 3D space. Visualization and computation is implemented in Python.">
 
 <title>mu2718 - Geodesics on Curved Surfaces</title>
 <style>
@@ -151,7 +152,12 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Geodesics on Curved Surfaces</h1>
-                                <div class="quarto-categories">
+                  <div>
+        <div class="description">
+          We investigate geodesics on parametrized curved surfaces which are embedded in 3D space. Visualization and computation is implemented in Python.
+        </div>
+      </div>
+                          <div class="quarto-categories">
                 <div class="quarto-category">math</div>
               </div>
                   </div>
@@ -177,12 +183,6 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
       
     </div>
     
-  <div>
-    <div class="abstract">
-      <div class="abstract-title">Abstract</div>
-      We investigate geodesics on parametrized curved surfaces which are embedded in 3D space. Visualization and computation is implemented in Python.
-    </div>
-  </div>
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
@@ -192,9 +192,7 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#geodesics-on-curved-surfaces" id="toc-geodesics-on-curved-surfaces" class="nav-link active" data-scroll-target="#geodesics-on-curved-surfaces">Geodesics on Curved Surfaces</a>
-  <ul class="collapse">
-  <li><a href="#helper-functions" id="toc-helper-functions" class="nav-link" data-scroll-target="#helper-functions">Helper Functions</a></li>
+  <li><a href="#helper-functions" id="toc-helper-functions" class="nav-link active" data-scroll-target="#helper-functions">Helper Functions</a></li>
   <li><a href="#flat-plane-in-polar-coordinates" id="toc-flat-plane-in-polar-coordinates" class="nav-link" data-scroll-target="#flat-plane-in-polar-coordinates">Flat Plane in Polar Coordinates</a></li>
   <li><a href="#sphere" id="toc-sphere" class="nav-link" data-scroll-target="#sphere">Sphere</a></li>
   <li><a href="#torus" id="toc-torus" class="nav-link" data-scroll-target="#torus">Torus</a></li>
@@ -210,9 +208,8 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
   <li><a href="#closed-geodesic---take-i" id="toc-closed-geodesic---take-i" class="nav-link" data-scroll-target="#closed-geodesic---take-i">Closed Geodesic - Take I</a></li>
   <li><a href="#closed-geodesic---take-ii" id="toc-closed-geodesic---take-ii" class="nav-link" data-scroll-target="#closed-geodesic---take-ii">Closed Geodesic - Take II</a></li>
   </ul></li>
-  </ul></li>
   </ul>
-</nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/mu2718/gps-walkthrough/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -220,8 +217,6 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 
 
 
-<section id="geodesics-on-curved-surfaces" class="level1">
-<h1>Geodesics on Curved Surfaces</h1>
 <p>In this post, I try to find and illustrate geodesics on 2-D curved surfaces that are embedded in 3-D space. Due to a specific question from a friend of mine, the main goal is to find closed geodesics on a Möbius strip.</p>
 <p>A geodesic is a curve in the surface with no transversal acceleration, i.e.&nbsp;a straight line. E.g. the shortest path between two points is a geodesic. Any path connecting the two points is a geodesic, if and only if a rope, which is aligned along this curve on the surface, does not change its shape under tension.</p>
 <p>We follow the definitions and formalism in <a href="https://de.wikipedia.org/wiki/Christoffelsymbole" class="uri">https://de.wikipedia.org/wiki/Christoffelsymbole</a>. We assume to have a parametrization of the curved surface which embed them into 3-D euclidean space by the function <span class="math display">\[X:  (u,v) \rightarrow (x,y,z) \in \mathbb R^3.\]</span></p>
@@ -855,7 +850,6 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 <p>We successfully arrived at a closed geodesic on the doubly twisted strip!</p>
 
 
-</section>
 </section>
 </section>
 
