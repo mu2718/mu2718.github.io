@@ -7,13 +7,16 @@ about:
     - icon: github
       text: Github
       href: https://github.com/mu2718/
+email-obfuscation: javascript
 ---
 
 Hi! My name is Manuel and I am living in Switzerland. I have graduated in physics and currently I am working in IT. In this blog, I occasionally write about my hobby projects. Usually, you can expect to read about riddles, physics, electronics, math or computer science.
 
-In case you are wondering about the nickname as well: Probably it's just some greek letters and math related sequences 😀
+You can reach me via [email](mailto:mu2718@proton.me).
 
-If you like my article and you want to support me: <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-Fi', '#29abe0', 'E1E2S1R39');kofiwidget2.draw();</script> 
+In case you are wondering about the nickname as well: For sure it's just some greek letters and math related sequences... 😀
+
+If you like my articles and you want to encourage me: <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-Fi', '#29abe0', 'E1E2S1R39');kofiwidget2.draw();</script> 
 \
 
 This website is built using the amazing [Quarto](https://quarto.org/) publishing system. Its source code can be found [here](https://github.com/mu2718/mu2718.github.io/).

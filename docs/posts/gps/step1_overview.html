@@ -649,7 +649,7 @@ PRN 32:  Acquisition...   Tracking...   BPSK Demodulation... done.</code></pre>
 <section id="telemetry-decoding" class="level2">
 <h2 class="anchored" data-anchor-id="telemetry-decoding">5 Telemetry Decoding</h2>
 <p>The telemetry data sent in navigation messages by all satellites contain information about their orbital parameters as well as clock error information of the on-board atomic clocks. Both are required for calculating a satellite’s position very accurately at every moment in time.</p>
-<p>The BPSK demodulation done above yields a binary stream. Its constituents are called <em>pseudo-symbols</em>. The actual information carrying bits, used for encoding the telemetry message, consist of 20 identically repeated pseudo-symbols. Messages sent by the satellite are encoded in a data structure called which consists of give <em>subframes</em>. To get the frame data, we have to perform the following steps:</p>
+<p>The BPSK demodulation done above yields a binary stream. Its constituents are called <em>pseudo-symbols</em>. The actual information carrying bits, used for encoding the telemetry message, consist of 20 identically repeated pseudo-symbols. Messages sent by the satellite are encoded in a data structure called frame which consists of five <em>subframes</em>. To get the frame data, we have to perform the following steps:</p>
 <ul>
 <li>Bit synchronization: Find out where in the stream of pseudo-symbols a bit starts.</li>
 <li>Bit decoding: Decode the pseudo-symbols and generate the stream of bits.</li>
@@ -730,7 +730,7 @@ Dissection: 13 subframes decoded.
 <p>In order to calculate our position, we need to perform measurements of so called <a href="https://gssc.esa.int/navipedia/index.php/GNSS_Basic_Observables">observables</a>. The one we will consider here is called <em><a href="https://en.wikipedia.org/wiki/Pseudorange">pseudorange</a></em>. It represents a measurable quantity which is related to the distance between the receiver and a satellite. The pseudorange to satellite i is defined by</p>
 <p><span class="math display">\[ R_i = c \, (t_{i} - T_{i}) \]</span></p>
 <p>with the speed of light <span class="math inline">\(c\)</span>, the receiving time <span class="math inline">\(t_i\)</span> of a signal as measured by the receiver, and the send time <span class="math inline">\(T_i\)</span> of this signal as measured by satellite i’s atomic clock in <a href="https://en.wikipedia.org/wiki/Global_Positioning_System#Timekeeping">GPS time</a>. Therefore, measuring <span class="math inline">\(t_i\)</span> and decoding <span class="math inline">\(T_i\)</span> from the telemetry allows us to infer <span class="math inline">\(R_i\)</span>.</p>
-<p>The reason why this is not the actual range or distance: While <span class="math inline">\(T_i\)</span> is very accurate thanks to the atomic clocks and their correction information available through telemetry, the cheap receiver clock built into our SDR, on which we base our measurements of <span class="math inline">\(t_r\)</span>, is not accurate at all. Furthermore, the speed of light might not correspond to the radio wave’s effective speed of propagation (atmosphere’s influence). These discrepancies make the pseudorange deviate from the actual, physical distance and have to be taken into account later.</p>
+<p>The reason why this is not the actual range or distance: While <span class="math inline">\(T_i\)</span> is very accurate thanks to the atomic clocks and their correction information available through telemetry, the cheap receiver clock built into our SDR, on which we base our measurements of <span class="math inline">\(t_i\)</span>, is not accurate at all. Furthermore, the speed of light might not correspond to the radio wave’s effective speed of propagation (atmosphere’s influence). These discrepancies make the pseudorange deviate from the actual, physical distance and have to be taken into account later.</p>
 <p>Let’s have a look at pseudoranges of PRN 16 during the first few seconds:</p>
 <div class="cell" data-execution_count="14">
 <details>
@@ -988,9 +988,9 @@ Calculating satellite positions of PRN 32...</code></pre>
 <h3 class="anchored" data-anchor-id="position-and-satellite-visualization">Position and Satellite Visualization</h3>
 <p>To conclude, we visualize our location and satellites in <a href="#fig-visualize">Figure&nbsp;12</a>. Obviously we only see satellites which are above the horizon, i.e.&nbsp;a direct line of sight is not blocked by the earth.</p>
 <p>And again, if you want to know more about PVT solving, then wait for the walkthrough step 8 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/pvt_solver.py">PVT solver module</a>.</p>
-<p>I hope you enjoyed the journey! Feel free to contact me and please leave your comments below. If you appreciated this article and you can afford it, how about to <a href="https://ko-fi.com/mu2718">buy me a coffee?</a></p>
+<p>I hope you enjoyed the journey! Feel free to contact me and please leave your comments below. If you appreciated this article and you can afford it, how about to thank me by <a href="https://ko-fi.com/mu2718">buying me a coffee?</a></p>
 <script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
-<script type="text/javascript">kofiwidget2.init('Buy me a coffee', '#29abe0', 'E1E2S1R39');kofiwidget2.draw();</script>
+<script type="text/javascript">kofiwidget2.init('Support me on Ko-fi', '#29abe0', 'E1E2S1R39');kofiwidget2.draw();</script>
 <p><br></p>
 <div class="page-columns page-full">
 <details>
