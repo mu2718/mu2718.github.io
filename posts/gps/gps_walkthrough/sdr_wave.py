@@ -38,13 +38,22 @@ class SdrWave:
 
         Arguments:
         - sampling_rate: samples per second [S/s]
-        - dtype:  Data type, use 'byte' for `hackrf_transfer` output
-                  and 'float32' for GNU Radio 'gr_complex' / complex float format.
+        - dtype:  Data type, use 'byte' for `hackrf_transfer` output,
+                   'float32' for GNU Radio 'gr_complex' / complex float format,
+                   and 'bits' for gps-sdr-sim with 1-bit IQ data (parameter '-b 1')
         """
 
         sampling_dt = 1 / sampling_rate  # [s/S], time step per sample
 
-        data = np.fromfile(filename, dtype=dtype, count=max_samples)
-        amplitudes = data[0::2] + 1j * data[1::2]  # de-interleave to get complex
+        if dtype == 'bits':
+            data = np.fromfile(filename, dtype='byte', count=max_samples)
+            data_bits = np.zeros((len(data)*8))
+            for i in reversed(range(8)):
+                data_bits[i::8] = np.mod(data, 2)
+                data = np.floor(data / 2)
+            amplitudes = data_bits[0::2] + 1j * data_bits[1::2]  # de-interleave to get complex
+        else:
+            data = np.fromfile(filename, dtype=dtype, count=max_samples)
+            amplitudes = data[0::2] + 1j * data[1::2]  # de-interleave to get complex
 
         return SdrWave(amplitudes, sampling_dt)
