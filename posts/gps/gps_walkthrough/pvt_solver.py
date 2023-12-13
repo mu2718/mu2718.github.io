@@ -41,6 +41,9 @@ def position_fix(pseudo_ranges, sv_positions):
         start_coordinates = o.x
         solution_coordinates[ti] = o.x
 
+    # report GPS receive time, i.e. receive time corrected by clock bias solution
+    #solution_coordinates[:,3] += receive_time
+
     return solution_coordinates
 
 
@@ -53,17 +56,18 @@ def _position_fix_error_function(x, time_index, pseudo_ranges, satellite_positio
     Optimal estimate x is given if sum(pos_error(x)**2) is minimal.
 
     Arguments:
-      x:             x[0:3] receiver position estimate in meters, x[3] receiver time in seconds.
+      x:             x[0:3] receiver position estimate in meters, 
+                     x[3] receiver time estimate in seconds.
       time_index:    index to select point in time of the following arguments,
       pseudo_ranges: time series array of measured pseudo-ranges of all PRNs,
       satellite_positions: time series of sat. positions of all PRNs.
     """    
     receiver_position_estimate = x[0:3]
-    receiver_clock_bias_estimate = x[3]
     
     residuals = np.zeros((len(satellite_positions),))
     for i, prn in enumerate(satellite_positions):
-        
+        receiver_clock_bias_estimate = x[3] - pseudo_ranges[prn][time_index]['receive_time']
+
         # correct receiver clock bias of pseudo range
         pseudo_range = pseudo_ranges[prn][time_index]['pseudo_range'] \
                        - SPEED_OF_LIGHT * receiver_clock_bias_estimate 
@@ -75,7 +79,7 @@ def _position_fix_error_function(x, time_index, pseudo_ranges, satellite_positio
                         ( satellite_positions[prn][time_index][0] * receiver_position_estimate[1] \
                          - satellite_positions[prn][time_index][1] * receiver_position_estimate[0] )
         
-        # range as expected by current position estimate = euclidian distance
+        # range as expected by current position estimate = euclidean distance
         distance = np.sqrt(np.sum((satellite_positions[prn][time_index] - receiver_position_estimate)**2))
 
         # residual = difference between measured vs. expected range

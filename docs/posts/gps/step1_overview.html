@@ -625,7 +625,7 @@ PRN 32:  Acquisition...   Tracking...   BPSK Demodulation... done.</code></pre>
 </div>
 <p>This is rather lengthy calculation, taking almost 10 minutes on my laptop for the given length of the recording. Certainly, the algorithm’s are not at all optimized for speed, but are roughly 20 times faster than the acquisition procedure is.</p>
 <p>If you want to know more about control loops, signal processing, demodulation, wait for the walkthrough step 4 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/tracking.py">tracking module</a>.</p>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="2">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to avoid running tracking again, save the output for later experimentation...</span></span>
@@ -657,7 +657,7 @@ PRN 32:  Acquisition...   Tracking...   BPSK Demodulation... done.</code></pre>
 <li>Frame dissection: Read the frame data structure, check its validity using checksums, and represent it in a usable form.</li>
 </ul>
 <p>Let’s do that for all satellites:</p>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="3">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>telemetry <span class="op">=</span> {}</span>
@@ -701,7 +701,7 @@ Dissection: 13 subframes decoded.
 </div>
 <p>We see from the output that the telemetry data of all five satellites was successfully decoded. While a few pseudo-symbols are reported to be faulty, the signal quality was good enough that almost all subframes were valid, i.e.&nbsp;contain no bit errors.</p>
 <p>Let’s have a look at the telemetry data of one of the satellites. The first five received subframes read</p>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="4">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):  <span class="co"># show a full frame = 5 subframes</span></span>
@@ -732,7 +732,7 @@ Dissection: 13 subframes decoded.
 <p>with the speed of light <span class="math inline">\(c\)</span>, the receiving time <span class="math inline">\(t_i\)</span> of a signal as measured by the receiver, and the send time <span class="math inline">\(T_i\)</span> of this signal as measured by satellite i’s atomic clock in <a href="https://en.wikipedia.org/wiki/Global_Positioning_System#Timekeeping">GPS time</a>. Therefore, measuring <span class="math inline">\(t_i\)</span> and decoding <span class="math inline">\(T_i\)</span> from the telemetry allows us to infer <span class="math inline">\(R_i\)</span>.</p>
 <p>The reason why this is not the actual range or distance: While <span class="math inline">\(T_i\)</span> is very accurate thanks to the atomic clocks and their correction information available through telemetry, the cheap receiver clock built into our SDR, on which we base our measurements of <span class="math inline">\(t_i\)</span>, is not accurate at all. Furthermore, the speed of light might not correspond to the radio wave’s effective speed of propagation (atmosphere’s influence). These discrepancies make the pseudorange deviate from the actual, physical distance and have to be taken into account later.</p>
 <p>Let’s have a look at pseudoranges of PRN 16 during the first few seconds:</p>
-<div class="cell" data-execution_count="12">
+<div class="cell" data-execution_count="20">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pseudo_range <span class="op">=</span> gpswt.observables.pseudo_ranges(telemetry[<span class="dv">16</span>], tracking_data[<span class="dv">16</span>], </span>
@@ -752,7 +752,7 @@ t = 3.000000 s, T = 52109.036485 s, R = -15620996756 km + 1626.99 m</code></pre>
 </div>
 <p>A comparison between the receiver time <span class="math inline">\(t_i\)</span> and the send time <span class="math inline">\(T_i\)</span> reveals that they are roughly in sync, but off by almost a day. In the last shown digits of <span class="math inline">\(T_i\)</span>, we can observe that the signal received at the integer values <span class="math inline">\(t_i\)</span> are sent earlier and earlier, explained by an increase in distance. The pseudorange is negative, a non-sensical value for a distance, due to the wrong receiver time offset by almost a day. But what can be taken more seriously are the changes reported after the + sign. We can read off a receding speed of approx. 540 m/s of the satellite (again only in line of sight).</p>
 <p>Let’s measure the pseudoranges for all satellites as we need them in our next steps.</p>
-<div class="cell" data-execution_count="14">
+<div class="cell" data-execution_count="21">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>position_fix_time_interval <span class="op">=</span> <span class="fl">0.5</span></span>
@@ -783,7 +783,7 @@ Measuring pseudoranges for PRN: 21 16 27 1 32 </code></pre>
 </ul>
 <p>These effects need to be considered and put a correction on top of Kepler’s solution. For this, all required information is sent in the ephemeris parameters in the telemetry messages.</p>
 <p>Therefore, let’s calculate the position of the satellite sending PRN 16 at GPS time 0, at the beginning of the current week, and 12 hours later:</p>
-<div class="cell" data-execution_count="15">
+<div class="cell" data-execution_count="7">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract complete set of ephemeris data from subframes</span></span>
@@ -808,7 +808,7 @@ t = 11.97h, (x,y,z) = ( 15983.496,  -5760.857,  20223.744) km</code></pre>
 <p>The shown <span class="math inline">\((x,y,z)\)</span> coordinate is this satellite’s position in the <em>GPS coordinate system <a href="https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84">WGS84</a></em>. It is as <a href="https://en.wikipedia.org/wiki/Earth-centered,_Earth-fixed_coordinate_system">earth-centered earth-fixed (ECEF)</a> system, i.e.&nbsp;<span class="math inline">\((0,0,0)\)</span> is at the earth’s center, the <span class="math inline">\(z\)</span> axis is along to rotation axis, and the whole system is rotating together with the earth, such that a fixed position on the surface does not change coordinates with time.</p>
 <p>We can directly read off the corotating behavior: GPS satellite’s have a orbital period of approx. 12 hours. Therefore, we would expect to two positions reported above to be identical. This is almost the case, were it not for the minus signs change in <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates. In 12 hours, the earth spun half a rotation around the <span class="math inline">\(z\)</span> axis, changing the coordinates of the same physical position (in a inertial frame) exactly in the observed manner, i.e.&nbsp;turning <span class="math inline">\((x,y,z) \rightarrow (-x,-y,z)\)</span>.</p>
 <p>From the reported satellite position we derive:</p>
-<div class="cell" data-execution_count="17">
+<div class="cell" data-execution_count="8">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Sat. distance from earth center: </span><span class="sc">{</span>np<span class="sc">.</span>sqrt(np.<span class="bu">sum</span>(pos[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span>))<span class="op">/</span><span class="fl">1e3</span> <span class="sc">:.3f}</span><span class="ss"> km'</span>)</span>
@@ -820,7 +820,7 @@ Sat. altitude from surface:      20034.329 km</code></pre>
 </div>
 </div>
 <p>Finally, we can calculate the position of every satellite for every point in time in our wave recording.</p>
-<div class="cell" data-execution_count="17">
+<div class="cell" data-execution_count="9">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Calculating satellite positions of PRN: '</span>, end<span class="op">=</span><span class="st">''</span>)</span>
@@ -868,18 +868,29 @@ Sat. altitude from surface:      20034.329 km</code></pre>
 <section id="position-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="position-analysis">Position Analysis</h3>
 <p>Let’s do that on our data and transform the WGS84 coordinates to better known longitude and latitude:</p>
-<div class="cell" data-execution_count="25">
+<div class="cell" data-execution_count="30">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pvt_solution <span class="op">=</span> gpswt.pvt_solver.position_fix(pseudo_ranges, satellite_positions)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>position_ellipsoid <span class="op">=</span> np.array([gpswt.coordinates.ecef_to_ellipsoid(<span class="op">*</span>pos[<span class="dv">0</span>:<span class="dv">3</span>])</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                                <span class="cf">for</span> pos <span class="kw">in</span> pvt_solution])</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>position_ellipsoid_mean <span class="op">=</span> np.mean(position_ellipsoid, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Average Position: </span><span class="sc">{</span>position_ellipsoid_mean[<span class="dv">0</span>]<span class="sc">:0.1f}</span><span class="ss">XX°N,'</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f' </span><span class="sc">{</span>position_ellipsoid_mean[<span class="dv">1</span>]<span class="sc">:.1f}</span><span class="ss">XX°E,'</span> </span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f' </span><span class="sc">{</span>position_ellipsoid_mean[<span class="dv">2</span>]<span class="sc">:.2f}</span><span class="ss"> m Altitude'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> importlib</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>importlib.<span class="bu">reload</span>(gpswt.pvt_solver)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>importlib.<span class="bu">reload</span>(gpswt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>&lt;module 'gps_walkthrough' from '/home/user1/Documents/projects/gps/blog/mu2718.github.io/posts/gps/gps_walkthrough/__init__.py'&gt;</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="31">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pvt_solution <span class="op">=</span> gpswt.pvt_solver.position_fix(pseudo_ranges, satellite_positions)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>position_ellipsoid <span class="op">=</span> np.array([gpswt.coordinates.ecef_to_ellipsoid(<span class="op">*</span>pos[<span class="dv">0</span>:<span class="dv">3</span>])</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                                <span class="cf">for</span> pos <span class="kw">in</span> pvt_solution])</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>position_ellipsoid_mean <span class="op">=</span> np.mean(position_ellipsoid, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Average Position: </span><span class="sc">{</span>position_ellipsoid_mean[<span class="dv">0</span>]<span class="sc">:0.1f}</span><span class="ss">XX°N,'</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f' </span><span class="sc">{</span>position_ellipsoid_mean[<span class="dv">1</span>]<span class="sc">:.1f}</span><span class="ss">XX°E,'</span> </span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f' </span><span class="sc">{</span>position_ellipsoid_mean[<span class="dv">2</span>]<span class="sc">:.2f}</span><span class="ss"> m Altitude'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Average Position: 46.9XX°N, 7.4XX°E, 656.40 m Altitude</code></pre>
@@ -887,25 +898,25 @@ Sat. altitude from surface:      20034.329 km</code></pre>
 </div>
 <p>(Since my home is such a calm place, i censored some of the digits in order to keep it like that.) The big question is, whether this is correct. Entering it in Google maps marks a spot which is only 2 meters away from my balcony where the receiver sits! The altitude matches within 10 meters with what the ‘GPSTest’ app on my smartphone shows. We have found the receiver’s location in a volume of space spanning tens of thousands of kilometers in diameter! Isn’t it cool? 😀</p>
 <p>The above position is a long time average over the recording. In <a href="#fig-position-variation">Figure&nbsp;9</a>, we can see how the position fix varies over time. Since the receiver was stationary, variations have to be attributed to errors in measurement and PVT model as discussed in a moment.</p>
-<div class="cell">
+<div class="cell" data-execution_count="32">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> position_solution <span class="op">-</span> np.mean(position_solution, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> np.vstack([gpswt.coordinates.ecef_to_local(pt, </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                                             position_ellipsoid_mean[<span class="dv">0</span>], </span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                                             position_ellipsoid_mean[<span class="dv">1</span>], </span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                                            ) <span class="cf">for</span> pt <span class="kw">in</span> delta[:, <span class="dv">0</span>:<span class="dv">3</span>]])</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>receiver_time <span class="op">=</span> pseudo_ranges[best_prns[<span class="dv">0</span>]][<span class="st">'receive_time'</span>]</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">3</span>))</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>plt.plot(receiver_time, delta[:, <span class="dv">0</span>], label<span class="op">=</span><span class="st">'East'</span>)</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>plt.plot(receiver_time, delta[:, <span class="dv">1</span>], label<span class="op">=</span><span class="st">'North'</span>)</span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>plt.plot(receiver_time, delta[:, <span class="dv">2</span>], label<span class="op">=</span><span class="st">'Up'</span>)</span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Position Fix Variation [m]'</span>)</span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Receiver Time [s]'</span>)</span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="dv">20</span>,<span class="dv">30</span>])</span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> pvt_solution <span class="op">-</span> np.mean(pvt_solution, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> np.vstack([gpswt.coordinates.ecef_to_local(pt, </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                                             position_ellipsoid_mean[<span class="dv">0</span>], </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                                             position_ellipsoid_mean[<span class="dv">1</span>], </span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>                                            ) <span class="cf">for</span> pt <span class="kw">in</span> delta[:, <span class="dv">0</span>:<span class="dv">3</span>]])</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>receiver_time <span class="op">=</span> pseudo_ranges[best_prns[<span class="dv">0</span>]][<span class="st">'receive_time'</span>]</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">3</span>))</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>plt.plot(receiver_time, delta[:, <span class="dv">0</span>], label<span class="op">=</span><span class="st">'East'</span>)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>plt.plot(receiver_time, delta[:, <span class="dv">1</span>], label<span class="op">=</span><span class="st">'North'</span>)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>plt.plot(receiver_time, delta[:, <span class="dv">2</span>], label<span class="op">=</span><span class="st">'Up'</span>)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Position Fix Variation [m]'</span>)</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Receiver Time [s]'</span>)</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="dv">20</span>,<span class="dv">30</span>])</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-position-variation" class="quarto-figure quarto-figure-center anchored">
@@ -917,14 +928,14 @@ Sat. altitude from surface:      20034.329 km</code></pre>
 </div>
 </div>
 <p>Are you wondering at what the distances the satellites are from us, too?</p>
-<div class="cell" data-execution_count="41">
+<div class="cell" data-execution_count="33">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Distance from receiver to satellite'</span>)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn <span class="kw">in</span> best_prns:</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    delta <span class="op">=</span> satellite_positions[prn][<span class="dv">0</span>] <span class="op">-</span> pvt_solution[<span class="dv">0</span>][<span class="dv">0</span>:<span class="dv">3</span>]  <span class="co"># take first observation only</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    distance <span class="op">=</span> np.sqrt(<span class="bu">sum</span>(<span class="bu">abs</span>(delta<span class="op">**</span><span class="dv">2</span>)))</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'  PRN </span><span class="sc">{</span>prn<span class="sc">:&gt;2}</span><span class="ss">: </span><span class="sc">{</span>distance<span class="op">/</span><span class="dv">1000</span><span class="sc">:.3f}</span><span class="ss"> km'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Distance from receiver to satellite'</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn <span class="kw">in</span> best_prns:</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    delta <span class="op">=</span> satellite_positions[prn][<span class="dv">0</span>] <span class="op">-</span> pvt_solution[<span class="dv">0</span>][<span class="dv">0</span>:<span class="dv">3</span>]  <span class="co"># take first observation only</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    distance <span class="op">=</span> np.sqrt(<span class="bu">sum</span>(<span class="bu">abs</span>(delta<span class="op">**</span><span class="dv">2</span>)))</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'  PRN </span><span class="sc">{</span>prn<span class="sc">:&gt;2}</span><span class="ss">: </span><span class="sc">{</span>distance<span class="op">/</span><span class="dv">1000</span><span class="sc">:.3f}</span><span class="ss"> km'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Distance from receiver to satellite
@@ -938,18 +949,18 @@ Sat. altitude from surface:      20034.329 km</code></pre>
 <p>For me it’s quite mind-boggling that we received the analyzed signal over more than 20000 km distance, almost two times the earth’s diameter!</p>
 <p>How accurately have we been able to measure these distances? The answer give the pseudorange residuals: The discrepancy between the measured and modelled pseudoranges are shown in <a href="#fig-prange-residuals">Figure&nbsp;10</a> for every satellite. For some of them we see less than 3 meters, for others 5 to 10 meters difference (corresponding to 10-30 nanoseconds time-of-flight error) that couldn’t be reduced by a more optimal PVT solution. These residuals cannot be explained by the model. Therefore, we can roughly assume that the above reported satellite distances are accurate to less than 10 meters, which is quite fascinating.</p>
 <p>There is a reasons for the variation and residuals: Our model does not incorporate atmospheric effects. They influences radio propagation speed and thereby our estimation of the pseudorange. Some of them could be addressed: Ionosphere and troposphere data would be available in telemetry. (Feel free to send me a pull request to add this feature 😉) Other more localized variations of the atmosphere cannot be modelled and will remain as residuals. Taking into account a better model and other satellite system would allow a more stable and accurate position fix.</p>
-<div class="cell" data-execution_count="21">
+<div class="cell" data-execution_count="34">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pseudo_range_errors <span class="op">=</span> np.vstack([gpswt.pvt_solver._position_fix_error_function(x, ti, pseudo_ranges, satellite_positions) </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="cf">for</span> ti, x <span class="kw">in</span> <span class="bu">enumerate</span>(position_solution)])</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">3</span>))</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn_index, prn <span class="kw">in</span> <span class="bu">enumerate</span>(best_prns):</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    plt.plot(receiver_time, pseudo_range_errors[:, prn_index], label<span class="op">=</span><span class="ss">f'PRN </span><span class="sc">{</span>prn<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Pseudorange Residual [m]'</span>)</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Receiver Time [s]'</span>)</span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>pseudo_range_errors <span class="op">=</span> np.vstack([gpswt.pvt_solver._position_fix_error_function(x, ti, pseudo_ranges, satellite_positions) </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="cf">for</span> ti, x <span class="kw">in</span> <span class="bu">enumerate</span>(pvt_solution)])</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">3</span>))</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn_index, prn <span class="kw">in</span> <span class="bu">enumerate</span>(best_prns):</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    plt.plot(receiver_time, pseudo_range_errors[:, prn_index], label<span class="op">=</span><span class="ss">f'PRN </span><span class="sc">{</span>prn<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Pseudorange Residual [m]'</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Receiver Time [s]'</span>)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-prange-residuals" class="quarto-figure quarto-figure-center anchored">
@@ -964,31 +975,30 @@ Sat. altitude from surface:      20034.329 km</code></pre>
 <section id="receiver-clock-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="receiver-clock-analysis">Receiver Clock Analysis</h3>
 <p>In addition to the position, we also get a very accurate GPS time in the PVT solving process. With this we can analyze how accurate our clock is. As mentioned in Section 2, a Siglent function generator was used as a high-precision reference clock. The spec sheet reports a precision of better than <span class="math inline">\(10^{-6}\)</span>, i.e.&nbsp;less than a microsecond off per second. Let’s have a look wether that’s true:</p>
-<div class="cell" data-execution_count="22">
+<div class="cell" data-execution_count="39">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># bias = difference between receiver time and GPS time</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>clock_bias <span class="op">=</span> receiver_time <span class="op">-</span> position_solution[:, <span class="dv">3</span>]</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>fit_bias <span class="op">=</span> stats.linregress(receiver_time, clock_bias)</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co"># a perfect receiver clock has slope = 1 s/s, but we get</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Average clock drift: </span><span class="sc">{</span>(fit_bias.slope <span class="op">-</span> <span class="dv">1</span>) <span class="op">*</span> <span class="fl">1e6</span><span class="sc">:0.2f}</span><span class="ss"> microseconds/second'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># bias = difference between receiver time and GPS time</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>clock_bias <span class="op">=</span> receiver_time <span class="op">-</span> pvt_solution[:, <span class="dv">3</span>]</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>fit_bias <span class="op">=</span> stats.linregress(receiver_time, clock_bias)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Average clock drift: </span><span class="sc">{</span>(fit_bias.slope) <span class="op">*</span> <span class="fl">1e6</span><span class="sc">:0.2f}</span><span class="ss"> microseconds/second'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Average clock drift: 0.50 microseconds/second</code></pre>
 </div>
 </div>
 <p>Indeed we find that the promise is hold, it is only slightly too fast. What about the long term stability? In <a href="#fig-clock-stability">Figure&nbsp;11</a>, we see slight variations of less than <span class="math inline">\(\pm 0.5\mu s\)</span> within 80 seconds recording period. The clock is rather stable.</p>
-<div class="cell" data-execution_count="23">
+<div class="cell" data-execution_count="40">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="fl">2.5</span>))</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>plt.plot(receiver_time, (clock_bias <span class="op">-</span> receiver_time<span class="op">*</span>fit_bias.slope <span class="op">-</span> fit_bias.intercept) <span class="op">*</span> <span class="fl">1e6</span>)</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Non-Linear Clock Bias [$\mu s$]'</span>)</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Receiver Time [s]'</span>)</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="fl">2.5</span>))</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>plt.plot(receiver_time, (clock_bias <span class="op">-</span> receiver_time<span class="op">*</span>fit_bias.slope <span class="op">-</span> fit_bias.intercept) <span class="op">*</span> <span class="fl">1e6</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Non-Linear Clock Bias [$\mu s$]'</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Receiver Time [s]'</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-clock-stability" class="quarto-figure quarto-figure-center anchored">
@@ -1011,56 +1021,56 @@ Sat. altitude from surface:      20034.329 km</code></pre>
 <div class="page-columns page-full">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">15</span>))</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(projection<span class="op">=</span><span class="st">'3d'</span>)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>ax.set_proj_type(<span class="st">'ortho'</span>)</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot earth in spherical approximation</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="dv">6378137</span> <span class="op">/</span> <span class="dv">1000</span> <span class="co"># [km] earth radius</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>u, v <span class="op">=</span> np.meshgrid(np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">25</span>),  <span class="co"># wireframe for every 15°</span></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>                   np.linspace(<span class="dv">0</span>, np.pi, <span class="dv">13</span>)) </span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> R <span class="op">*</span> np.cos(u) <span class="op">*</span> np.sin(v)</span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> R <span class="op">*</span> np.sin(u) <span class="op">*</span> np.sin(v)</span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> R <span class="op">*</span> np.cos(v)</span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>ax.plot_wireframe(x, y, z, alpha<span class="op">=</span><span class="fl">0.2</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="co"># add equator and null meridian</span></span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">25</span>)</span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>ax.plot(R <span class="op">*</span> np.cos(u), R<span class="op">*</span>np.sin(u), <span class="dv">0</span><span class="op">*</span>u, color<span class="op">=</span><span class="st">'black'</span>)</span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>ax.plot(R <span class="op">*</span> np.cos(u), <span class="dv">0</span><span class="op">*</span>u, R<span class="op">*</span>np.sin(u), color<span class="op">=</span><span class="st">'black'</span>)</span>
-<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a><span class="co"># draw equatorial plane</span></span>
-<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(np.linspace(<span class="op">-</span><span class="dv">5</span><span class="op">*</span>R, <span class="dv">5</span><span class="op">*</span>R, <span class="dv">20</span>), </span>
-<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>                   np.linspace(<span class="op">-</span><span class="dv">5</span><span class="op">*</span>R, <span class="dv">5</span><span class="op">*</span>R, <span class="dv">20</span>))</span>
-<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> <span class="dv">0</span> <span class="op">*</span> x</span>
-<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>ax.plot_surface(x, y, z, alpha<span class="op">=</span><span class="fl">0.2</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a><span class="co"># plot our position in red</span></span>
-<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a>ax.stem(<span class="op">*</span>(position_solution[:, <span class="dv">0</span>:<span class="dv">3</span>]<span class="op">/</span><span class="dv">1000</span>).transpose(), </span>
-<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a>        markerfmt<span class="op">=</span><span class="st">'or'</span>, bottom<span class="op">=</span><span class="dv">0</span>, orientation<span class="op">=</span><span class="st">'z'</span>)</span>
-<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a><span class="co"># plot satellites position</span></span>
-<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn <span class="kw">in</span> best_prns:    </span>
-<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a>    ax.stem(<span class="op">*</span>(satellite_positions[prn][<span class="op">-</span><span class="dv">2</span>:<span class="op">-</span><span class="dv">1</span>]<span class="op">/</span><span class="dv">1000</span>).transpose(), </span>
-<span id="cb40-32"><a href="#cb40-32" aria-hidden="true" tabindex="-1"></a>            markerfmt<span class="op">=</span><span class="st">'og'</span>, bottom<span class="op">=</span><span class="dv">0</span>, orientation<span class="op">=</span><span class="st">'z'</span>)</span>
-<span id="cb40-33"><a href="#cb40-33" aria-hidden="true" tabindex="-1"></a>    ax.text(<span class="op">*</span>(satellite_positions[prn][<span class="op">-</span><span class="dv">1</span>]<span class="op">/</span><span class="dv">1000</span> <span class="op">+</span> [<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1000</span>]), <span class="bu">str</span>(prn), <span class="va">None</span>)</span>
-<span id="cb40-34"><a href="#cb40-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-35"><a href="#cb40-35" aria-hidden="true" tabindex="-1"></a>ax.set_box_aspect([ub <span class="op">-</span> lb <span class="cf">for</span> lb, ub <span class="kw">in</span> (<span class="bu">getattr</span>(ax, <span class="ss">f'get_</span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">lim'</span>)() <span class="cf">for</span> a <span class="kw">in</span> <span class="st">'xyz'</span>)])  <span class="co"># set equal aspect ratio</span></span>
-<span id="cb40-36"><a href="#cb40-36" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel((<span class="st">'x [km]'</span>))</span>
-<span id="cb40-37"><a href="#cb40-37" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel((<span class="st">'y [km]'</span>))</span>
-<span id="cb40-38"><a href="#cb40-38" aria-hidden="true" tabindex="-1"></a>ax.set_zlabel((<span class="st">'z [km]'</span>))</span>
-<span id="cb40-39"><a href="#cb40-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb40-40"><a href="#cb40-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-41"><a href="#cb40-41" aria-hidden="true" tabindex="-1"></a>plt.figure(fig)</span>
-<span id="cb40-42"><a href="#cb40-42" aria-hidden="true" tabindex="-1"></a>ax.view_init(<span class="dv">90</span>,<span class="dv">90</span>)</span>
-<span id="cb40-43"><a href="#cb40-43" aria-hidden="true" tabindex="-1"></a>fig.set_size_inches(<span class="dv">8</span>,<span class="dv">8</span>)</span>
-<span id="cb40-44"><a href="#cb40-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb40-45"><a href="#cb40-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-46"><a href="#cb40-46" aria-hidden="true" tabindex="-1"></a>plt.figure(fig)</span>
-<span id="cb40-47"><a href="#cb40-47" aria-hidden="true" tabindex="-1"></a>ax.view_init(<span class="dv">0</span>,<span class="dv">90</span>)</span>
-<span id="cb40-48"><a href="#cb40-48" aria-hidden="true" tabindex="-1"></a>fig.set_size_inches(<span class="dv">8</span>,<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">15</span>))</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>ax.set_proj_type(<span class="st">'ortho'</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot earth in spherical approximation</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="dv">6378137</span> <span class="op">/</span> <span class="dv">1000</span> <span class="co"># [km] earth radius</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>u, v <span class="op">=</span> np.meshgrid(np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">25</span>),  <span class="co"># wireframe for every 15°</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>                   np.linspace(<span class="dv">0</span>, np.pi, <span class="dv">13</span>)) </span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> R <span class="op">*</span> np.cos(u) <span class="op">*</span> np.sin(v)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> R <span class="op">*</span> np.sin(u) <span class="op">*</span> np.sin(v)</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> R <span class="op">*</span> np.cos(v)</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>ax.plot_wireframe(x, y, z, alpha<span class="op">=</span><span class="fl">0.2</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a><span class="co"># add equator and null meridian</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">25</span>)</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>ax.plot(R <span class="op">*</span> np.cos(u), R<span class="op">*</span>np.sin(u), <span class="dv">0</span><span class="op">*</span>u, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>ax.plot(R <span class="op">*</span> np.cos(u), <span class="dv">0</span><span class="op">*</span>u, R<span class="op">*</span>np.sin(u), color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a><span class="co"># draw equatorial plane</span></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(np.linspace(<span class="op">-</span><span class="dv">5</span><span class="op">*</span>R, <span class="dv">5</span><span class="op">*</span>R, <span class="dv">20</span>), </span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>                   np.linspace(<span class="op">-</span><span class="dv">5</span><span class="op">*</span>R, <span class="dv">5</span><span class="op">*</span>R, <span class="dv">20</span>))</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> <span class="dv">0</span> <span class="op">*</span> x</span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>ax.plot_surface(x, y, z, alpha<span class="op">=</span><span class="fl">0.2</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a><span class="co"># plot our position in red</span></span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>ax.stem(<span class="op">*</span>(pvt_solution[:, <span class="dv">0</span>:<span class="dv">3</span>]<span class="op">/</span><span class="dv">1000</span>).transpose(), </span>
+<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>        markerfmt<span class="op">=</span><span class="st">'or'</span>, bottom<span class="op">=</span><span class="dv">0</span>, orientation<span class="op">=</span><span class="st">'z'</span>)</span>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-29"><a href="#cb42-29" aria-hidden="true" tabindex="-1"></a><span class="co"># plot satellites position</span></span>
+<span id="cb42-30"><a href="#cb42-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn <span class="kw">in</span> best_prns:    </span>
+<span id="cb42-31"><a href="#cb42-31" aria-hidden="true" tabindex="-1"></a>    ax.stem(<span class="op">*</span>(satellite_positions[prn][<span class="op">-</span><span class="dv">2</span>:<span class="op">-</span><span class="dv">1</span>]<span class="op">/</span><span class="dv">1000</span>).transpose(), </span>
+<span id="cb42-32"><a href="#cb42-32" aria-hidden="true" tabindex="-1"></a>            markerfmt<span class="op">=</span><span class="st">'og'</span>, bottom<span class="op">=</span><span class="dv">0</span>, orientation<span class="op">=</span><span class="st">'z'</span>)</span>
+<span id="cb42-33"><a href="#cb42-33" aria-hidden="true" tabindex="-1"></a>    ax.text(<span class="op">*</span>(satellite_positions[prn][<span class="op">-</span><span class="dv">1</span>]<span class="op">/</span><span class="dv">1000</span> <span class="op">+</span> [<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1000</span>]), <span class="bu">str</span>(prn), <span class="va">None</span>)</span>
+<span id="cb42-34"><a href="#cb42-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-35"><a href="#cb42-35" aria-hidden="true" tabindex="-1"></a>ax.set_box_aspect([ub <span class="op">-</span> lb <span class="cf">for</span> lb, ub <span class="kw">in</span> (<span class="bu">getattr</span>(ax, <span class="ss">f'get_</span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">lim'</span>)() <span class="cf">for</span> a <span class="kw">in</span> <span class="st">'xyz'</span>)])  <span class="co"># set equal aspect ratio</span></span>
+<span id="cb42-36"><a href="#cb42-36" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel((<span class="st">'x [km]'</span>))</span>
+<span id="cb42-37"><a href="#cb42-37" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel((<span class="st">'y [km]'</span>))</span>
+<span id="cb42-38"><a href="#cb42-38" aria-hidden="true" tabindex="-1"></a>ax.set_zlabel((<span class="st">'z [km]'</span>))</span>
+<span id="cb42-39"><a href="#cb42-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb42-40"><a href="#cb42-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-41"><a href="#cb42-41" aria-hidden="true" tabindex="-1"></a>plt.figure(fig)</span>
+<span id="cb42-42"><a href="#cb42-42" aria-hidden="true" tabindex="-1"></a>ax.view_init(<span class="dv">90</span>,<span class="dv">90</span>)</span>
+<span id="cb42-43"><a href="#cb42-43" aria-hidden="true" tabindex="-1"></a>fig.set_size_inches(<span class="dv">8</span>,<span class="dv">8</span>)</span>
+<span id="cb42-44"><a href="#cb42-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb42-45"><a href="#cb42-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-46"><a href="#cb42-46" aria-hidden="true" tabindex="-1"></a>plt.figure(fig)</span>
+<span id="cb42-47"><a href="#cb42-47" aria-hidden="true" tabindex="-1"></a>ax.view_init(<span class="dv">0</span>,<span class="dv">90</span>)</span>
+<span id="cb42-48"><a href="#cb42-48" aria-hidden="true" tabindex="-1"></a>fig.set_size_inches(<span class="dv">8</span>,<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="fig-visualize" class="cell column-screen quarto-layout-panel" data-execution_count="24">
+<div id="fig-visualize" class="cell column-screen quarto-layout-panel" data-execution_count="42">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell-output cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 100.0%;justify-content: center;">
