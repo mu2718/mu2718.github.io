@@ -80,7 +80,7 @@ def sat_position(t, ephemeris, harmonic_correct=True):
     return np.vstack((x, y, z)).transpose()
 
 
-def sat_clock_correction(t_sv, clock_telemetry, ephemeris_correction=None):
+def sat_clock_correction(t_sv, clock_telemetry, ephemeris=None):
     """
     Correct satellite (space vehicle SV) clock reading t_sv, as sent by telemetry, to get accurate GPS time. 
     Uses correction coefficients from LNAV messages (subframe 1),
@@ -105,27 +105,26 @@ def sat_clock_correction(t_sv, clock_telemetry, ephemeris_correction=None):
     t_gps = t_sv - delta_t_sv
     
     # Relativistic correction (approx 10-50ns)
-    if ephemeris_correction:
-        A = ephemeris_correction['sqrtA']**2
+    if ephemeris:
+        A = ephemeris['sqrtA']**2
         n0 = np.sqrt(EARTH_MU/A**3)
 
-        tk = t_gps - ephemeris_correction['t_oe']
+        tk = t_gps - ephemeris['t_oe']
         if tk < -GPS_WEEK_SECONDS/2:  # make tk be in [-GPS_WEEK_SECONDS/2, GPS_WEEK_SECONDS/2]
             tk += GPS_WEEK_SECONDS
         elif tk > GPS_WEEK_SECONDS/2:
             tk -= GPS_WEEK_SECONDS
 
-        n = n0 + ephemeris_correction['dn']
-        M = ephemeris_correction['M_0'] + n * tk
-        e = ephemeris_correction['e']
+        n = n0 + ephemeris['dn']
+        M = ephemeris['M_0'] + n * tk
+        e = ephemeris['e']
 
         # solve Kepler's equation
         E = M
         for i in range(10):
-            E = E + (M - E + e * np.sin(E)) \
-                       / ( 1 - e * np.cos(E) ) 
+            E = E + (M - E + e * np.sin(E)) / (1 - e * np.cos(E)) 
 
-        delta_t_relativistic = EARTH_F * e * ephemeris_correction['sqrtA'] * np.sin(E)
+        delta_t_relativistic = EARTH_F * e * ephemeris['sqrtA'] * np.sin(E)
         t_gps = t_gps - delta_t_relativistic
     
     return t_gps

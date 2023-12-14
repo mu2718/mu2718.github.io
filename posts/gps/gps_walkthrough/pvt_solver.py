@@ -16,7 +16,7 @@ from . import observables
 from . import coordinates
 
 
-def position_fix(pseudo_ranges, sv_positions):
+def position_fix(pseudo_ranges, satellite_positions):
     """
     Given observed pseudo-range and calculated satellite positions, determines
     best fitting position and GPS time.
@@ -36,13 +36,10 @@ def position_fix(pseudo_ranges, sv_positions):
         o = optimize.least_squares(_position_fix_error_function, 
                                    start_coordinates,
                                    x_scale=(1e7, 1e7, 1e7, 1e5),  # scales are 10000 km and days
-                                   args=(ti, pseudo_ranges, sv_positions), 
+                                   args=(ti, pseudo_ranges, satellite_positions), 
                                   )
         start_coordinates = o.x
         solution_coordinates[ti] = o.x
-
-    # report GPS receive time, i.e. receive time corrected by clock bias solution
-    #solution_coordinates[:,3] += receive_time
 
     return solution_coordinates
 
@@ -66,9 +63,8 @@ def _position_fix_error_function(x, time_index, pseudo_ranges, satellite_positio
     
     residuals = np.zeros((len(satellite_positions),))
     for i, prn in enumerate(satellite_positions):
-        receiver_clock_bias_estimate = x[3] - pseudo_ranges[prn][time_index]['receive_time']
-
         # correct receiver clock bias of pseudo range
+        receiver_clock_bias_estimate = x[3] - pseudo_ranges[prn][time_index]['receive_time']
         pseudo_range = pseudo_ranges[prn][time_index]['pseudo_range'] \
                        - SPEED_OF_LIGHT * receiver_clock_bias_estimate 
 
@@ -88,8 +84,7 @@ def _position_fix_error_function(x, time_index, pseudo_ranges, satellite_positio
 
 
 def plot_positions_orbits(satellite_positions, solution_coordinates, pseudo_ranges,
-                          ax=None, 
-                          telemetry=None, orbit_time=12*3600, inertial_frame=False):
+                          ax=None, telemetry=None, orbit_time=12*3600, inertial_frame=False):
     if not ax: 
         fig = plt.figure(figsize=(10,10))
         ax = fig.add_subplot(projection='3d')

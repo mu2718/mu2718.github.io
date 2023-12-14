@@ -229,7 +229,7 @@ gtag('config', 'G-Q3G5J0PLVE', { 'anonymize_ip': true});
 <p>This article is step 1 of the <a href="../../posts/gps/index.html">GPS walkthrough series</a>. Here we give an overview over the whole post series and introduce every step required to get from a raw GPS signal to a position fix. The main results are shown while detailed analysis and explanations are following in later posts.</p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">1 Introduction</h2>
-<p>In this post series we investigate the GPS L1 C/A, the legacy signal with its coarse acquisition code sent by all GPS satellites in operation.</p>
+<p>In this post series we investigate the [GPS L1 C/A(https://gssc.esa.int/navipedia/index.php/GPS_Signal_Plan#GPS_L1_Band)], the legacy signal with its coarse acquisition code being the most widely used signal for navigation and sent by all GPS satellites in operation.</p>
 <p>We will rely in the following to an external python module developed for this series, the <code>gps_walkthrough</code> module. Open the collapsed code sections below to get to know how it is used an how its outputs are processed. Check the <a href="https://github.com/mu2718/gps-walkthrough/">module source code</a> if you want deeper insights into the details of the processing steps before the more detailed blog articles appear. See also the <a href="#sec-refs">references</a> section below for a list of sources where I have the information collected from.</p>
 <p>To compute the following steps for yourself online, <a href="https://colab.research.google.com/github/mu2718/gps-walkthrough/">open it in Google Colab</a>. You can even feed it your own recorded GPS radio wave to play with the satellite signal and determine your location.</p>
 <p>Now enjoy the journey!</p>
@@ -574,7 +574,7 @@ Carrier Phase: 1.04 radians</code></pre>
 <div id="fig-signal-constellation" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="step1_overview_files/figure-html/fig-signal-constellation-output-1.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;7: Constellation diagram of CDMA-demodulated signal during the first 10 seconds. Color indicates reception time from start (purple) to end (yellow). A point represent the IQ sample of one C/A code.</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;7: Constellation diagram of CDMA-demodulated signal during the first 10 seconds. Color indicates reception time from start (purple) to end (yellow). A point represents an IQ sample of one pseudo-symbol or C/A code period.</figcaption>
 </figure>
 </div>
 </div>
@@ -729,8 +729,9 @@ Dissection: 13 subframes decoded.
 <h2 class="anchored" data-anchor-id="pseudorange-measurement">6 Pseudorange Measurement</h2>
 <p>In order to calculate our position, we need to perform measurements of so called <a href="https://gssc.esa.int/navipedia/index.php/GNSS_Basic_Observables">observables</a>. The one we will consider here is called <em><a href="https://en.wikipedia.org/wiki/Pseudorange">pseudorange</a></em>. It represents a measurable quantity which is related to the distance between the receiver and a satellite. The pseudorange to satellite i is defined by</p>
 <p><span class="math display">\[ R_i = c \, (t_{i} - T_{i}) \]</span></p>
-<p>with the speed of light <span class="math inline">\(c\)</span>, the receiving time <span class="math inline">\(t_i\)</span> of a signal as measured by the receiver, and the send time <span class="math inline">\(T_i\)</span> of this signal as measured by satellite i’s atomic clock in <a href="https://en.wikipedia.org/wiki/Global_Positioning_System#Timekeeping">GPS time</a>. Therefore, measuring <span class="math inline">\(t_i\)</span> and decoding <span class="math inline">\(T_i\)</span> from the telemetry allows us to infer <span class="math inline">\(R_i\)</span>.</p>
-<p>The reason why this is not the actual range or distance: While <span class="math inline">\(T_i\)</span> is very accurate thanks to the atomic clocks and their correction information available through telemetry, the cheap receiver clock built into our SDR, on which we base our measurements of <span class="math inline">\(t_i\)</span>, is not accurate at all. Furthermore, the speed of light might not correspond to the radio wave’s effective speed of propagation (atmosphere’s influence). These discrepancies make the pseudorange deviate from the actual, physical distance and have to be taken into account later.</p>
+<p>with the speed of light in vacuum <span class="math inline">\(c\)</span>, the receiving time <span class="math inline">\(t_i\)</span> of a signal as measured by the receiver, and the send time <span class="math inline">\(T_i\)</span> of this signal as measured by satellite i’s atomic clock in <a href="https://en.wikipedia.org/wiki/Global_Positioning_System#Timekeeping">GPS time</a>. Therefore, measuring <span class="math inline">\(t_i\)</span> and decoding <span class="math inline">\(T_i\)</span> from the telemetry allows us to calculate <span class="math inline">\(R_i\)</span>.</p>
+<p>The speed of light <span class="math inline">\(c\)</span> is identical to the speed of the radio wave propagating through space. The term <span class="math inline">\((t_i - T_i)\)</span> is a time difference between sending and receiving the signal, which is related to the time-of-flight. The pseudorange <span class="math inline">\(R_i\)</span> is their product, speed times time difference, and therefore results in a distance related to the distance between satellite and receiver.</p>
+<p>The reason why <span class="math inline">\(R_i\)</span> is not the actual distance from the receiver to the satellite but only related: While <span class="math inline">\(T_i\)</span> is very accurate thanks to the atomic clocks and their correction information available through telemetry, the cheap receiver clock built into our SDR, on which we base our measurements of <span class="math inline">\(t_i\)</span>, is not accurate at all. Furthermore, the speed of light might not correspond to the radio wave’s effective speed of propagation since the atmosphere’s influence it, see below. These discrepancies make the pseudorange deviate from the actual, physical distance and have to be taken into account later.</p>
 <p>Let’s have a look at pseudoranges of PRN 16 during the first few seconds:</p>
 <div class="cell" data-execution_count="20">
 <details>
@@ -752,7 +753,7 @@ t = 3.000000 s, T = 52109.036485 s, R = -15620996756 km + 1626.99 m</code></pre>
 </div>
 <p>A comparison between the receiver time <span class="math inline">\(t_i\)</span> and the send time <span class="math inline">\(T_i\)</span> reveals that they are roughly in sync, but off by almost a day. In the last shown digits of <span class="math inline">\(T_i\)</span>, we can observe that the signal received at the integer values <span class="math inline">\(t_i\)</span> are sent earlier and earlier, explained by an increase in distance. The pseudorange is negative, a non-sensical value for a distance, due to the wrong receiver time offset by almost a day. But what can be taken more seriously are the changes reported after the + sign. We can read off a receding speed of approx. 540 m/s of the satellite (again only in line of sight).</p>
 <p>Let’s measure the pseudoranges for all satellites as we need them in our next steps.</p>
-<div class="cell" data-execution_count="21">
+<div class="cell" data-execution_count="4">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>position_fix_time_interval <span class="op">=</span> <span class="fl">0.5</span></span>
@@ -805,8 +806,8 @@ Measuring pseudoranges for PRN: 21 16 27 1 32 </code></pre>
 t = 11.97h, (x,y,z) = ( 15983.496,  -5760.857,  20223.744) km</code></pre>
 </div>
 </div>
-<p>The shown <span class="math inline">\((x,y,z)\)</span> coordinate is this satellite’s position in the <em>GPS coordinate system <a href="https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84">WGS84</a></em>. It is as <a href="https://en.wikipedia.org/wiki/Earth-centered,_Earth-fixed_coordinate_system">earth-centered earth-fixed (ECEF)</a> system, i.e.&nbsp;<span class="math inline">\((0,0,0)\)</span> is at the earth’s center, the <span class="math inline">\(z\)</span> axis is along to rotation axis, and the whole system is rotating together with the earth, such that a fixed position on the surface does not change coordinates with time.</p>
-<p>We can directly read off the corotating behavior: GPS satellite’s have a orbital period of approx. 12 hours. Therefore, we would expect to two positions reported above to be identical. This is almost the case, were it not for the minus signs change in <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates. In 12 hours, the earth spun half a rotation around the <span class="math inline">\(z\)</span> axis, changing the coordinates of the same physical position (in a inertial frame) exactly in the observed manner, i.e.&nbsp;turning <span class="math inline">\((x,y,z) \rightarrow (-x,-y,z)\)</span>.</p>
+<p>The shown <span class="math inline">\((x,y,z)\)</span> coordinate is this satellite’s position in the <em>GPS coordinate system <a href="https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84">WGS84</a></em>. It is as <a href="https://en.wikipedia.org/wiki/Earth-centered,_Earth-fixed_coordinate_system">earth-centered earth-fixed (ECEF)</a> system, i.e.&nbsp;<span class="math inline">\((0,0,0)\)</span> is at the earth’s center, the <span class="math inline">\(z\)</span> axis is along to rotation axis, and the whole system is rotating together with the earth, such that a fixed position on the surface does not change its coordinates with time. (Have a look at <a href="https://www.telesens.co/2017/07/17/calculating-position-from-raw-gps-data/">Ankur’s GPS article</a> for nice illustrations of coordinates systems and orbits.)</p>
+<p>We can read off the co-rotating behavior above: GPS satellite’s have a orbital period of approx. 12 hours. Therefore, we would expect to two positions reported to be identical. This is almost the case, were it not for the minus signs change in <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates. In 12 hours, the earth spins half a rotation around the <span class="math inline">\(z\)</span> axis, changing the coordinates of the same physical position (in a inertial frame) exactly in the observed manner, i.e.&nbsp;turning <span class="math inline">\((x,y,z) \rightarrow (-x,-y,z)\)</span>. In other words: From the point of view of an observer rotating with the earth, the satellite’s second position shows in the opposite direction.</p>
 <p>From the reported satellite position we derive:</p>
 <div class="cell" data-execution_count="8">
 <details>
@@ -820,7 +821,7 @@ Sat. altitude from surface:      20034.329 km</code></pre>
 </div>
 </div>
 <p>Finally, we can calculate the position of every satellite for every point in time in our wave recording.</p>
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="5">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Calculating satellite positions of PRN: '</span>, end<span class="op">=</span><span class="st">''</span>)</span>
@@ -864,39 +865,37 @@ Sat. altitude from surface:      20034.329 km</code></pre>
 </div>
 </div>
 </div>
-<p>In our case, the observables are the pseudoranges, and the model contains the satellite positions. It calculates euclidean distances between them and the current position estimate. The earth center <span class="math inline">\((0,0,0)\)</span> as initial position is good enough as a starting point and the process converges to the true position and time. Here, we neglect velocity V and assume a stationary receiver. The iterative procedure reduces to a simple least-squares optimization problem which is solved by the <a href="https://en.wikipedia.org/wiki/Gradient_descent">gradient descent method</a>.</p>
+<p>In our case, the observables are the pseudoranges, and the model contains the satellite positions. It calculates euclidean distances between them and the current position estimate. The earth center <span class="math inline">\((0,0,0)\)</span> as initial position is good enough as a starting point and the process converges to the true position and time. Here, we neglect velocity V and assume a stationary receiver. The iterative procedure reduces to a simple least-squares optimization problem which is solved by the <a href="https://en.wikipedia.org/wiki/Gradient_descent">gradient descent method</a>. (See <a href="https://www.telesens.co/2017/07/17/calculating-position-from-raw-gps-data/#Part_2_Using_GPS_to_Calculate_User_Position">Ankur’s article</a> for illustration and derivation of the PVT solving process.)</p>
 <section id="position-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="position-analysis">Position Analysis</h3>
-<p>Let’s do that on our data and transform the WGS84 coordinates to better known longitude and latitude:</p>
-<div class="cell" data-execution_count="30">
+<p>Let’s do that with our data and find the receiver’s GPS coordinates:</p>
+<div class="cell" data-execution_count="6">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> importlib</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>importlib.<span class="bu">reload</span>(gpswt.pvt_solver)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>importlib.<span class="bu">reload</span>(gpswt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="30">
-<pre><code>&lt;module 'gps_walkthrough' from '/home/user1/Documents/projects/gps/blog/mu2718.github.io/posts/gps/gps_walkthrough/__init__.py'&gt;</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="31">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pvt_solution <span class="op">=</span> gpswt.pvt_solver.position_fix(pseudo_ranges, satellite_positions)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>position_ellipsoid <span class="op">=</span> np.array([gpswt.coordinates.ecef_to_ellipsoid(<span class="op">*</span>pos[<span class="dv">0</span>:<span class="dv">3</span>])</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                                <span class="cf">for</span> pos <span class="kw">in</span> pvt_solution])</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>position_ellipsoid_mean <span class="op">=</span> np.mean(position_ellipsoid, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Average Position: </span><span class="sc">{</span>position_ellipsoid_mean[<span class="dv">0</span>]<span class="sc">:0.1f}</span><span class="ss">XX°N,'</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f' </span><span class="sc">{</span>position_ellipsoid_mean[<span class="dv">1</span>]<span class="sc">:.1f}</span><span class="ss">XX°E,'</span> </span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f' </span><span class="sc">{</span>position_ellipsoid_mean[<span class="dv">2</span>]<span class="sc">:.2f}</span><span class="ss"> m Altitude'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pvt_solution <span class="op">=</span> gpswt.pvt_solver.position_fix(pseudo_ranges, satellite_positions)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>pvt_solution_mean <span class="op">=</span> np.mean(pvt_solution, axis<span class="op">=</span><span class="dv">0</span>) </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f' Average Position: (x,y,z) = (</span><span class="sc">{</span>pvt_solution_mean[<span class="dv">0</span>]<span class="op">/</span><span class="fl">1e4</span><span class="sc">:.0f}</span><span class="ss">X.XXX,'</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f' </span><span class="sc">{</span>pvt_solution_mean[<span class="dv">1</span>]<span class="op">/</span><span class="fl">1e4</span><span class="sc">:.0f}</span><span class="ss">X.XXX,'</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f' </span><span class="sc">{</span>pvt_solution_mean[<span class="dv">2</span>]<span class="op">/</span><span class="fl">1e4</span><span class="sc">:.0f}</span><span class="ss">X.XXX) km'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Average Position: 46.9XX°N, 7.4XX°E, 656.40 m Altitude</code></pre>
+<pre><code> Average Position: (x,y,z) = (433X.XXX, 56X.XXX, 464X.XXX) km</code></pre>
 </div>
 </div>
-<p>(Since my home is such a calm place, i censored some of the digits in order to keep it like that.) The big question is, whether this is correct. Entering it in Google maps marks a spot which is only 2 meters away from my balcony where the receiver sits! The altitude matches within 10 meters with what the ‘GPSTest’ app on my smartphone shows. We have found the receiver’s location in a volume of space spanning tens of thousands of kilometers in diameter! Isn’t it cool? 😀</p>
+<p>(Since my home is such a calm place, i censored some of the digits in order to keep it like that.) Hmm, interesting… No clue wether that makes sense, since my I am not very fluent in WGS84 coordinates. Let’s transform them to better known ellipsoid coordinates of longitude and latitude.</p>
+<div class="cell" data-execution_count="7">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>position_ellipsoid <span class="op">=</span> gpswt.coordinates.ecef_to_ellipsoid(<span class="op">*</span>pvt_solution_mean[<span class="dv">0</span>:<span class="dv">3</span>])</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Average Position : </span><span class="sc">{</span>position_ellipsoid[<span class="dv">0</span>]<span class="sc">:0.1f}</span><span class="ss">XXX°N,'</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f' </span><span class="sc">{</span>position_ellipsoid[<span class="dv">1</span>]<span class="sc">:.1f}</span><span class="ss">XXX°E,'</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f' </span><span class="sc">{</span>position_ellipsoid[<span class="dv">2</span>]<span class="sc">:.2f}</span><span class="ss"> m Altitude'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Average Position : 46.9XXX°N, 7.4XXX°E, 656.40 m Altitude</code></pre>
+</div>
+</div>
+<p>Looks not so bad, but the big question is, how good is it? Entering it in Google maps marks a spot which is only 2 meters away from my balcony where the receiver sits! The altitude matches within 10 meters with what the ‘GPSTest’ app on my smartphone shows. We have found the receiver’s location in a volume of space spanning tens of thousands of kilometers in diameter! Isn’t it cool? 😀</p>
 <p>The above position is a long time average over the recording. In <a href="#fig-position-variation">Figure&nbsp;9</a>, we can see how the position fix varies over time. Since the receiver was stationary, variations have to be attributed to errors in measurement and PVT model as discussed in a moment.</p>
 <div class="cell" data-execution_count="32">
 <details>
@@ -927,14 +926,14 @@ Sat. altitude from surface:      20034.329 km</code></pre>
 </div>
 </div>
 </div>
-<p>Are you wondering at what the distances the satellites are from us, too?</p>
+<p>Are you wondering at how far the satellites are away from us, too?</p>
 <div class="cell" data-execution_count="33">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Distance from receiver to satellite'</span>)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prn <span class="kw">in</span> best_prns:</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    delta <span class="op">=</span> satellite_positions[prn][<span class="dv">0</span>] <span class="op">-</span> pvt_solution[<span class="dv">0</span>][<span class="dv">0</span>:<span class="dv">3</span>]  <span class="co"># take first observation only</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    distance <span class="op">=</span> np.sqrt(<span class="bu">sum</span>(<span class="bu">abs</span>(delta<span class="op">**</span><span class="dv">2</span>)))</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    distance <span class="op">=</span> np.sqrt(<span class="bu">sum</span>(delta<span class="op">**</span><span class="dv">2</span>))</span>
 <span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'  PRN </span><span class="sc">{</span>prn<span class="sc">:&gt;2}</span><span class="ss">: </span><span class="sc">{</span>distance<span class="op">/</span><span class="dv">1000</span><span class="sc">:.3f}</span><span class="ss"> km'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
@@ -946,7 +945,7 @@ Sat. altitude from surface:      20034.329 km</code></pre>
   PRN 32: 24205.638 km</code></pre>
 </div>
 </div>
-<p>For me it’s quite mind-boggling that we received the analyzed signal over more than 20000 km distance, almost two times the earth’s diameter!</p>
+<p>It’s quite mind-boggling that we received the analyzed signal over more than 20000 km distance, almost two times the earth’s diameter!</p>
 <p>How accurately have we been able to measure these distances? The answer give the pseudorange residuals: The discrepancy between the measured and modelled pseudoranges are shown in <a href="#fig-prange-residuals">Figure&nbsp;10</a> for every satellite. For some of them we see less than 3 meters, for others 5 to 10 meters difference (corresponding to 10-30 nanoseconds time-of-flight error) that couldn’t be reduced by a more optimal PVT solution. These residuals cannot be explained by the model. Therefore, we can roughly assume that the above reported satellite distances are accurate to less than 10 meters, which is quite fascinating.</p>
 <p>There is a reasons for the variation and residuals: Our model does not incorporate atmospheric effects. They influences radio propagation speed and thereby our estimation of the pseudorange. Some of them could be addressed: Ionosphere and troposphere data would be available in telemetry. (Feel free to send me a pull request to add this feature 😉) Other more localized variations of the atmosphere cannot be modelled and will remain as residuals. Taking into account a better model and other satellite system would allow a more stable and accurate position fix.</p>
 <div class="cell" data-execution_count="34">
@@ -1012,9 +1011,9 @@ Sat. altitude from surface:      20034.329 km</code></pre>
 </section>
 <section id="position-and-satellite-visualization" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="position-and-satellite-visualization">Position and Satellite Visualization</h3>
-<p>To conclude, we visualize our location and satellites in <a href="#fig-visualize">Figure&nbsp;12</a>. Obviously we only see satellites which are above the horizon, i.e.&nbsp;a direct line of sight is not blocked by the earth.</p>
-<p>And again, if you want to know more about PVT solving, then wait for the walkthrough step 8 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/pvt_solver.py">PVT solver module</a>.</p>
-<p>I hope you enjoyed the journey! Feel free to contact me and please leave your comments below. If you appreciated this article and you can afford it, how about to thank me by <a href="https://ko-fi.com/mu2718">buying me a coffee?</a></p>
+<p>To conclude, we visualize our location and satellites in <a href="#fig-visualize">Figure&nbsp;12</a>. Obviously we only see satellites which are above the horizon, i.e.&nbsp;a direct line of sight is not blocked by the earth. Furthermore, we can observe the effect of the house wall the receiver was placed in front of: No satellites are received in the northern sky of the position fix as seen best in the side view.</p>
+<p>And again, if you want to know more about PVT solving, then wait for the walkthrough step 8 to be published. In the meantime, have a look into the source code of the <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/pvt_solver.py">PVT solver</a> and <a href="https://github.com/mu2718/gps-walkthrough/blob/main/gps_walkthrough/coordinates.py">coordinates module</a>.</p>
+<p>I hope you enjoyed the journey! Feel free to contact me and please leave your comments below. If you appreciated this article, I am very happy to be invited to a <a href="https://ko-fi.com/mu2718">coffee…</a> 😊</p>
 <script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script>
 <script type="text/javascript">kofiwidget2.init('Support me on Ko-fi', '#29abe0', 'E1E2S1R39');kofiwidget2.draw();</script>
 <p><br></p>
